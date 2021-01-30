@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 function sights() {
 	$sights = array(
 		'Armoured cops bundle violently reluctant vagrant into ERA-plated squad car,',
@@ -54,49 +55,18 @@ function sights() {
 		'The sidewalk consists of slabs of flickering screens, showing adverts'
 	);
 
-	$out = array('Sight' => $sights[array_rand($sights)]);
+	$out = $sights[array_rand($sights)];
 
-	switch($out['Sight']) {
-		case ('A bus shelter made entirely of screens'):
+	switch($out) {
+		case ('A bus shelter made entirely of vid-screens'):
 		case ('An overpass or skywalk covered in colourful advertising animatics'):
 		case ('The sidewalk consists of slabs of flickering screens, showing adverts'):
-		case ('A large building-mounted flatscreen showing...'):		$out['Showing'] = big_screens(); break;
-		case ('Searchlights playing across the cloud cover and projecting branding'): $out['Branding'] = blipverts(); break;
+		case ('A large building-mounted flatscreen showing...'):
+			$out .= big_screens(); break;
+		case ('Searchlights playing across the cloud cover and projecting branding'):
+			$out .= blipverts(); break;
 	}
 
-	return $out;
-}
-
-function sounds() {
-	$sounds = array(
-		'Building Alarm',				'Barking Dogs',				'Incoherent Shouting',			'A Single Gunshot',
-		'Ventilation System',			'Car Doors Slamming',		'Loud Television',				'Children',
-		'Aerocar Overhead',				'Catchy Corporate Jingle',	'The Screech Of Tires',			'Pedestrian Crosswalk',
-		'Rattling Cans',				'Heavy Gunfire',			'Sobbing',						'Channeled Winds',
-		'Hum Of A Cleaning-Bot',		'Buzzing Of Flies',			'Rattle Of Chains',				'Arcade Machines',
-		'Breaking Glass',				'Text Alert',				'An RPG Launching',				'Sirens Inbound',
-		'Running',						'Subway Rumble',			'A Loud Argument',				'Drill Or Power Saw',
-		'Road Traffic Accident',		'Hellfire Street Preacher',	'Loud Energetic Music',			'Laughter',
-		'Hydraulics',					'A Reversing Vehicle',		'An Annoying Ringtone',			'Sexual Activity',
-		'Police Radio Chatter',			'Loose Door/Gate',			'Group Chanting',				'Popular Theme Tune',
-		'Chesty Coughing',				'Vehicle Alarm',			'Steady Footsteps',				'Automated Warning',
-		'Beating Of Heavy Rain',		'Garbled Loudspeaker',		'Exchange Of Gunfire',			'Background Muzak',
-		'Gutteral Screaming',			'A Call To Prayer',			'Loose Piping',					'Helicopter Overhead',
-		'The Buzz Of Neon',				'A Revving Engine',			'An Impromptu Rave',			'Water Pump',
-		'Road Works',					'RWNJ Talk Radio',			'Foreign Busker',				'Ice Cream Truck',
-		'Distant Explosion',			'Car Horn',					'UAV/Drone Motor',				'Tumbling Trash Cans',
-		'Evangelical Broadcast',		'Very Heavy Transport',		'Running Water',				'Drunk Singing',
-		'Skateboards',					'Tattoo Gun',				'Rolling Cans',					'Obvious Porno',
-		'Riot Or Demonstration',		'Overhead Train',			'Cats Fighting',				'Shrill Whistling',
-		'Bug Zapper',					'Street Hawker',			'Car Chase',					'Chilling War Cry',
-		'Motorcycles',					'Crackle Of Flames',		'Door Buzzer',					'An Anguished Cry',
-		'Sneaker Squeak',				'Scraping Metal',			'Splashing',					'Noisy Printer',
-		'Laser Fire',					'Jingle Of Keys',			'Quiet Conversation',			'Sirens Outbound',
-		'Aerocar Landing',				'Frying Food',				'A Brawl',						'Doors Slamming',
-		'Advertisments',				'Thunder',					'Hissing White Noise'
-	);
-
-	$out = array('Sound' => $sounds[array_rand($sounds)]);
 	return $out;
 }
 
@@ -132,55 +102,43 @@ function smells($count = 0) {
 	(rand(1,100) >= 85) ? $count = 2 : $count = 1;
 
 	if ($count == 1) {
-		$out = array('Smell' => $environmental_smells[array_rand($environmental_smells)]);
+		return $environmental_smells[array_rand($environmental_smells)];
 	}
 	else {
-		$out = array('Smell' => $environmental_smells[array_rand($environmental_smells)]." and ".$environmental_smells[array_rand($environmental_smells)]);
+		return $environmental_smells[array_rand($environmental_smells)]." and ".$environmental_smells[array_rand($environmental_smells)];
 	}
-
-	return $out;
 }
 
-function health_hazard() {
-	$symptom_list = array(
-		'Difficulty Breathing',
-		'Lesions/Redness/Lumps',
-		'Immunodeficiency',
-		'Lethargy/Weight Loss',
-		'Flaky/Spots/Blisters',
-		'Hair Loss/Discolouration',
-		'Unpleasant Odour',
-		'Vomiting/Diarrhea',
-		'Silvery Grey Emissions',
-		'Red Watery Eyes/Painful'
+function sounds() {
+	$sounds = array(
+		'Building Alarm',				'Barking Dogs',				'Incoherent Shouting',			'A Single Gunshot',
+		'Ventilation System',			'Car Doors Slamming',		'Loud Television',				'Children',
+		'Aerocar Overhead',				'Catchy Corporate Jingle',	'The Screech Of Tires',			'Pedestrian Crosswalk',
+		'Rattling Cans',				'Heavy Gunfire',			'Sobbing',						'Channeled Winds',
+		'Hum Of A Cleaning-Bot',		'Buzzing Of Flies',			'Rattle Of Chains',				'Arcade Machines',
+		'Breaking Glass',				'Text Alert',				'An RPG Launching',				'Sirens Inbound',
+		'Running',						'Subway Rumble',			'A Loud Argument',				'Drill Or Power Saw',
+		'Road Traffic Accident',		'Hellfire Street Preacher',	'Loud Energetic Music',			'Laughter',
+		'Hydraulics',					'A Reversing Vehicle',		'An Annoying Ringtone',			'Sexual Activity',
+		'Police Radio Chatter',			'Loose Door/Gate',			'Group Chanting',				'Popular Theme Tune',
+		'Chesty Coughing',				'Vehicle Alarm',			'Steady Footsteps',				'Automated Warning',
+		'Beating Of Heavy Rain',		'Garbled Loudspeaker',		'Exchange Of Gunfire',			'Background Muzak',
+		'Gutteral Screaming',			'A Call To Prayer',			'Loose Piping',					'Helicopter Overhead',
+		'The Buzz Of Neon',				'A Revving Engine',			'An Impromptu Rave',			'Water Pump',
+		'Road Works',					'RWNJ Talk Radio',			'Foreign Busker',				'Ice Cream Truck',
+		'Distant Explosion',			'Car Horn',					'UAV/Drone Motor',				'Tumbling Trash Cans',
+		'Evangelical Broadcast',		'Very Heavy Transport',		'Running Water',				'Drunk Singing',
+		'Skateboards',					'Tattoo Gun',				'Rolling Cans',					'Obvious Porno',
+		'Riot Or Demonstration',		'Overhead Train',			'Cats Fighting',				'Shrill Whistling',
+		'Bug Zapper',					'Street Hawker',			'Car Chase',					'Chilling War Cry',
+		'Motorcycles',					'Crackle Of Flames',		'Door Buzzer',					'An Anguished Cry',
+		'Sneaker Squeak',				'Scraping Metal',			'Splashing',					'Noisy Printer',
+		'Laser Fire',					'Jingle Of Keys',			'Quiet Conversation',			'Sirens Outbound',
+		'Aerocar Landing',				'Frying Food',				'A Brawl',						'Doors Slamming',
+		'Advertisments',				'Thunder',					'Hissing White Noise'
 	);
 
-	$source_list = array(
-		'Bad Air/Pollutants/Smoke',
-		'Elevated UV levels/Toxic Rain',
-		'Pollutants/Waste',
-		'Vitamin Deficiency/Junkfood',
-		'Pollutants/Chemical Soup',
-		'Pollutants/Waste',
-		'Pollutants/Industrial Run-off',
-		'Junkfood/Pollutants/Toxins',
-		'Radiation',
-		'Bad Air/Pollutants/Toxins'
-	);
-
-	$potential_list = array(
-		'Emphysema',
-		'Skin Cancer',
-		'Toxic Shock',
-		'Malnutrition',
-		'Messed Up Skin',
-		'Alopecia',
-		'BO/Body Funk',
-		'Gastric Catastrophe',
-		'Rad/Chem Burns',
-		'Burning Eyes/Nasal/Mouth'
-	);
-
-	return array('Symptom' => $symptom_list[array_rand($symptom_list)], 'Source' => $source_list[array_rand($source_list)], 'Potential' => $potential_list[array_rand($potential_list)]);
+	return $sounds[array_rand($sounds)];
 }
+
 ?>

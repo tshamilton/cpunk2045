@@ -1,16 +1,24 @@
 <?php
+include 'utility.php';
+
 function surroundings() {
 	global $surrounds;
 	global $cfg;
 
-	$b = rand($cfg['MIN_BUILDINGS'],$cfg['MAX_BUILDINGS']);
-	$d = array_rand($surrounds, $b);
+	/*$these_blocks = rand($cfg['MIN_BUILDINGS'], $cfg['MAX_BUILDINGS'])*/
+	$these_blocks = rand(3, 6);
+	$build = array_rand($surrounds, $these_blocks);
 
-	foreach ($surrounds as $k => $v) {
-		if (in_array($k, $d)) {	$surrounds[$k]['Building'] = building(); }
-		else {					$surrounds[$k]['Open'] = rubble(); }
+	foreach ($surrounds as $bk => $bv) {
+		if (in_array($bk, $build)) { 
+			$surrounds[$bk] = building();
+			$surrounds[$bk]['Title'] .= " - ".$bk;
+		}
+	else { /*$surrounds[$bk] = rubble();*/ }
 	}
+	pretty_var($surrounds, 'ccccff');
 }
+
 function building() {
 	global $cfg;
 	global $aux;
@@ -29,7 +37,7 @@ function building() {
 		'New Media CompanyM',		'Industrial/FactoryM',						'Security TechM',
 		'Vehicle ShowroomM',		'Fashion BoutiqueS',						'Commercial CyberneticsM',
 		'MallM',					'VR-cade/Braindance ShopS',					'GymS',
-		'LeisureplexM',				'Apartment Block/Hab StackL',				'NightclubS',
+		'LeisureplexM',				'Apartment Block/Hab StackX',				'NightclubS',
 		'UnderpassS',				'HotelL',									'RipperdocS',
 		'3D Fab/Small FactoryS',	'Courier/Bulk Transport CompanyM',			'BarS',
 		'RestaurantS',				'Pop-up MarketS',							'Coffee ShopS',
@@ -39,12 +47,23 @@ function building() {
 		'BrothelS'
 	);
 
-	$out['Building'] = $block[array_rand($block)];
-	$building_size = substr($out['Building'], -1, 1);
-	$out['Building'] = substr($out['Building'], 0, -1);
+	$b_title = $block[array_rand($block)];
+	$building_size = substr($b_title, -1, 1);
+	$b_title = substr($b_title, 0, -1);
+	$b_text = "";
+	$preset_flag = 0;
 
-	if(rand(1,100) <= $cfg['PRESET_BUILD']) {
-		switch($out['Building']) {
+	switch($building_size) {
+		case 'S': $building_size = rand(1,3); break;
+		case 'M': $building_size = rand(1,6); break;
+		case 'L': $building_size = rand(1,15); break;
+		case 'X': $building_size = rand(1,50); break;
+	}
+	$b_text = "<b>Floors:</b> ".$building_size;
+
+	/*if(rand(1,100) <= $cfg['PRESET_BUILD'])*/
+	if(rand(1,100) <= 70) {
+		switch($b_title) {
 			case('3D Fab/Small Factory'):
 				$preset = array(
 					"<b><i>Schmitt Machining &amp; Service</i></b><br/> ".rand(1, 5)." occupants. Family owned machine &amp; welding factory.",
@@ -53,14 +72,12 @@ function building() {
 					"<b><i>Karnataka Electronics</i></b><br/> ".rand(3, 8)." occupants. Indian run electronics sales and repair shop. You can almost always get a lower end cyberdeck here at a reasonable rate. The owners live in the flat above the shop.",
 					"<b><i>Geraldo's Electronic Solutions</i></b><br/> Computer repair/synthetic drug dealer."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Antiques'):
 				$preset = array(
 					"<b><i>Albescu\'s Pawn</i></b><br/> ".rand(3, 8)." occupants. Dirty pawn shop located below some even filthier apartment buildings. Broken English at best spoken here. Good place to sell stolen hardware and guns (30% value) as the stuff gets shipped out of the city quickly.",
 					"<b><i>Yesterday\'s Junk</i></b><br/> ".rand(3, 8)." occupants. Musty old junk shop with interesting book/comic collection from last century."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Apartment Block/Hab Stack'):
 				$preset = array(
@@ -68,20 +85,17 @@ function building() {
 					"<b><i>Elm Ridge Apartments</i></b><br/> ".rand(70, 240)." occupants. Rundown apartment complex ridden with crime.",
 					"<b><i>Novak Apartments</i></b><br/> ".rand(40, 135)." occupants. Aging apartment complex filled with starving tech laborers."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Art Dealer/Gallery'):
 				$preset = array(
 					"<b><i>Hinata Studio Gallery</i></b><br/> Art studio/gallery rumored to also deal in stolen artwork."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Auto/Robotics Repair'):
 				$preset = array(
 					"<b><i>Rusty's 24 Towing &amp; Service</i></b><br/> Wrecker Service",
 					"<b><i>Taylor Fuel Station</i></b><br/> Gas Station"
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Bank'):
 				$preset = array(
@@ -98,7 +112,6 @@ function building() {
 					"<b><i>Larry's Check Advance</i></b><br/> Check Advance Loan Agency.",
 					"<b><i>Next Week's Check</i></b><br/> Check Advance Loan Agency."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Bar'):
 				$preset = array(
@@ -124,7 +137,6 @@ function building() {
 					"<b><i>The Stolen Horse</i></b><br/> Retro \"honkey tonk\" frequented by muscle for hire thugs.",
 					"<b><i>Trixie's Place</i></b><br/> Strip Club."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Body Augmentation Clinic/Beauty Salon'):
 				$preset = array(
@@ -141,7 +153,6 @@ function building() {
 					"<b><i>Wanda's Salon</i></b><br/> Beauty Salon.",
 					"<b><i>White Crane Nails & Tanning</i></b><br/> Nail/Tanning Salon."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Brothel'):
 				$preset = array(
@@ -155,13 +166,11 @@ function building() {
 					"<b><i>Oriental Healing</i></b><br/> Massage Parlor.",
 					"<b><i>Patty's Girls</i></b><br/> Escort Service."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Capsule Hotel'):
 				$preset = array(
 					"<b><i>Cheap Hotel</i></b><br/> Seedy looking place with suspiciously good Net connectiivity. 'Special' suites for people in the know."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Clinic'):
 				$preset = array(
@@ -176,7 +185,6 @@ function building() {
 					"<b><i>Mediquik Critical Response</i></b><br/> Private ER/urgent care medical clinic.",
 					"<b><i>Messina Lab Corp</i></b><br/> ".rand(13, 100)." occupants. Small genetics lab that deals mostly in the research of designing programmable artificial life from stem cells."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Convenience Store'):
 				$preset = array(
@@ -186,7 +194,6 @@ function building() {
 					"<b><i>Stuffer Shack</i></b><br/> Compact convenience/food store.",
 					"<b><i>Thrifty Stop</i></b><br/> Corner Convenience Store."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Cafe'):
 				$preset = array(
@@ -207,7 +214,6 @@ function building() {
 					"<b><i>The Laughing Pickle</i></b><br/> Oddly named sandwich shop run by a mid level mobster.",
 					"<b><i>Tilly Mae's</i></b><br/> Filthy Looking Diner."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Commercial Cybernetics'):
 				$preset = array(
@@ -220,7 +226,6 @@ function building() {
 					"<b><i>Saleem's</i></b><br/> Used tech shop that deals in black market cyberware in the back.",
 					"<b><i>Second Tech Solutions</i></b><br/> ".rand(1, 6)." occupants. Store that deals in questionable discounted and secondhand technology/chipware.", 
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Good and Services'):
 				$preset = array(
@@ -253,13 +258,11 @@ function building() {
 					"<b><i>Third Eye Divinity</i></b><br/> ".rand(1, 6)." occupants. Palm reader/astrologer named Farah. Very shady.",
 					"<b><i>Vantage Bedding</i></b><br/> Mattress And Bed Store."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Department Store'):
 				$preset = array(
 					"<b><i>Draper Mall</i></b><br/> ".rand(15, 80)." occupants. Abandoned indoor shopping mall that's the unofficial home of squatters and drug addicts. Lower gangs wield temporary control of this location from time to time."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Fashion Boutique'):
 				$preset = array(
@@ -282,7 +285,6 @@ function building() {
 					"<b><i>Mister Joe's</i></b><br/> Gentlemen's Fashion Store.",
 					"<b><i>Jessica's Lace</i></b><br/> Intimate Clothing Store."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Fast Food Franchise'):
 				$preset = array(
@@ -294,7 +296,6 @@ function building() {
 					"<b><i>Smiley's Shakes 'N' More</i></b><br/> Fast Food Joint.",
 					"<b><i>The Dancing Taco</i></b><br/> Fast Food Joint."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Garage'):
 				$preset = array(
@@ -308,7 +309,6 @@ function building() {
 					"<b><i>Lightning Customs</i></b><br/> ".rand(3, 8)." occupants. Local automotive customizer that specializes in very risky and often illegal modifications.",
 					"<b><i>Meis-Mifflin Auto Repair</i></b><br/> Run down garage owned by dealers in illegal arms."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Grocery Store'):
 				$preset = array(
@@ -317,20 +317,17 @@ function building() {
 					"<b><i>Hansel's Market</i></b><br/> Corner Grocery.",
 					"<b><i>Lester's Package Store</i></b><br/> Corner Liquor Store.",
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Gym'):
 				$preset = array(
 					"<b><i>Burning Tiger Studio</i></b><br/> Mixed martial arts training studio.",
 					"<b><i>Big Ox Gym</i></b><br/> 24-hour weights room that sells illegal stims and steroids."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Hospital'):
 				$preset = array(
 					"<b><i>Trent Medical Center</i></b><br/> Multi-office medical center"
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Hotel'):
 				$preset = array(
@@ -339,7 +336,6 @@ function building() {
 					"<b><i>Krolik Hotel</i></b><br/> Outdated 14 floor hotel ridden with hookers and drug addicts.",
 					"<b><i>Mondo Palace</i></b><br/> ".rand(28, 115)." occupants. Harshly lit, foul smelling capsule hotel. The Mondo is quite popular amongst needle junkies, low talent net cowboys, and poor street hustlers."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Industrial/Factory'):
 				$preset = array(
@@ -350,7 +346,6 @@ function building() {
 					"<b><i>Kimball Manufacturing</i></b><br/> Manufacturer of plastic products.",
 					"<b><i>Maxwayne Heli-Service</i></b><br/> Sales/service of new/used helicopters."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Legal Firm'):
 				$preset = array(
@@ -362,19 +357,16 @@ function building() {
 					"<b><i>Rosenstein & Rothberg</i></b><br/> Law firm office specializing in genetic/tech legalities.",
 					"<b><i>Scalzo, Rayo, & Sasse</i></b><br/> Law firm that caters to musicians/minor celebrities.",
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Leisureplex'):
 				$preset = array(
 					"<b><i>Wheelie Jo's</i></b><br/> ".rand(12, 70)." occupants. Indoor roller skating rink run by a violent skate gang known as \"The Sockets\". Wheelie Jo is the owner and mentor to the younger thugs.",
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Luxury Apartments'):
 				$preset = array(
 					"<b><i>Zuniga Apartments</i></b><br/> Heavy security apartment complex inhabited by the wealthy."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('New Media Company'):
 				$preset = array(
@@ -389,7 +381,6 @@ function building() {
 					"<b><i>Victoria Lang Modeling</i></b><br/> Modeling agency involved in human trafficking.",
 					"<b><i>Wicked Pose Photography</i></b><br/> Modeling & Exotic Photography Studio."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Nightclub'):
 				$preset = array(
@@ -401,7 +392,6 @@ function building() {
 					"<b><i>The Pink Orchid</i></b><br/> Strip Club.",
 					"<b><i>The Crank</i></b><br/> ".rand(13, 100)." occupants. Loud and rowdy punk themed nightclub. Good place to loose a few teeth."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Office Block'):
 				$preset = array(
@@ -427,7 +417,6 @@ function building() {
 					"<b><i>Tsubasa Orbital</i></b><br/> Regional offices/recruiting for orbital/shuttle service company.",
 					"<b><i>Westlyn-Myers Protections</i></b><br/> Corporate security staffing firm."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Pop-up Market'):
 				$preset = array(
@@ -437,13 +426,11 @@ function building() {
 					"<b><i>Tanaka Plaza</i></b><br/> ".rand(153, 240)." occupants. Well lit market square full of small vendor booths. The smell of greasy/spicy synth meat kabobs is heavy in the air.",
 					"<b><i>Wawuda Market</i></b><br/> ".rand(4, 33)." occupants. Semi-open African food/produce market. Noisy but mostly safe."
 					);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Public Transport Hub'):
 				$preset = array(
 					"<b><i>Canton Station</i></b><br/> ".rand(3, 32)." occupants. Small and often lonely bus station stop. Not much here beyond vending machines, malfunctioning monitor feeds, and a few crazy winos that take constant shelter in the lobby. Its dark here- even seemingly during the day. Good place to get robbed."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Restaurant'):
 				$preset = array(
@@ -464,101 +451,106 @@ function building() {
 					"<b><i>Wesley's Fish & Chips</i></b><br/> British Themed Corner Restaurant.",
 					"<b><i>White Panda</i></b><br/> Buffet Chinese Buffet."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Ripperdoc'):
 				$preset = array(
 					"<b><i>Union Crest Furniture</i></b><br/> Abandoned factory site used by black market doctors.",
 					"<b><i>Kraviz Medical Solutions</i></b><br/> Surprisingly well groomed and neon-ised clinic."
 				);
-				pretty_var("I'm here");
+				/*pretty_var("I'm here");
 				$temp = makeNPC('ripperdoc');
 				$temp2 = explode(' - ', $temp);
 				$aux['Ripperdoc'] = array();
 				$aux['Ripperdoc']['Title'] = 'Ripperdoc  - '.$temp2[0];
 				$aux['Ripperdoc']['Text'] = $temp2[1];
 
-				$out['Description'] = $preset[array_rand($preset)];
+				$out['Description'] = $preset[array_rand($preset)];*/
 				break;
 			case('Storage Units'):
 				$preset = array(
 					"<b><i>Mauzy Storage</i></b><br/> Abandoned storage locker service inhabited by junkies."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Taxi Firm'):
 				$preset = array(
 					"<b><i>Yellow Finch Taxi</i></b><br/> Sleazy rundown looking cab stand.",
 					"<b><i>Shaahee Taiksee</i></b><br/> Cabstand notorious for filthy rundown taxi vehicles."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Underpass'):
 				$preset = array(
 					"<b><i>Lansing Alley</i></b><br/> ".rand(7, 65)." occupants. Unsavory back alley where the younger homeless population frequently gather to party."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Vehicle Showroom'):
 				$preset = array(
 					"<b><i>Knupp's Used Cars</i></b><br/> Shady used car dealership and suspected chop shop.",
 					"<b><i>Casper's Automotive Sales</i></b><br/> Used Car Lot."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Warehouse'):
 				$preset = array(
 					"<b><i>Bassinger Imports</i></b><br/> ".rand(1, 6)." occupants. Dusty dim warehouse/office run by owner Hans Bassinger. Hans deals in both legitimate and illegal imported goods. He can also safely 70% of the time remove unwanted control chips and other such implants."
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
 			case('Weapons or Tech Sales'):
 				$preset = array(
 					"<b><i>Locke & Kane Ltd.</i></b><br/> Small time firearms manufacturer"
 				);
-				$out['Description'] = $preset[array_rand($preset)];
 				break;
-							
+			default:
+				$preset = array('');
+				break;
 		}
+		$preset_flag = 1;
+		$b_text .= "<br/>".$preset[array_rand($preset)];
 	}
-	switch($building_size) {
-		case 'S': $building_size = rand(1,3); break;
-		case 'M': $building_size = rand(1,6); break;
-		case 'L': $building_size = rand(1,15); break;
-		case 'X': $building_size = rand(1,50); break;
-	}
-	$out['Floors'] = $building_size;
 
-	$f = rand(1,100);
-	if ($f > $cfg['BUILD_DETAIL']) {
-		$out['Feature'] = building_feature();
-		switch($out['Feature']) {
+	/*if (rand(1,100) > $cfg['BUILD_DETAIL'])*/
+	if (rand(1,100) <= 99) {
+		$feature = building_feature();
+		switch($feature) {
 			case('Legacy Infrastructure'):
-				unset($out['Feature']);
-				$out['Legacy Infrasructure'] = legacy_infrastructure(); break;
+				$feature = legacy_infrastructure();
+				$b_text .= "<br/><b>Old Feature:</b> ".$feature;
+				break;
 			case('Repurposed As...'):
-				$out['Is Now'] = substr($block[array_rand($block)], 0, -1); break;
+				if ($preset_flag != 1) {
+					$feature = substr($block[array_rand($block)], 0, -1);
+					$b_text .= "<br/><b>Is Now A:</b> ".$feature;
+				}
+				break;
 			case('Causes Sickness'):
-				$out['Health Hazard'] = health_hazard(); break;
-			case('Police Presence'):
-				$out['Police Presence'] = law_and_order(); break;
+				$b_text .= "<br/>Causes Sickness.";
+				$out['Health Hazard'] = health_hazard();
+				break;
+			/*case('Police Presence'):
+				$out['Police Presence'] = law_and_order();
+				break;
 			case('Unusual Smell'):
-				$out['Unusual Smell'] = smells(); break;
+				$out['Unusual Smell'] = smells();
+				break;
 			case('Buggy Local Tech'):
-				$out['Buggy Local Tech'] = broken_tech(); break;
+				$out['Buggy Local Tech'] = broken_tech();
+				break;
 			case('AR Heavy'):
-				$out['AR Flood'] = aug_reality(); break;
+				$out['AR Flood'] = aug_reality();
+				break;
 			case('Obscured By Ad Screens'):
-				$out['Ad Screens'] = big_screens(); break;
+				$out['Ad Screens'] = big_screens();
+				break;
 			case('Obvious Gang Turf');
-				$out['Gang Turf'] = gang('aux'); break;
+				$out['Gang Turf'] = gang('aux');
+				break;
 			case('Obvious Corporate Sponsor'):
-				$out['Feature'] .= " (".blipverts(1).")"; break;
+				$out['Feature'] .= " (".blipverts(1).")";
+				break;*/
 		}
 	}
-	
-	return $out;
+
+	return Array('Title' => $b_title, 'Text' => $b_text);
 }
+
 function building_feature() {
 	$feature = array(
 		'Extreme Security Protocols',			'Decrepit And Rundown',			'Graffitipocalypse/Street Art Heavy',	'Obvious Gang Turf',
@@ -591,64 +583,20 @@ function building_feature() {
 	/* Testing array for single feature
 	$feature = array('AR Heavy');
 	$feature = array('Obvious Gang Turf');
-	$feature = array('Legacy Infrastructure'); 
-	$feature = array('Repurposed As...');
 	$feature = array('Causes Sickness');
 	$feature = array('Police Presence');
 	$feature = array('Buggy Local Tech');
 	$feature = array('AR Heavy');
 	$feature = array('Obscured By Ad Screens');
 	$feature = array('Obvious Gang Turf');
+	$feature = array('Legacy Infrastructure'); 
+	$feature = array('Repurposed As...');
 	*/
+	$feature = array('Repurposed As...');
 
-	$f = $feature[array_rand($feature)];
-	return $f;
+	return $feature[array_rand($feature)];
 }
-function rubble() {
-	global $cfg;
 
-	$activity = array(
-		'Homeless camp',
-		'Nomad parking',
-		rand(1,5).' sex workers looking for customers',
-		'Gangers keeping a low profile',
-		'Rockerboy shooting a video',
-		'Media-type filming area',
-		rand(1,3).' dead bodies',
-		'Neighbourhood kids playing gangs',
-		'Neighbourhood kids destroying something',
-		rand(1,5).' corp-types absolutely not workign on some kind of shady deal.',
-		'Corp work crew demolishing wreckage',
-		'Prison work crew demolishing wreckage',
-		'Community group reclaiming land',
-		'Disused',
-		'Unoccupied',
-		'Empty',
-		'Forgotten'
-	);
-	$space = array(
-		'Abandoned '.rand(2,7).'-story office building.',
-		'Blown out apartment block',
-		'Waste land, just rough terrain',
-		'Waste land, lingering smell',
-		'Former building, low walls still remain',
-		'Half-collapsed building',
-		'Freshly fenced-off',
-		'Fenced-off long ago, many holes in fence and sheeting'
-	);
-
-	$out = array();
-
-	$out['Space'] = $space[array_rand($space)];
-	if (rand(1,10) > $cfg['BUILD_DETAIL']) {
-		$out['Activity'] = $activity[array_rand($activity)];
-	}
-	if ($out['Space'] == 'Waste land, lingering smell') {
-		$out['Smell'] = smells();
-	}
-
-	return $out;
-}
 function legacy_infrastructure() {
 	$leg_infra = array(
 		'Decommissioned subway tunnel, accessible from building, and vice versa',
@@ -665,66 +613,13 @@ function legacy_infrastructure() {
 
 	return $leg_infra[array_rand($leg_infra)];
 }
-function broken_tech() {
-	$actual_break = array(
-		'Actual physical damage',
-		'Screen broken',
-		'Screen broken by gunfire',
-		'Overzealous defensive software',
-		'Harbours malicious virus',
-		'Being assessed by sysadmin',
-		'Layers of legacy programming',
-		'Randomly goes into standby mode',
-		'Badly formatted AR plug-in',
-		'Installing software upgrade',
-		'Hacker currently querying system',
-		'ROM overloaded by surplus apps',
-		'Recently reset to factory defaults',
-		'Inquisitive low-grade AI assistant',
-		'Requires biometric verification',
-		'Auto-downloads to linked device',
-		'Net connection keeps dropping out',
-		'Incompatible operating system',
-		'Pop-up pandemic',
-		'Software conflicts, glitchy',
-		'Processor overclocked',
-		'Active ‘vigilance suite&quot; warns user',
-		'Tendency to stall or hang',
-		'Malware sifting for linked devices',
-		'Missing system tools/utilities',
-		'Errors with user interface display',
-		'Physically damaged, or faulty',
-		'Non-standard reprogramming',
-		'D6 software subroutines triggered',
-		'Logs recently tampered with',
-		'Overheating (heat sink failing)',
-		'Heavily encrypted for device type',
-		'Constant security warnings',
-		'Non-intuitive user interface',
-		'Hogging the local bandwidth',
-		'Prone to system crashes',
-		'Uses badly patched legacy code',
-		'File sharing denied',
-		'Configured for periodic back-up',
-		'Insufficient internal battery life',
-		'Reveals a scheduled exploit (short)',
-		'&quot;Access Denied&quot; system file errors',
-		'Reboots the system at random',
-		'Requires admin password',
-		'Can only handle minimal processes',
-		'User interface in foreign language',
-		'Discomforting feedback',
-		'3rd party updaters need unchecking',
-		'Menu options it shouldn&quot;t have',
-		'In the process of being stolen',
-		'Running slow, searching for updates',
-		'Feeds log and data to manufacturer',
-		'Tagged and monitored by rogue AI',
-		'Nothing, just dead',
-		'Nothing, just dead',
-		'Nothing, just dead'
-	);
 
-	return $actual_break[array_rand($actual_break)];
-}
+
+$surrounds = Array(
+	'NW' => Array(), 'N' => Array(), 'NE' => Array(),
+	 'W' => Array(), 				  'E' => Array(),
+	'SW' => Array(), 'S' => Array(), 'SE' => Array()
+);
+surroundings();
+
 ?>
