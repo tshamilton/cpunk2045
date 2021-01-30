@@ -20,6 +20,13 @@ h2 {
 	padding-bottom: 1.1rem;
 }
 
+h5 {
+	font-family: 'Play', 'Raleway', 'Segoe UI', 'Calibri';
+	text-align: center;
+	font-weight: bold;
+	font-style: italic;
+}
+
 .card {
 	width: 100%;
 	padding-left: 5px;
