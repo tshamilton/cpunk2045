@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 # cpunk2045
 Environment and Mission generator
 
-Acknowledgements for 
-Augmented City environment generator and Anthony Johnson's mission generator, both of which were inspirations for this.
-=======
-# cpunk2045
-Environment and Mission generator
-
-Acknowledgements for 
-Augmented City environment generator and Anthony Johnson's mission generator, both of which were inspirations for this.
->>>>>>> bc09759... Added help modals
+Acknowledgements:
+The following were the basis for, sources of, or inspiration for the contents of this tool: 
+* Augmented City environment generator
+* Anthony Johnson's mission generator
+* Melissa Wong's 20 Things PDF which can be found in various places. I found them at the Cyberpunk Red subreddit.
+* Cyberpunk 2077 - The Video Game by CD Projekt Red
+* Cyberpunk Red - The Tabletop RPG, which is kinda obvious but felt it was worth including.
