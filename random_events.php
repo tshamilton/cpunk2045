@@ -1,4 +1,170 @@
 <?php
+function building_feature() {
+	$feature = array(
+		'Extreme Security Protocols',			'Decrepit And Rundown',			'Graffitipocalypse/Street Art Heavy',	'Obvious Gang Turf',
+		'Back Room Brothel',					'Newly Renovated',				'Unusually Busy',						'Empty/Quiet',
+		'Inadequate Security',					'High Tech Equipment',			'Abandoned Edifice',					'Repurposed As...',
+		'Front For Corporate Activity',			'Front For Criminal Activity',	'Hidden Squatters',						'Obscured By Ad Screens',
+		'&quot;Grown&quot; By Nanites',			'Incomplete',					'Self Sufficient',						'Crumbling Cheapcrete',
+		'War Zone',								'Fire Damage',					'Not A Building, But Mobile',			'Elaborate Balconies',
+		'Years Of Clumsy Modification',			'For Sale/To-let',				'Bright Emoji Glyphs And Graphics',		'Reinforced For Repair Work',
+		'Extremely Leaky',						'Gothic Style',					'Chic And Minimalist',					'Brutalist',
+		'Encased In Plastic Siding',			'Labyrinthine',					'Skywalks To Other Buildings',			'Industrial Style',
+		'Anti-Drone System',					'Nano Immune System',			'People Queuing To Enter',				'Well Guarded',
+		'AI Guardian',							'AR Heavy',						'Selective Access',						'Buggy Local Tech',
+		'Taken Over By Junkies',				'Foreign Ghetto',				'Sweatshop Conditions',					'Utilised Solely For Storage',
+		'Veiled Behind Polymer Sheeting',		'All Windows Damaged',			'External Utilities',					'Extensive Solar Grid And Fog Catchers',
+		'Bad Epoxy Repairs',					'Unpleasant Micro-Climate',		'Infested With Rogue Remotes',			'Self Aware',
+		'Cellular Black hole',					'Mainly Populated By Hoarders',	'Accumulated Trash heaps',				'Unusual Smell',
+		'Very Few Working lights',				'A Riot Of Satellite Dishes',	'Very Noisy Utilities',					'Catastrophically Polluted',
+		'Unfinished Extension Or Empty Levels',	'Permadamp',					'Legacy Infrastructure',				'Bad Wiring; High EMF; Black Outs',
+		'Police Presence',						'Enforced No-Parking Zone',		'Windows Boarded With Opaque Acrylic',	'Main Entrance Out Of Order',
+		'Several Trashed Cars Out Front',		'Being Audited By City',		'Wind Tunnel',							'Tinted Glass And Carbon Nano-Tubes',
+		'Homeless Magnet',						'Shakes When Trucks Pass',		'Completely Automated',					'Exotic/Foreign Architecture',
+		'Obvious Corporate Sponsor',			'Endorsed By Celebrity',		'Promotes Religion',					'Independent Nation State',
+		'Family Owned',							'Scheduled For Demolition',		'Rat Or Roach Problem',					'Security Camera Overkill',
+		'A Crime Scene',						'Target Of Net Terrorism',		'Malfunctioning Incessant Alarm',		'Slowly Collapsing Or Subsiding',
+		'Under Surveillance',					'Enforced No Fly Zone',			'Prone To Flooding',					'Ecologically Sound; No Carbon Footprint',
+		'Popular With Particular Subculture',	'Totally Sterile',				'Extensive Drone Docks',				'Causes Sickness'
+	);
+
+	/* Testing array for single feature
+	$feature = array('AR Heavy');
+	$feature = array('Buggy Local Tech');
+	$feature = array('Causes Sickness');
+	$feature = array('Legacy Infrastructure'); 
+	$feature = array('Obscured By Ad Screens');
+	$feature = array('Obvious Gang Turf');
+	$feature = array('Police Presence');
+	$feature = array('Repurposed As...');
+	*/
+
+	return $feature[array_rand($feature)];
+}
+
+function broken_tech() {
+	$actual_break = array(
+		'Actual physical damage',
+		'Screen broken',
+		'Screen broken by gunfire',
+		'Overzealous defensive software',
+		'Harbours malicious virus',
+		'Being assessed by sysadmin',
+		'Layers of legacy programming',
+		'Randomly goes into standby mode',
+		'Badly formatted AR plug-in',
+		'Installing software upgrade',
+		'Hacker currently querying system',
+		'ROM overloaded by surplus apps',
+		'Recently reset to factory defaults',
+		'Inquisitive low-grade AI assistant',
+		'Requires biometric verification',
+		'Auto-downloads to linked device',
+		'Net connection keeps dropping out',
+		'Incompatible operating system',
+		'Pop-up pandemic',
+		'Software conflicts, glitchy',
+		'Processor overclocked',
+		'Active ‘vigilance suite&quot; warns user',
+		'Tendency to stall or hang',
+		'Malware sifting for linked devices',
+		'Missing system tools/utilities',
+		'Errors with user interface display',
+		'Physically damaged, or faulty',
+		'Non-standard reprogramming',
+		'D6 software subroutines triggered',
+		'Logs recently tampered with',
+		'Overheating (heat sink failing)',
+		'Heavily encrypted for device type',
+		'Constant security warnings',
+		'Non-intuitive user interface',
+		'Hogging the local bandwidth',
+		'Prone to system crashes',
+		'Uses badly patched legacy code',
+		'File sharing denied',
+		'Configured for periodic back-up',
+		'Insufficient internal battery life',
+		'Reveals a scheduled exploit (short)',
+		'&quot;Access Denied&quot; system file errors',
+		'Reboots the system at random',
+		'Requires admin password',
+		'Can only handle minimal processes',
+		'User interface in foreign language',
+		'Discomforting feedback',
+		'3rd party updaters need unchecking',
+		'Menu options it shouldn&quot;t have',
+		'In the process of being stolen',
+		'Running slow, searching for updates',
+		'Feeds log and data to manufacturer',
+		'Tagged and monitored by rogue AI',
+		'Nothing, just dead',
+		'Nothing, just dead',
+		'Nothing, just dead'
+	);
+
+	return $actual_break[array_rand($actual_break)];
+}
+
+function health_hazard() {
+	$symptom_list = array(
+		'Difficulty Breathing',
+		'Lesions/Redness/Lumps',
+		'Immunodeficiency',
+		'Lethargy/Weight Loss',
+		'Flaky/Spots/Blisters',
+		'Hair Loss/Discolouration',
+		'Unpleasant Odour',
+		'Vomiting/Diarrhea',
+		'Silvery Grey Emissions',
+		'Red Watery Eyes/Painful'
+	);
+
+	$source_list = array(
+		'Bad Air/Pollutants/Smoke',
+		'Elevated UV levels/Toxic Rain',
+		'Pollutants/Waste',
+		'Vitamin Deficiency/Junkfood',
+		'Pollutants/Chemical Soup',
+		'Pollutants/Waste',
+		'Pollutants/Industrial Run-off',
+		'Junkfood/Pollutants/Toxins',
+		'Radiation',
+		'Bad Air/Pollutants/Toxins'
+	);
+
+	$potential_list = array(
+		'Emphysema',
+		'Skin Cancer',
+		'Toxic Shock',
+		'Malnutrition',
+		'Messed Up Skin',
+		'Alopecia',
+		'BO/Body Funk',
+		'Gastric Catastrophe',
+		'Rad/Chem Burns',
+		'Burning Eyes/Nasal/Mouth'
+	);
+
+	return "<b>Health Hazard</b>:<br/><p style='margin-left: 15px;'><b>Symptoms</b> - ".$symptom_list[array_rand($symptom_list)]."<br/><b>Source</b> - ".$source_list[array_rand($source_list)]."<br/><b>Poten'l Dmg</b> - ".$potential_list[array_rand($potential_list)]."</p>";
+}
+
+function legacy_infrastructure() {
+	$leg_infra = array(
+		'Decommissioned subway tunnel, accessible from building, and vice versa',
+		'Off site telecoms junction box, once served the local neighborhood',
+		'Condemned slum quarantined with concrete seal, or biohazard containment zone',
+		'Interconnected basements and foundation voids, poorly secured',
+		'Sealed sub-basement parking for previous building, with still functioning elevator',
+		'Forgotten floor following remodelling work, accessible through crawl space',
+		'Disused loading or maintenance bay, with hidden goods elevator',
+		'Undocumented Cold War bomb shelter or bunker network',
+		'Exposed air venting system, leading to moth-balled sub-basement laboratory',
+		'Unused utilities still feed into buildings, accessible from empty sewerage system'
+	);
+
+	return $leg_infra[array_rand($leg_infra)];
+}
+
 function random_events() {
 	$corp_day = array(
 		'Lost Child',

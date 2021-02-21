@@ -1,67 +1,4 @@
 <?php
-function broken_tech() {
-	$actual_break = array(
-		'Actual physical damage',
-		'Screen broken',
-		'Screen broken by gunfire',
-		'Overzealous defensive software',
-		'Harbours malicious virus',
-		'Being assessed by sysadmin',
-		'Layers of legacy programming',
-		'Randomly goes into standby mode',
-		'Badly formatted AR plug-in',
-		'Installing software upgrade',
-		'Hacker currently querying system',
-		'ROM overloaded by surplus apps',
-		'Recently reset to factory defaults',
-		'Inquisitive low-grade AI assistant',
-		'Requires biometric verification',
-		'Auto-downloads to linked device',
-		'Net connection keeps dropping out',
-		'Incompatible operating system',
-		'Pop-up pandemic',
-		'Software conflicts, glitchy',
-		'Processor overclocked',
-		'Active ‘vigilance suite&quot; warns user',
-		'Tendency to stall or hang',
-		'Malware sifting for linked devices',
-		'Missing system tools/utilities',
-		'Errors with user interface display',
-		'Physically damaged, or faulty',
-		'Non-standard reprogramming',
-		'D6 software subroutines triggered',
-		'Logs recently tampered with',
-		'Overheating (heat sink failing)',
-		'Heavily encrypted for device type',
-		'Constant security warnings',
-		'Non-intuitive user interface',
-		'Hogging the local bandwidth',
-		'Prone to system crashes',
-		'Uses badly patched legacy code',
-		'File sharing denied',
-		'Configured for periodic back-up',
-		'Insufficient internal battery life',
-		'Reveals a scheduled exploit (short)',
-		'&quot;Access Denied&quot; system file errors',
-		'Reboots the system at random',
-		'Requires admin password',
-		'Can only handle minimal processes',
-		'User interface in foreign language',
-		'Discomforting feedback',
-		'3rd party updaters need unchecking',
-		'Menu options it shouldn&quot;t have',
-		'In the process of being stolen',
-		'Running slow, searching for updates',
-		'Feeds log and data to manufacturer',
-		'Tagged and monitored by rogue AI',
-		'Nothing, just dead',
-		'Nothing, just dead',
-		'Nothing, just dead'
-	);
-
-	return $actual_break[array_rand($actual_break)];
-}
-
 function building() {
 	global $cfg;
 	global $aux;
@@ -559,7 +496,7 @@ function building() {
 					"<b><i>Union Crest Furniture</i></b><br/> Abandoned factory site used by black market doctors.",
 					"<b><i>Kraviz Medical Solutions</i></b><br/> Surprisingly well groomed and neon-ised clinic."
 				);
-				$aux .= makeNPC('ripperdoc', 'Ripperdoc');
+				array_push($aux, makeNPC('ripperdoc', 'Ripperdoc'));
 				break;
 			case('Storage Units'):
 				$preset = array(
@@ -652,109 +589,6 @@ function building() {
 	}
 
 	return Array('Title' => $b_title, 'Text' => $b_text);
-}
-
-function building_feature() {
-	$feature = array(
-		'Extreme Security Protocols',			'Decrepit And Rundown',			'Graffitipocalypse/Street Art Heavy',	'Obvious Gang Turf',
-		'Back Room Brothel',					'Newly Renovated',				'Unusually Busy',						'Empty/Quiet',
-		'Inadequate Security',					'High Tech Equipment',			'Abandoned Edifice',					'Repurposed As...',
-		'Front For Corporate Activity',			'Front For Criminal Activity',	'Hidden Squatters',						'Obscured By Ad Screens',
-		'&quot;Grown&quot; By Nanites',			'Incomplete',					'Self Sufficient',						'Crumbling Cheapcrete',
-		'War Zone',								'Fire Damage',					'Not A Building, But Mobile',			'Elaborate Balconies',
-		'Years Of Clumsy Modification',			'For Sale/To-let',				'Bright Emoji Glyphs And Graphics',		'Reinforced For Repair Work',
-		'Extremely Leaky',						'Gothic Style',					'Chic And Minimalist',					'Brutalist',
-		'Encased In Plastic Siding',			'Labyrinthine',					'Skywalks To Other Buildings',			'Industrial Style',
-		'Anti-Drone System',					'Nano Immune System',			'People Queuing To Enter',				'Well Guarded',
-		'AI Guardian',							'AR Heavy',						'Selective Access',						'Buggy Local Tech',
-		'Taken Over By Junkies',				'Foreign Ghetto',				'Sweatshop Conditions',					'Utilised Solely For Storage',
-		'Veiled Behind Polymer Sheeting',		'All Windows Damaged',			'External Utilities',					'Extensive Solar Grid And Fog Catchers',
-		'Bad Epoxy Repairs',					'Unpleasant Micro-Climate',		'Infested With Rogue Remotes',			'Self Aware',
-		'Cellular Black hole',					'Mainly Populated By Hoarders',	'Accumulated Trash heaps',				'Unusual Smell',
-		'Very Few Working lights',				'A Riot Of Satellite Dishes',	'Very Noisy Utilities',					'Catastrophically Polluted',
-		'Unfinished Extension Or Empty Levels',	'Permadamp',					'Legacy Infrastructure',				'Bad Wiring; High EMF; Black Outs',
-		'Police Presence',						'Enforced No-Parking Zone',		'Windows Boarded With Opaque Acrylic',	'Main Entrance Out Of Order',
-		'Several Trashed Cars Out Front',		'Being Audited By City',		'Wind Tunnel',							'Tinted Glass And Carbon Nano-Tubes',
-		'Homeless Magnet',						'Shakes When Trucks Pass',		'Completely Automated',					'Exotic/Foreign Architecture',
-		'Obvious Corporate Sponsor',			'Endorsed By Celebrity',		'Promotes Religion',					'Independent Nation State',
-		'Family Owned',							'Scheduled For Demolition',		'Rat Or Roach Problem',					'Security Camera Overkill',
-		'A Crime Scene',						'Target Of Net Terrorism',		'Malfunctioning Incessant Alarm',		'Slowly Collapsing Or Subsiding',
-		'Under Surveillance',					'Enforced No Fly Zone',			'Prone To Flooding',					'Ecologically Sound; No Carbon Footprint',
-		'Popular With Particular Subculture',	'Totally Sterile',				'Extensive Drone Docks',				'Causes Sickness'
-	);
-
-	/* Testing array for single feature
-	$feature = array('AR Heavy');
-	$feature = array('Buggy Local Tech');
-	$feature = array('Causes Sickness');
-	$feature = array('Legacy Infrastructure'); 
-	$feature = array('Obscured By Ad Screens');
-	$feature = array('Obvious Gang Turf');
-	$feature = array('Police Presence');
-	$feature = array('Repurposed As...');
-	*/
-
-	return $feature[array_rand($feature)];
-}
-
-function health_hazard() {
-	$symptom_list = array(
-		'Difficulty Breathing',
-		'Lesions/Redness/Lumps',
-		'Immunodeficiency',
-		'Lethargy/Weight Loss',
-		'Flaky/Spots/Blisters',
-		'Hair Loss/Discolouration',
-		'Unpleasant Odour',
-		'Vomiting/Diarrhea',
-		'Silvery Grey Emissions',
-		'Red Watery Eyes/Painful'
-	);
-
-	$source_list = array(
-		'Bad Air/Pollutants/Smoke',
-		'Elevated UV levels/Toxic Rain',
-		'Pollutants/Waste',
-		'Vitamin Deficiency/Junkfood',
-		'Pollutants/Chemical Soup',
-		'Pollutants/Waste',
-		'Pollutants/Industrial Run-off',
-		'Junkfood/Pollutants/Toxins',
-		'Radiation',
-		'Bad Air/Pollutants/Toxins'
-	);
-
-	$potential_list = array(
-		'Emphysema',
-		'Skin Cancer',
-		'Toxic Shock',
-		'Malnutrition',
-		'Messed Up Skin',
-		'Alopecia',
-		'BO/Body Funk',
-		'Gastric Catastrophe',
-		'Rad/Chem Burns',
-		'Burning Eyes/Nasal/Mouth'
-	);
-
-	return "<b>Health Hazard</b>:<br/><p style='margin-left: 15px;'><b>Symptoms</b> - ".$symptom_list[array_rand($symptom_list)]."<br/><b>Source</b> - ".$source_list[array_rand($source_list)]."<br/><b>Poten'l Dmg</b> - ".$potential_list[array_rand($potential_list)]."</p>";
-}
-
-function legacy_infrastructure() {
-	$leg_infra = array(
-		'Decommissioned subway tunnel, accessible from building, and vice versa',
-		'Off site telecoms junction box, once served the local neighborhood',
-		'Condemned slum quarantined with concrete seal, or biohazard containment zone',
-		'Interconnected basements and foundation voids, poorly secured',
-		'Sealed sub-basement parking for previous building, with still functioning elevator',
-		'Forgotten floor following remodelling work, accessible through crawl space',
-		'Disused loading or maintenance bay, with hidden goods elevator',
-		'Undocumented Cold War bomb shelter or bunker network',
-		'Exposed air venting system, leading to moth-balled sub-basement laboratory',
-		'Unused utilities still feed into buildings, accessible from empty sewerage system'
-	);
-
-	return $leg_infra[array_rand($leg_infra)];
 }
 
 function makeCard ($in, $type) {
@@ -899,7 +733,7 @@ surroundings();
 		</div>
 		<div class="row">
 			<div class="col-10 offset-1" id="Surroundings">
-				<h2>Surroundings <a href="#" data-bs-toggle="modal" data-bs-target="#surroundings"><i class="material-icons">info_outline</i></a></h2>
+				<h2 style="color: #00dd00;">Surroundings <a href="#" data-bs-toggle="modal" data-bs-target="#surroundings"><i class="material-icons">info_outline</i></a></h2>
 				<div class="container-fluid">
 					<div class="row m-1">
 						<div class="col-4 align-items-stretch">
@@ -945,7 +779,7 @@ surroundings();
 			<div class="col-3" id="Scenario">
 				<div class="row justify-content-center">
 					<div class="col-12">
-						<h2>Action <a href="#" data-bs-toggle="modal" data-bs-target="#action"><i class="material-icons">info_outline</i></a></h2>
+						<h2 style="color: #deb887;">Action <a href="#" data-bs-toggle="modal" data-bs-target="#action"><i class="material-icons">info_outline</i></a></h2>
 					</div>
 				</div>
 				<div class="row justify-content-center">
@@ -970,10 +804,10 @@ if (key_exists('B-Plot', $mission)) {
 			<div class="col-9" id="Events">
 				<div class="row">
 					<div class="col-9 justify-content-center">
-						<h2>Random Events <a href="#" data-bs-toggle="modal" data-bs-target="#randomevents"><i class="material-icons">info_outline</i></a></h2>
+						<h2 style="color: #0dcaf0;">Random Events <a href="#" data-bs-toggle="modal" data-bs-target="#randomevents"><i class="material-icons">info_outline</i></a></h2>
 					</div>
 					<div class="col-3">
-						<h2>Environment <a href="#" data-bs-toggle="modal" data-bs-target="#environment"><i class="material-icons">info_outline</i></a></h2>
+						<h2 style="color: #ffffff;">Environment <a href="#" data-bs-toggle="modal" data-bs-target="#environment"><i class="material-icons">info_outline</i></a></h2>
 					</div>
 				</div>
 				<div class="row justify-content-center">
@@ -1035,8 +869,8 @@ if (key_exists('B-Plot', $mission)) {
 					<h5>'Where are we?'</h5>
 					<p>This is a tool for game referees to generate a suggested environment for players to be surrounded by when they ask what's around a particular spot.</p>
 					<p>Each page load generates a new environment and each triggering selection (eg. gangs, shops, etc.) creates more details where necessary. You will find them in the sections below.</p>
-					<p>If components of the environment are unsuitable (really? A brothel next to a private school? Really, random number generator, is that a good idea?) You can do two things.<br/><ol><li><b>Hit F5</b> - Generate yourself, a merry new neighbourhood. May your rolls be right.</li><li><b>Ignore it</b> - If you're happy just filling in the inconvenient spaces, swing batter swing!<br/>Everything here is just a suggestion. It's all your call.</li></ol></p>
-					<p>The sense descriptions in the bottom-right are to be treated similarly.</p>
+					<p>If components of the environment are unsuitable (really? A brothel next to a private school? Really, random number generator, is that a good idea?) You can do two things.<br/><ol><li><b>Hit F5</b> - Generate yourself, a merry new neighbourhood. May your rolls be right.</li><li><b>Ignore it</b> - If you're happy just filling in the inconvenient spaces, swing batter swing!<br/>Remember: Everything here is just a suggestion. It's all your call.</li></ol></p>
+					<p>The sense descriptions in the bottom-right are to be treated similarly and more intended as general scene-setting.</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1053,7 +887,8 @@ if (key_exists('B-Plot', $mission)) {
 				</div>
 				<div class="modal-body">
 					<h5>'What's happening around us?'</h5>
-					<p>This section is a smattering of suggestions to bring the area to life.  Just slip it into the description, they can turn into more if the players want, but I'll leave that to you. Of course, there's nothing stopping you from grabbing something from outside your current region and time, but the tables are aligned to their specifci contexts. That is, the corporate space has more police patrols in the day, for example, and the combat zone has more chaos at night.</p>
+					<p>This section is a smattering of suggestions to bring the area to life. Just slip it into the description, the situations can escalate if you and the players want it that way. I'll leave that to you.</p>
+					<p>Of course, there's nothing stopping you from grabbing something from outside your current region and time, but the tables are aligned to their specific contexts. For example, the corporate space has more police patrols in the day and the combat zone has more chaos at night.</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1070,7 +905,9 @@ if (key_exists('B-Plot', $mission)) {
 				</div>
 				<div class="modal-body">
 					<h5>'What are we doing?'</h5>
-					<p>The Action panel has a randomly generated mission suggestion, if you're looking for such a thing.<br/>Stats aren't included pre-generated personalities are only included sometimes. The rule in 'Surroundings' applies, only use what tickles your fancy, ignore or re-roll everything else!</p>
+					<p>The Action panel has a randomly generated mission suggestion, if you're looking for such a thing.</p>
+					<p>Stats aren't included; pre-generated personalities are only included sometimes. The rule in 'Surroundings' applies here, only use what tickles your fancy, ignore or re-roll everything else!</p>
+					<p>A 'Meanwhile, ' indicates that there are actually <b>TWO</b> plots going on. How you and the plyers handle that is up to you.</p> 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1099,8 +936,7 @@ if (key_exists('B-Plot', $mission)) {
 <?php
 /* 
 DIAGNOSTICS
-*/
-/*pretty_var('SURROUNDS', 'dddddd');
+pretty_var('SURROUNDS', 'dddddd');
 pretty_var($surrounds, 'ffcccc');
 pretty_var('AUX', 'dddddd');
 pretty_var($aux, 'ccffcc');
@@ -1109,7 +945,8 @@ pretty_var($mission, 'ccccff');
 pretty_var('CONFIG', 'dddddd');
 pretty_var($cfg, 'ffffcc');
 pretty_var('EVENTS', 'dddddd');
-pretty_var($events, 'ffffff');*/
+pretty_var($events, 'ffffff');
+*/
 ?>
 </div>
 </body>

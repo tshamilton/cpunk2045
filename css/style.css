@@ -1,5 +1,5 @@
 body {
-    background-color: #cccccc;
+    background-color: #111111;
     font-family: 'Raleway', 'Segoe UI', 'Calibri', 'Verdana', 'Helvetica Neue', sans-serif;
     font-size: 1.0rem !important;
 	color: inherit; text-decoration: inherit;
@@ -10,6 +10,7 @@ h1 {
 	font-family: 'Play', 'Raleway', 'Segoe UI', 'Calibri';
 	text-align: center;
 	font-weight: bold;
+	color: #00dd00;
 	padding-bottom: 1.5rem;
 }
 
