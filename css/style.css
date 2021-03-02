@@ -75,3 +75,8 @@ h5 {
 .bg-mission {
 	background-color: burlywood;
 }
+.bg-nightmarket {
+	background-color: #000000;
+	border: 1px solid #00dd00;
+	color: #00dd00;
+}

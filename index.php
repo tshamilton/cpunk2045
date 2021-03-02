@@ -691,6 +691,7 @@ include 'senses.php';
 include 'plot_and_cast.php';
 include 'audio_visual.php';
 include 'random_events.php';
+include 'night_market.php';
 
 $events = random_events();
 $mission = missionSelect();
@@ -705,6 +706,7 @@ $surrounds = Array(
 	'SW' => Array(), 'S' => Array(), 'SE' => Array()
 );
 surroundings();
+$the_night_market = night_market();
 ?>
 <!doctype html>
 <html lang="en">
@@ -852,12 +854,33 @@ if (key_exists('B-Plot', $mission)) {
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-12" id="Market">
+						<div class="row justify-content-center">
+							<div class="col-12 mt-3">
+								<h2 style="color: #00dd00;">Night Market <a href="#" data-bs-toggle="modal" data-bs-target="#market"><i class="material-icons">info_outline</i></a></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12" id="Market">
+						<div class="row">
+							<?php
+								/*pretty_var($the_night_market);*/
+								foreach ($the_night_market as $n) {
+									print $n;
+								}
+							?>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<hr>
 
-	<!-- Modal -->
+	<!-- Modal Help Files -->
 	<div class="modal fade" id="surroundings" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -925,6 +948,24 @@ if (key_exists('B-Plot', $mission)) {
 				<div class="modal-body">
 					<h5>'What's that smell?'</h5>
 					<p>Like the surroundings and random events, this is another opportunity to add colour to the scene. Smells and sights that aren't directly related to the mission-at-hand.<br/>This column also contains the additional bits and pieces that crop up elsewhere. Gang details for that hangout southwest of the players, things like that.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="market" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="environment">Help > About > Night Market</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Every fixer in the city either knows about the Night Markets, or runs them. A a regularly run grey-to-black market that sells everything from cheap knock-off Zemiel wristwatches to prototype cyberwear, just don't ask where it came from.</p>
+					<p>Listed here are some highlights from the stalls. Due to the nature of the sellers, it's unlikely that you'll see these sales again at the next market.</p>
+					<p>NB: Want something really special? You want the Midnight Markets, now <i>those</i> are hard to get access to...</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
