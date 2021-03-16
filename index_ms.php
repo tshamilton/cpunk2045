@@ -730,27 +730,51 @@ $the_night_market = night_market();
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-2">&nbsp;</div>
-			<div class="col-8"><h1>Cyberpunk Red Scenario and Setting Generator</h1><h2 style="color: #00dd00;">Night Market section only</h2></div>
+			<div class="col-8"><h1>Cyberpunk Red Scenario and Setting Generator</h1><h2>Mission section</h2></div>
 			<div class="col-2">&nbsp;</div>
 		</div>
 		<div class="row">
-			<div class="col-12" id="Market">
+			<hr>
+			<div class="col-4" id="Scenario">
 				<div class="row justify-content-center">
-					<div class="col-12 mt-3">
-						<h2 style="color: #00dd00;">Night Market <a href="#" data-bs-toggle="modal" data-bs-target="#market"><i class="material-icons">info_outline</i></a></h2>
+					<div class="col-6">
+						<h2 style="color: #deb887;">Action <a href="#" data-bs-toggle="modal" data-bs-target="#action"><i class="material-icons">info_outline</i></a></h2>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class='card m-1 bg-mission card-block'>
+<?php
+print t(6)."<div class='card-header text-center'>".$mission['A-Plot']['Title']."</div>";
+print t(6)."<p class='card-text p-2'>".$mission['A-Plot']['Text']."</span></p>";
+foreach ($mission['A-Plot'] as $k => $v) {
+	if ($k != "Title" && $k != "Text") {
+		print t(6)."<div class='card-header text-center'>".$k."</div>";
+		print t(6)."<p class='card-text p-2'>".$v."</span></p>";
+	}
+}
+if (key_exists('B-Plot', $mission)) {
+	print t(6)."<div class='card-header text-center'>".$mission['B-Plot']['Title']."</div>";
+	print t(6)."<p class='card-text p-2'>".$mission['B-Plot']['Text']."</span></p>";
+}
+?>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-12" id="Market">
-				<div class="row">
-					<?php
-						/*pretty_var($the_night_market);*/
-						foreach ($the_night_market as $n) {
-							print $n;
-						}
-					?>
+			<div class="col-4" id="Scenario">
+				<div class="row justify-content-center">
+					<div class="col-6">
+						<h2 style="color: #ffffff;">Environment <a href="#" data-bs-toggle="modal" data-bs-target="#environment"><i class="material-icons">info_outline</i></a></h2>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class='card m-1 bg-light card-block'>
+						<div class='card-header text-center'><?php print $aux['Smell']['Title']; ?></div>
+						<p class='card-text p-2'><span style='padding-left: 0 px'><?php print $aux['Smell']['Text']; ?></span></p>
+						<div class='card-header text-center'><?php print $aux['Sound']['Title']; ?></div>
+						<p class='card-text p-2'><span style='padding-left: 0 px'><?php print $aux['Sound']['Text']; ?></span></p>
+						<div class='card-header text-center'><?php print $aux['Sight']['Title']; ?></div>
+						<p class='card-text p-2'><span style='padding-left: 0 px'><?php print $aux['Sight']['Text']; ?></span></p>
+					</div>
 				</div>
 			</div>
 		</div>

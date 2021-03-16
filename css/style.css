@@ -57,7 +57,7 @@ h5 {
 	border: 1px solid blue;
 }
 .bg {
-	border: 1px solid green;
+	border: 1px solid #00dd00;
 }
 .by {
 	border: 1px solid yellow;
@@ -79,4 +79,27 @@ h5 {
 	background-color: #000000;
 	border: 1px solid #00dd00;
 	color: #00dd00;
+}
+.news {
+    width: 160px;
+	color: #000000;
+	background-color: #00dd00;
+}
+.breaking-news {
+	background-color: #000000;
+	color: #aaaaaa;
+	border-radius: 0.25rem;
+}
+.news-scroll {
+    text-decoration: none;
+}
+.dot {
+    height: 6px;
+    width: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 2px !important;
+    background-color: rgb(207, 23, 23);
+    border-radius: 50%;
+    display: inline-block
 }

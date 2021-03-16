@@ -729,28 +729,57 @@ $the_night_market = night_market();
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2">&nbsp;</div>
-			<div class="col-8"><h1>Cyberpunk Red Scenario and Setting Generator</h1><h2 style="color: #00dd00;">Night Market section only</h2></div>
-			<div class="col-2">&nbsp;</div>
+			<div class="col-8 offset-2"><h1>Cyberpunk Red Scenario and Setting Generator</h1></div>
 		</div>
 		<div class="row">
-			<div class="col-12" id="Market">
-				<div class="row justify-content-center">
-					<div class="col-12 mt-3">
-						<h2 style="color: #00dd00;">Night Market <a href="#" data-bs-toggle="modal" data-bs-target="#market"><i class="material-icons">info_outline</i></a></h2>
-					</div>
+			<div class="col-8 offset-2">
+				<div class="d-flex justify-content-between align-items-center breaking-news bg">
+					<div class="d-flex flex-row flex-grow-1 justify-content-center py-2 px-1 news"><span class="d-flex align-items-center">&nbsp;<?php print pickCorp('Media'); ?> News</span></div>
+<!--				<marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <a href="#">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> <span class="dot"></span> <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut </a> <span class="dot"></span> <a href="#">Duis aute irure dolor in reprehenderit in voluptate velit esse </a> </marquee> -->
+					<marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <?php $bcl = bc_lotto(); print $bcl; ?> </marquee>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12" id="Market">
-				<div class="row">
-					<?php
-						/*pretty_var($the_night_market);*/
-						foreach ($the_night_market as $n) {
-							print $n;
-						}
-					?>
+			<div class="col-10 offset-1" id="Surroundings">
+				<h2 style="color: #00dd00;">Surroundings <a href="#" data-bs-toggle="modal" data-bs-target="#surroundings"><i class="material-icons">info_outline</i></a></h2>
+				<div class="container-fluid">
+					<div class="row m-1">
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['NW'], 'surrounds'); ?>
+						</div>
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['N'], 'surrounds'); ?>
+						</div>
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['NE'], 'surrounds'); ?>
+						</div>
+					</div>
+					<div class="row m-1">
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['W'], 'surrounds'); ?>
+						</div>
+						<div class="col-4 align-items-stretch">
+							<div class='card bg-danger h-100 text-white card-block'>
+								<div class='card-header text-center'>Squad Here</div>
+								<p class='card-text p-2'><span style='padding-left: 0 px'>The players are standing here.<br/>All locations are relative to this position.</span></p>
+							</div>
+ 						</div>
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['E'], 'surrounds'); ?>
+						</div>
+					</div>
+					<div class="row m-1">
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['SW'], 'surrounds'); ?>
+						</div>
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['S'], 'surrounds'); ?>
+						</div>
+						<div class="col-4 align-items-stretch">
+<?php makeCard($surrounds['SE'], 'surrounds'); ?>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -843,7 +843,7 @@ function pickCorp($sector = 'any', $any_flag = 0) {
 			$corps = Array('Akaromi BioCorp','Arasaka','Aztechnology','Braun','ConAg','Cortex','Dakai Soundsystems','Diktat','Diverse Media Systems','Dynalar','EBM','Horizon','International Electric (IEC)','Kang Tao','Microtech','Modus','No-Lo-Go','Petrochem','Raven Microcybernetics','SegAtari','WorldSat Communications','Zetatech');
 			break;
 		case('Media'):
-			$corps = Array('Arasaka','Diktat','Diverse Media Systems','EBM','Horizon','International Electric (IEC)','Kang Tao','Memorize','Militech','Modus','Network 23','Network 54','Nippon Network','World News Network');
+			$corps = Array('Arasaka','Diktat','DMS','EBM','Horizon','International Electric','Kang Tao','Memorize','Militech','Modus','Network 23','Network 54','Nippon Network','World News Network');
 			break;
 		case('Entertainment'):
 			$corps = Array('Diktat','Diverse Media Systems','Horizon','Modus','Network 23','Network 54','Nippon Network','World News Network','WorldSat Communications');
