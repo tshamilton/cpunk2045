@@ -283,7 +283,7 @@ function nm_fashion() {
 				$o = $desc[array_rand($desc)].", Boho-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Businesswear"):
-				$desc = array("Severe", "Formal", "Sombre");
+				$desc = array("Severe", "Formal", "Sombre", "Tailored");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
@@ -359,7 +359,7 @@ function nm_fashion() {
 				$o = $desc[array_rand($desc)].", Gang-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Generic chic"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Standard", "Colourful", "Modular");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
@@ -394,52 +394,52 @@ function nm_fashion() {
 						$this_cost = calc_cost(10, "Ch");
 						break;
 				}
-				$o = $desc[array_rand($desc)].", Generic-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
+				$o = $desc[array_rand($desc)].", store-brand ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("High fashion"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Exclusive", "Designer", "Haute-Couture");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(1000, "Vx");
 						break;
 					case("Top"):
 						$x = array("top", "shirt", "tee");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(500, "Ex");
 						break;
 					case("Jacket"):
 						$x = array("coat", "jacket", "blazer");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(1000, "Vx");
 						break;
 					case("Footwear"):
 						$x = array("shoes", "sneakers", "boots", "OTK boots", "heels");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(5000, "Lx");
 						break;
 					case("Jewelry"):
 						$x = array("ring", "necklace", "pendant", "cuff", "bracelet", "earrings");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(50000, "Lx");
 						break;
 					case("Glasses"):
 						$x = array("glasses", "frames", "sunglasses", "mirrorshades");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(1000, "Vx");
 						break;
 					case("Contact Lenses"):
 						$x = array("contact lenses");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(1000, "Vx");
 						break;
 					case("Hats"):
 						$x = array("sunhat", "fedora", "hat", "helmet");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(5000, "Lx");
 						break;
 				}
 				$o = $desc[array_rand($desc)].", Haute Couture-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Leisurewear"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Comfortable", "Athletic", "Sporty");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Top"):
 						$x = array("top", "shirt", "tee");
@@ -447,37 +447,37 @@ function nm_fashion() {
 						break;
 					case("Jacket"):
 						$x = array("coat", "jacket", "blazer");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Footwear"):
 						$x = array("shoes", "sneakers", "boots", "OTK boots", "heels");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Jewelry"):
 						$x = array("ring", "necklace", "pendant", "cuff", "bracelet", "earrings");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Glasses"):
 						$x = array("glasses", "frames", "sunglasses", "mirrorshades");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Contact Lenses"):
 						$x = array("contact lenses");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(20, "Ev");
 						break;
 					case("Hats"):
 						$x = array("sunhat", "fedora", "hat", "helmet");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(50, "Co");
 						break;
 				}
 				$o = $desc[array_rand($desc)].", Leisurewear-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Military surplus"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Camoflauge", "Plain khaki", "Sturdy");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Top"):
 						$x = array("top", "shirt", "tee");
@@ -485,37 +485,37 @@ function nm_fashion() {
 						break;
 					case("Jacket"):
 						$x = array("coat", "jacket", "blazer");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Footwear"):
 						$x = array("shoes", "sneakers", "boots", "OTK boots", "heels");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Jewelry"):
 						$x = array("ring", "necklace", "pendant", "cuff", "bracelet", "earrings");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Glasses"):
 						$x = array("glasses", "frames", "sunglasses", "mirrorshades");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Contact Lenses"):
 						$x = array("contact lenses");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(20, "Ev");
 						break;
 					case("Hats"):
 						$x = array("sunhat", "fedora", "hat", "helmet");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(50, "Co");
 						break;
 				}
 				$o = $desc[array_rand($desc)].", MilSurp-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Nomad leathers"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Western", "Rugged", "Tribal");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Top"):
 						$x = array("top", "shirt", "tee");
@@ -523,37 +523,37 @@ function nm_fashion() {
 						break;
 					case("Jacket"):
 						$x = array("coat", "jacket", "blazer");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Footwear"):
 						$x = array("shoes", "sneakers", "boots", "OTK boots", "heels");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Jewelry"):
 						$x = array("ring", "necklace", "pendant", "cuff", "bracelet", "earrings");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Glasses"):
 						$x = array("glasses", "frames", "sunglasses", "mirrorshades");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Contact Lenses"):
 						$x = array("contact lenses");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(20, "Ev");
 						break;
 					case("Hats"):
 						$x = array("sunhat", "fedora", "hat", "helmet");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(50, "Co");
 						break;
 				}
 				$o = $desc[array_rand($desc)].", Nomad-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";
 				break;
 			case("Urban flash"):
-				$desc = array("Dangerous", "Studded", "Painted");
+				$desc = array("Flashy", "Flashy", "Street");
 				switch($this_item){
 					case("Bottom"):
 						$x = array("skirt", "pants", "shorts");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Top"):
 						$x = array("top", "shirt", "tee");
@@ -561,27 +561,27 @@ function nm_fashion() {
 						break;
 					case("Jacket"):
 						$x = array("coat", "jacket", "blazer");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Footwear"):
 						$x = array("shoes", "sneakers", "boots", "OTK boots", "heels");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(50, "Co");
 						break;
 					case("Jewelry"):
 						$x = array("ring", "necklace", "pendant", "cuff", "bracelet", "earrings");
-						$this_cost = calc_cost(50, "Co");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Glasses"):
 						$x = array("glasses", "frames", "sunglasses", "mirrorshades");
-						$this_cost = calc_cost(20, "Ev");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Contact Lenses"):
 						$x = array("contact lenses");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 					case("Hats"):
 						$x = array("sunhat", "fedora", "hat", "helmet");
-						$this_cost = calc_cost(10, "Ch");
+						$this_cost = calc_cost(100, "Pr");
 						break;
 				}
 				$o = $desc[array_rand($desc)].", Urban-style ".$x[array_rand($x)]." (".calc_cost(100, "Pr")."eb).";

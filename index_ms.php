@@ -730,7 +730,7 @@ $the_night_market = night_market();
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-2">&nbsp;</div>
-			<div class="col-8"><h1>Cyberpunk Red Scenario and Setting Generator</h1><h2>Mission section</h2></div>
+			<div class="col-8"><h1>Cyberpunk Red Scenario and Setting Generator</h1><h2 style='color: #00dd00;'>Mission section</h2></div>
 			<div class="col-2">&nbsp;</div>
 		</div>
 		<div class="row">
@@ -755,6 +755,12 @@ foreach ($mission['A-Plot'] as $k => $v) {
 if (key_exists('B-Plot', $mission)) {
 	print t(6)."<div class='card-header text-center'>".$mission['B-Plot']['Title']."</div>";
 	print t(6)."<p class='card-text p-2'>".$mission['B-Plot']['Text']."</span></p>";
+	foreach ($mission['A-Plot'] as $k => $v) {
+		if ($k != "Title" && $k != "Text") {
+			print t(6)."<div class='card-header text-center'>".$k."</div>";
+			print t(6)."<p class='card-text p-2'>".$v."</span></p>";
+		}
+	}
 }
 ?>
 					</div>

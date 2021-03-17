@@ -735,7 +735,6 @@ $the_night_market = night_market();
 			<div class="col-8 offset-2">
 				<div class="d-flex justify-content-between align-items-center breaking-news bg">
 					<div class="d-flex flex-row flex-grow-1 justify-content-center py-2 px-1 news"><span class="d-flex align-items-center">&nbsp;<?php print pickCorp('Media'); ?> News</span></div>
-<!--				<marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <a href="#">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> <span class="dot"></span> <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut </a> <span class="dot"></span> <a href="#">Duis aute irure dolor in reprehenderit in voluptate velit esse </a> </marquee> -->
 					<marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <?php $bcl = bc_lotto(); print $bcl; ?> </marquee>
 				</div>
 			</div>

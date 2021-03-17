@@ -756,9 +756,9 @@ function missionSelect() {
 		$plot['B-Plot'][$msn_b] = Array();
 	}
 
-	$plot['A-Plot'] = makeMission($msn_a, 'A');
+	$plot['A-Plot'] = makeMission($msn_a);
 	if (key_exists('B-Plot', $plot)) {
-		$plot['B-Plot'] = makeMission($msn_b, 'B');
+		$plot['B-Plot'] = makeMission($msn_b);
 		$plot['B-Plot']['Title'] = "Meanwhile, ".$plot['B-Plot']['Title'];
 	}
 	return $plot;
