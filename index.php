@@ -163,7 +163,7 @@ function building() {
 				break;
 			case('Capsule Hotel'):
 				$preset = array(
-					"<b><i>Cheap Hotel</i></b><br/> Seedy looking place with suspiciously good Net connectiivity. 'Special' suites for people in the know."
+					"<b><i>'Cheap'&trade; Hotel</i></b><br/> Seedy looking coffin hotel with suspiciously good Net connectivity. Streetwise netrunners will know to ask for the 'Special' suites. Expensive but high security with a randomised proxy that makes tracing nigh-on impossible."
 				);
 				break;
 			case('Clinic'):

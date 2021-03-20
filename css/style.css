@@ -90,6 +90,12 @@ h5 {
 	color: #aaaaaa;
 	border-radius: 0.25rem;
 }
+.breaking-news-title {
+	background: rgb(0,221,0);
+	background: linear-gradient(180deg, rgba(0,221,0,1) 0%, rgba(0,0,0,1) 100%);
+	color: #222222;
+	font-weight: bold;
+}
 .news-scroll {
     text-decoration: none;
 }
