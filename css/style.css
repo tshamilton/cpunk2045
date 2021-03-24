@@ -2,7 +2,8 @@ body {
     background-color: #111111;
     font-family: 'Raleway', 'Segoe UI', 'Calibri', 'Verdana', 'Helvetica Neue', sans-serif;
     font-size: 1.0rem !important;
-	color: inherit; text-decoration: inherit;
+	color: #dddddd; /*inherit;*/
+	text-decoration: inherit;
 	padding: 15px;
 }
 
@@ -10,7 +11,7 @@ h1 {
 	font-family: 'Play', 'Raleway', 'Segoe UI', 'Calibri';
 	text-align: center;
 	font-weight: bold;
-	color: #00dd00;
+	color: #ff0000;
 	padding-bottom: 1.5rem;
 }
 
@@ -18,14 +19,7 @@ h2 {
 	font-family: 'Play', 'Raleway', 'Segoe UI', 'Calibri';
 	text-align: center;
 	font-weight: bold;
-	padding-bottom: 1.1rem;
-}
-
-h5 {
-	font-family: 'Play', 'Raleway', 'Segoe UI', 'Calibri';
-	text-align: center;
-	font-weight: bold;
-	font-style: italic;
+	padding-bottom: 0.6rem;
 }
 
 .card {
@@ -42,63 +36,109 @@ h5 {
 	margin-bottom: 0.75rem;
 }
 
-.debug {
-    font-family: 'Raleway', 'Segoe UI', 'Calibri', 'Verdana', 'Helvetica Neue', sans-serif;
-    font-size: 0.7rem !important;
-}
-
-.br {
-	border: 1px solid red;
-}
-.bk {
-	border: 1px solid black;
-}
-.bb {
-	border: 1px solid blue;
-}
-.bg {
-	border: 1px solid #00dd00;
-}
-.by {
-	border: 1px solid yellow;
-}
-.bw {
-	border: 1px solid white;
+.bg-light {
+	color: #333333;
+	padding-bottom: 1rem;
 }
 
 .bg-rubble {
 	background-color: dimgrey;
+	color: #222222;
+	margin-bottom: 5px;
 }
+
 .bg-building {
 	background-color: forestgreen;
+	color: #003300;
+	margin-bottom: 5px;
 }
+
 .bg-mission {
 	background-color: burlywood;
+	color: #3c2910;
 }
+
 .bg-nightmarket {
 	background-color: #000000;
 	border: 1px solid #00dd00;
 	color: #00dd00;
 }
+
+.bg-primary {
+	color: #000064;
+}
+
+.bg-info {
+	color: #004B71;
+}
+
+.bg-danger {
+	color: #430000;
+}
+
+.br {
+	border: 1px solid red;
+	border-radius: 0.25rem;
+}
+
+.bk {
+	border: 1px solid black;
+	border-radius: 0.25rem;
+}
+
+.bb {
+	border: 1px solid blue;
+	border-radius: 0.25rem;
+}
+
+.bg {
+	border: 1px solid #00dd00;
+	border-radius: 0.25rem;
+}
+
+.by {
+	border: 1px solid yellow;
+	border-radius: 0.25rem;
+}
+
+.bw {
+	border: 1px solid white;
+	border-radius: 0.25rem;
+}
+
+.bc {
+	border: 1px solid cyan;
+	border-radius: 0.25rem;
+}
+
+.bm {
+	border: 1px solid magenta;
+	border-radius: 0.25rem;
+}
+
 .news {
     width: 160px;
 	color: #000000;
 	background-color: #00dd00;
 }
+
 .breaking-news {
 	background-color: #000000;
 	color: #aaaaaa;
 	border-radius: 0.25rem;
 }
+
 .breaking-news-title {
 	background: rgb(0,221,0);
-	background: linear-gradient(180deg, rgba(0,221,0,1) 0%, rgba(0,0,0,1) 100%);
+	background: linear-gradient(180deg, rgba(0,221,0,1) 0%, rgba(0,170,0,1) 65%, rgba(0,0,0,1) 100%);
 	color: #222222;
 	font-weight: bold;
 }
+
 .news-scroll {
     text-decoration: none;
 }
+
 .dot {
     height: 6px;
     width: 6px;
@@ -108,4 +148,20 @@ h5 {
     background-color: rgb(207, 23, 23);
     border-radius: 50%;
     display: inline-block
+}
+
+.modal-content {
+	background-color: #111111;
+	border: 2px solid #00aa00;
+}
+.modal-header {
+	color: #00ee00;
+	border-bottom: #00aa00;
+}
+.modal-body {
+	color: #00ee00;
+}
+.modal-footer {
+	color: #00ee00;
+	border-top: #00aa00;
 }

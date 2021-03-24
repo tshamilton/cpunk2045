@@ -1,4 +1,21 @@
 <?php
+function calc_cost($base, $vari) {
+	$delta = 0;
+	switch($vari) {
+		case ("Ch"):
+			$delta = 50; break;
+		case ("Ev"):
+			$delta = 25; break;
+		case ("Co"):
+			$delta = 20; break;
+		case ("Pr"):
+			$delta = 15; break;
+		default:
+			$delta = 10; break;
+	}
+	return round($base + (((rand(0,$delta*2) - $delta)/100)*$base));
+}
+
 function choose_programs($budget) {
 	$on_offer = array();
 	$total_stock = 0;
@@ -117,21 +134,291 @@ function choose_programs($budget) {
 	return $out;
 }
 
-function calc_cost($base, $vari) {
-	$delta = 0;
-	switch($vari) {
-		case ("Ch"):
-			$delta = 50; break;
-		case ("Ev"):
-			$delta = 25; break;
-		case ("Co"):
-			$delta = 20; break;
-		case ("Pr"):
-			$delta = 15; break;
-		default:
-			$delta = 10; break;
+function night_market() {
+	$output = array();
+	$choice = array();
+
+	$categories = array("Food", "Gadgets", "Weapons", "Cyber", "Fashion", "Gear");
+
+	$num_categories = rand(1,4);
+	$num_categories == 1?$choice[0] = array_rand($categories, $num_categories):$choice = array_rand($categories, $num_categories);
+	$num_columns = 12/$num_categories;
+	$o = "";
+
+	foreach ($choice as $c) {
+		$o .= t(7)."<div class=\"col-".$num_columns."\">\n";
+		$o .= t(8)."<div class=\"card bg-nightmarket card-block\">\n";
+		$o .= t(9)."<div class=\"card-header text-center\">".$categories[$c]."</div>\n";
+		$o .= t(9)."<dl class=\"px-2\">\n";
+		switch($categories[$c]) {
+			case("Food"):
+				$o .= nm_food(); break;
+			case("Gadgets"):
+				$o .= nm_gadget(); break;
+			case("Fashion"):
+				$o .= nm_fashion(); break;
+			case("Gear"):
+				$o .= nm_gear(); break;
+			case("Weapons"):
+				$o .= nm_weapons(); break;
+			case("Cyber"):
+				$o .= nm_cyber(); break;
+		}
+		$o .= t(9)."</dl>\n";
+		$o .= t(8)."</div>\n";
+		$o .= t(7)."</div>\n";
+		array_push($output, $o);
+		$o = "";
 	}
-	return round($base + (((rand(0,$delta*2) - $delta)/100)*$base));
+	
+	return $output;
+}
+
+function nm_cyber() {
+	$count = rand(1,10);
+	$out = "";
+	$cyber = array(
+		"Cybereye, 100(Pr)",
+		"Cyberaudio suite, 500(Ex)",
+		"Neural Link, 500(Ex)",
+		"Cyberarm, 500(Ex)",
+		"Cyberleg, 100(Pr)",
+		"External cyberware, 500(Ex)",
+		"External cyberware, 1000(Vx)",
+		"Internal cyberware, 1000(Vx)",
+		"Internal cyberware, 500(Ex)",
+		"Cybereye option, 1000(Vx)",
+		"Cybereye option, 500(Ex)",
+		"Cyberaudio	option, 1000(Vx)",
+		"Cyberaudio option, 500(Ex)",
+		"Neuralware option, 1000(Vx)",
+		"Neuralware option, 500(Ex)",
+		"Cyberlimb option, 1000(Vx)",
+		"Cyberlimb option, 500(Ex)",
+		"Fashionware, 100(Pr)",
+		"Borgware, 1000(Vx)",
+	);
+	if ($count == 1) { $this_cyber[0] = array_rand($cyber); } else { $this_cyber = array_rand($cyber, $count); }
+	foreach ($this_cyber as $c) {
+		preg_match("/(.+?), (\d+?)\((..)\)/", $cyber[$c], $tc);
+		$uniq = rand(1,4);
+		$qual = rand(1,100);
+		switch($tc[1]) {
+			case("Cybereye"):
+				if ($uniq == 1) {
+					if		($qual <= 17) {	$o = "<dt>Kiroshii Model-IV (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots.</dd>\n"; }
+					elseif  ($qual <= 33) { $o = "<dt>Kiroshii Model-IV (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
+					elseif  ($qual <= 50) { $o = "<dt>Zeiss Orbital (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots</dd>\n"; }
+					elseif  ($qual <= 67) { $o = "<dt>Zeiss Orbital (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
+					elseif  ($qual <= 83) { $o = "<dt>Blume OverSight (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots</dd>\n"; }
+					else				  { $o = "<dt>Blume OverSight (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
+				}
+				else {
+					$money = calc_cost($tc[2], $tc[3]);
+					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+				}
+				$out .= $o;
+				break;
+			case("Cyberaudio suite"):
+				if ($uniq == 1) {
+					if		($qual <= 33) {	$o = "<dt>Dynalar QAudio (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
+					elseif  ($qual <= 67) { $o = "<dt>Blume T-Audio (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
+					else				  { $o = "<dt>Dakai Crystal-4 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
+				}
+				else {
+					$money = calc_cost($tc[2], $tc[3]);
+					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+				}
+				$out .= $o;
+				break;
+			case("Neural link"):
+				if ($uniq == 1) {
+					if		($qual <= 20) {	$o = "<dt>Zetatech Base (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots.</dd>\n"; }
+					elseif  ($qual <= 40) { $o = "<dt>Memorize MindLink&trade; (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
+					elseif  ($qual <= 60) { $o = "<dt>IEC Neural Port (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
+					elseif  ($qual <= 80) { $o = "<dt>Cyphire Gateway-NG6 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
+					else				  { $o = "<dt>Raven Microcybernetics AC-2 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
+				}
+				else {
+					$money = calc_cost($tc[2], $tc[3]);
+					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+				}
+				$out .= $o;
+				break;
+			case("Cyberarm"):
+				if ($uniq == 1) {
+					if		($qual <= 12) {	$o = "<dt>Dynalar MAS-15 (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
+					elseif	($qual <= 25) {	$o = "<dt>Dynalar MAS-15 (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 37) { $o = "<dt>Arasaka FlexxU (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 50) { $o = "<dt>Arasaka FlexxU (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 62) { $o = "<dt>IEC CyberArm (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 75) { $o = "<dt>IEC CyberArm (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 87) { $o = "<dt>Kang Tao DL-7 (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
+					else				  { $o = "<dt>Kang Tao DL-7 (Pair - ".calc_cost(500, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
+				}
+				else {
+					$money = calc_cost($tc[2], $tc[3]);
+					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+				}
+				$out .= $o;
+				break;
+			case("Cyberleg"):
+				if ($uniq == 1) {
+					if		($qual <= 17) {	$o = "<dt>Dynalar Cheetah (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per leg.</dd>\n"; }
+					elseif	($qual <= 33) {	$o = "<dt>Dynalar Cheetah (Pair - ".calc_cost(200, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 50) { $o = "<dt>Arasaka FlexxA (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 67) { $o = "<dt>Arasaka FlexxA (Pair - ".calc_cost(200, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
+					elseif  ($qual <= 83) { $o = "<dt>EBM Charisse (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per arm.</dd>\n"; }
+					else				  { $o = "<dt>EBM Charisse (Pair - ".calc_cost(200, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
+				}
+				else {
+					$money = calc_cost($tc[2], $tc[3]);
+					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+				}
+				$out .= $o;
+				break;
+			case("External cyberware"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 33) { $o = "<dt>Hidden Holster (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).".</dd>\n"; }
+					elseif	($qual <= 67) { $o = "<dt>Skin Weave (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 7 SP over whole body, conditions apply.</dd>\n"; }
+					else				  { $o = "<dt>Subdermal Pocket (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).".</dd>\n"; }
+				}
+				else {
+					$o = "<dt>Subdermal Armor (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". SP 11 over whole body, conditions apply.</dd>\n";
+				}
+				$out .= $o;
+				break;
+			case("Internal cyberware"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 17) { $o = "<dt>AudioVox (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 Acting, Play Instrument (Singing).</dd>\n"; }
+					elseif	($qual <= 33) { $o = "<dt>Enhanced Antibodies (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,3).". Heal 2xBODY/day.</dd>\n"; }
+					elseif	($qual <= 50) { $o = "<dt>Nasal Filters (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Prevent harm from airborne pollutants, poisons.</dd>\n"; }
+					elseif	($qual <= 67) { $o = "<dt>Toxin Binders (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". +2 Resist Torture/Drugs.</dd>\n"; }
+					elseif	($qual <= 83) { $o = "<dt>Vampyres (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(4,24).". 1d6 light melee weapon, can be used to administer poison.</dd>\n"; }
+					else				  { $o = "<dt>Midnight Lady/Mr. Studd (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". All night, every night. Be Desire. Or something.</dd>\n"; }
+				}
+				else {
+					if 		($qual <= 20) { $o = "<dt>Cybersnake (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Very heavy melee weapon (4d6) concealed in throat.</dd>\n"; }
+					elseif	($qual <= 40) { $o = "<dt>Gills (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". Allows breathing underwater.</dd>\n"; }
+					elseif	($qual <= 60) { $o = "<dt>Muscle and Bone Lace (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". +2 to Body (max 10, stackable, impacts HP and death save).</dd>\n"; }
+					elseif	($qual <= 80) { $o = "<dt>Independent Air Supply (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,3).". 30 minute air tank.</dd>\n"; }
+					else				  { $o = "<dt>Radar/Sonar Implant (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 50m range, alerts on moving objects in non-enclosed spaces.</dd>\n"; }
+				}
+				$out .= $o;
+				break;
+			case("Cybereye option"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 20) { $o = "<dt>Anti-dazzle (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Immune to blindness from flashbangs, etc. Requires 2 cybereyes and slots.</dd>\n"; }
+					elseif	($qual <= 40) { $o = "<dt>Chyron (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Projects small subscreen onto sight for messages, video.</dd>\n"; }
+					elseif	($qual <= 60) { $o = "<dt>Colour Shift (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Cosmetic colour and pattern shifts for eyes. Can react to temperature and/or hormones.</dd>\n"; }
+					elseif	($qual <= 80) { $o = "<dt>MicroOptics (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Up to 400x magnification.</dd>\n"; }
+					else				  { $o = "<dt>Virtuality (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Projects view of cyberspace over real world Requires 2 cybereyes.</dd>\n"; }
+				}
+				else {
+					if 		($qual <= 14) { $o = "<dt>Dartgun (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,3).". Dartgun. Single shot. Uses 3 cybereye slots.</dd>\n"; }
+					elseif	($qual <= 29) { $o = "<dt>Image Enhance (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to Percept., Lip Reading and Conceal/Reveal. Requires 2 cybereyes.</dd>\n"; }
+					elseif	($qual <= 43) { $o = "<dt>Low Light/IR/UV Sight (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Sight in darkness, smoke, can see heat/cold but not through solid objects. Requires 2 cybereyes and 2 slots per eye.</dd>\n"; }
+					elseif	($qual <= 57) { $o = "<dt>MicroVideo (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Requires 2 cybereyes and 2 slots per eye.</dd>\n"; }
+					elseif	($qual <= 71) { $o = "<dt>Radiation Detector (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,6).". Sees radiation levels as blue glow to 100m.</dd>\n"; }
+					elseif	($qual <= 86) { $o = "<dt>Targeting Scope (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +1 to aimed shots</dd>\n"; }
+					else				  { $o = "<dt>TeleOptics (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Allows sight to 800m, +1 to aimed .</dd>\n"; }
+				}
+				$out .= $o;
+				break;
+			case("Cyberaudio option"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 10) { $o = "<dt>Amplified Hearing (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to hearing-based Perception checks.</dd>\n"; }
+					elseif	($qual <= 20) { $o = "<dt>Audio Recorder (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
+					elseif	($qual <= 30) { $o = "<dt>Bug Detector (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Beeps within 2m of listening device.</dd>\n"; }
+					elseif	($qual <= 40) { $o = "<dt>Homing Tracer (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Comes with free tracking button, can be traced 3.2 kilometers away.</dd>\n"; }
+					elseif	($qual <= 50) { $o = "<dt>Internal Agent (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Can be paired with Chyron for video calling.</dd>\n"; }
+					elseif	($qual <= 60) { $o = "<dt>Level Damper (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Automatic noise compensation.</dd>\n"; }
+					elseif	($qual <= 70) { $o = "<dt>Radio Commlink (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Can communicate via radio, 1.6km radius.</dd>\n"; }
+					elseif	($qual <= 80) { $o = "<dt>Music/Radio (".calc_cost(50, "Co")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
+					elseif	($qual <= 90) { $o = "<dt>Scrambler (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
+					else				  { $o = "<dt>Voice Stress Analyzer (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to Human Percepton and Interrogation skills.</dd>\n"; }
+				}
+				else {
+					$o = "<dt>Radar Detector (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Range of 100m.</dd>\n";
+				}
+				$out .= $o;
+				break;
+			case("Neuralware option"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 33) { $o = "<dt>Memory Chip (".calc_cost(10, "Ch")."eb)</dt>\n<dd>HL: 0.</dd>\n"; }
+					elseif	($qual <= 67) { $o = "<dt>Olfactory Boost (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Can use olfactory aspects of Tracking skill.</dd>\n"; }
+					else				  { $o = "<dt>Tactile Boost (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Motion detection through vibrations over 20m.</dd>\n"; }
+				}
+				else {
+					if 		($qual <= 11) { $o = "<dt>Braindance Recorder (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". <i>Requires Neural Link</i>.</dd>\n"; }
+					elseif	($qual <= 22) { $o = "<dt>Chipware Socket (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". <i>Requires Neural Link</i>.</dd>\n"; }
+					elseif	($qual <= 33) { $o = "<dt>Interface Plugs (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Link to Cyberdecks, Smartgun,etc. <i>Requires Neural Link</i>.</dd>\n"; }
+					elseif	($qual <= 44) { $o = "<dt>Kerenzikov (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(4,24).". +2 to initiative. <i>Requires Neural Link</i>.</dd>\n"; }
+					elseif	($qual <= 55) { $o = "<dt>Sandevistan (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to initiative rolls for 1 minute. <i>Requires Neural Link</i>.</dd>\n"; }
+					elseif	($qual <= 66) { $o = "<dt>Chemical Analyzer (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". <i>Requires Chipware Socket</i>.</dd>\n"; }
+					elseif	($qual <= 77) { $o = "<dt>Pain Editor (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Ignores side-effects of Seriously Wounded state. <i>Requires Chipware Socket</i></dd>\n"; }
+					elseif	($qual <= 88) { $o = "<dt>Skill Chip (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to untrained skill. <i>Requires Chipware Socket</i>.</dd>\n"; }
+					else				  { $o = "<dt>Skill Chip (for x2 cost Skills) (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to untrained skill. <i>Requires Chipware Socket</i></dd>\n"; }
+				}
+				$out .= $o;
+				break;
+			case("Cyberlimb option"):
+				if ($tc[2] == 500) {
+					if 		($qual <= 14) { $o = "<dt>Big Knucks (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Medium melee weapon (2d6), can be installed on meat arm..</dd>\n"; }
+					elseif	($qual <= 29) { $o = "<dt>Grapple Hand (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Fires rocket propelled grappling hook with 30m range. Capacity 2x body weight..</dd>\n"; }
+					elseif	($qual <= 43) { $o = "<dt>Quick Change Mount (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Allows use of different cyberarms..</dd>\n"; }
+					elseif	($qual <= 57) { $o = "<dt>Scratchers (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Carbo-glass slanted artificial fingernails. Light melee weapon (1d6). Can be installed on meat arm..</dd>\n"; }
+					elseif	($qual <= 71) { $o = "<dt>Subdermal Grip (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Allows smartgun use. Can be installed on meat arm. Requires Neural Link and takes Neuralware option slot..</dd>\n"; }
+					elseif	($qual <= 86) { $o = "<dt>Tool Hand (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Can be installed on meat arm..</dd>\n"; }
+					else				  { $o = "<dt>Plastic Covering (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Doesn't take a slot. Variety of colours and designs..</dd>\n"; }
+				}
+				else {
+					if 		($qual <= 5) { $o = "<dt>Cyberdeck (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Takes three option slots, give extra slot (Hard/Program).</dd>\n"; }
+					elseif	($qual <= 11) { $o = "<dt>Medscanner (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +2 to First Aid and Paramedic. Takes 2 option slots.</dd>\n"; }
+					elseif	($qual <= 16) { $o = "<dt>Popup Grenade Launcher (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Takes 2 option slots.</dd>\n"; }
+					elseif	($qual <= 21) { $o = "<dt>Popup Melee Weapon (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Takes 2 option slots.</dd>\n"; }
+					elseif	($qual <= 26) { $o = "<dt>Popup Shield (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 3 option slots.</dd>\n"; }
+					elseif	($qual <= 31) { $o = "<dt>Popup Ranged Weapon (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 2 option slots.</dd>\n"; }
+					elseif	($qual <= 37) { $o = "<dt>Rippers (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Carbo-glass fingernails. Medium melee weapon (2d6). Can be installed on meat arm.</dd>\n"; }
+					elseif	($qual <= 42) { $o = "<dt>Shoulder Cam (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 2 action slots.</dd>\n"; }
+					elseif	($qual <= 47) { $o = "<dt>Slice 'n Dice (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Monofilament whip in thumb. Medium melee weapon (2d6, 2 ROF). Can be installed on meat arm.</dd>\n"; }
+					elseif	($qual <= 53) { $o = "<dt>Techscanner (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Adds +2 to their Basic Tech, Cybertech, xTech. Requires 2 Option Slots.</dd>\n"; }
+					elseif	($qual <= 58) { $o = "<dt>Wolvers (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Extendable carbo-glass claws between knuckles. Heavy melee weapon (3d6, 2 ROF). Can be installed in meat arm.</dd>\n"; }
+					elseif	($qual <= 63) { $o = "<dt>Grip Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates movement penalty for climbing. Requires two cyberlegs.</dd>\n"; }
+					elseif	($qual <= 68) { $o = "<dt>Jump Booster (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates movement penalty when jumping. Requires two cyberlegs and takes 2 option slots.</dd>\n"; }
+					elseif	($qual <= 74) { $o = "<dt>Skate Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Inline skates, +6m when running. Requires two cyberlegs.</dd>\n"; }
+					elseif	($qual <= 79) { $o = "<dt>Talon Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Blade mounted in foot. Light melee weapon (1d6). Can be installed on meat leg.</dd>\n"; }
+					elseif	($qual <= 84) { $o = "<dt>Web Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates penalty when swimming. Requires two cyberlegs.</dd>\n"; }
+					elseif	($qual <= 89) { $o = "<dt>Hardened Shielding (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,6).". Protected from EMP, Microwaves or non-Black ICE program effects.</dd>\n"; }
+					elseif	($qual <= 95) { $o = "<dt>RealSkinn&trade; (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: 0. Doesn't take a slot.</dd>\n"; }
+					else				  { $o = "<dt>SuperChrome&trade; (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: 0. Shiny. +2 Wardrobe and Style.</dd>\n"; }
+				}
+				$out .= $o;
+				break;
+			case("Fashionware"):
+				if 		($qual <= 14) { $o = "<dt>Biomonitor (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Contant pulse, temp, respiration, etc. on LED readout.</dd>\n"; }
+				elseif	($qual <= 29) { $o = "<dt>Chemskin (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Colour change, blemish hiding, reactive colours, give +2 Personal Grooming with TechHair.</dd>\n"; }
+				elseif	($qual <= 43) { $o = "<dt>EMP Threading (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Fashion statement shiny lines.</dd>\n"; }
+				elseif	($qual <= 57) { $o = "<dt>Light Tattoo (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Subdermal light emitting patches. 3 or more light tattoos give +2 Wardrobe and Style.</dd>\n"; }
+				elseif	($qual <= 71) { $o = "<dt>Shift Tacts (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Colour changing lenses.</dd>\n"; }
+				elseif	($qual <= 86) { $o = "<dt>SkinWatch (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Subdermal LED time readout.</dd>\n"; }
+				else				  { $o = "<dt>TechHair (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Coloured-light emitting hair. Adds +2 Personal Grooming with Chemskin.</dd>\n"; }
+				$out .= $o;
+				break;
+			case("Borgware"):
+				if 		($qual <= 20) { $o = "<dt>Artificial Shoulder Mount (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Can mount 2 extra cyberarms.</dd>\n"; }
+				elseif	($qual <= 40) { $o = "<dt>Implanted &Sigma; Frame (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Enhanced skeleton, BODY to 12. Req. BODY > 5 and Muscle &amp; Bone Lace.</dd>\n"; }
+				elseif	($qual <= 60) { $o = "<dt>Implanted &beta; Frame (".calc_cost(5000, "Lx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Enhanced skeleton, BODY to 14. Req. BODY > 7 and Muscle &amp; Bone Lace..</dd>\n"; }
+				elseif	($qual <= 80) { $o = "<dt>MultiOptic Mount (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Can install up to 5 cybereyes (bought separately).</dd>\n"; }
+				else				  { $o = "<dt>Sensor Array (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Antennae, allows additional 5 cyberaudio options.</dd>\n"; }
+				$out .= $o;
+				break;
+		
+		}
+		$money = calc_cost($tc[2], $tc[3]);
+		$out .= t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
+	}
+	return $out;
 }
 
 function nm_fashion() {
@@ -1033,290 +1320,4 @@ function nm_weapons() {
 	return $out;
 }
 
-function nm_cyber() {
-	$count = rand(1,10);
-	$out = "";
-	$cyber = array(
-		"Cybereye, 100(Pr)",
-		"Cyberaudio suite, 500(Ex)",
-		"Neural Link, 500(Ex)",
-		"Cyberarm, 500(Ex)",
-		"Cyberleg, 100(Pr)",
-		"External cyberware, 500(Ex)",
-		"External cyberware, 1000(Vx)",
-		"Internal cyberware, 1000(Vx)",
-		"Internal cyberware, 500(Ex)",
-		"Cybereye option, 1000(Vx)",
-		"Cybereye option, 500(Ex)",
-		"Cyberaudio	option, 1000(Vx)",
-		"Cyberaudio option, 500(Ex)",
-		"Neuralware option, 1000(Vx)",
-		"Neuralware option, 500(Ex)",
-		"Cyberlimb option, 1000(Vx)",
-		"Cyberlimb option, 500(Ex)",
-		"Fashionware, 100(Pr)",
-		"Borgware, 1000(Vx)",
-	);
-	if ($count == 1) { $this_cyber[0] = array_rand($cyber); } else { $this_cyber = array_rand($cyber, $count); }
-	foreach ($this_cyber as $c) {
-		preg_match("/(.+?), (\d+?)\((..)\)/", $cyber[$c], $tc);
-		$uniq = rand(1,4);
-		$qual = rand(1,100);
-		switch($tc[1]) {
-			case("Cybereye"):
-				if ($uniq == 1) {
-					if		($qual <= 17) {	$o = "<dt>Kiroshii Model-IV (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots.</dd>\n"; }
-					elseif  ($qual <= 33) { $o = "<dt>Kiroshii Model-IV (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
-					elseif  ($qual <= 50) { $o = "<dt>Zeiss Orbital (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots</dd>\n"; }
-					elseif  ($qual <= 67) { $o = "<dt>Zeiss Orbital (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
-					elseif  ($qual <= 83) { $o = "<dt>Blume OverSight (Pair - ".calc_cost(200, "Pr")."eb)</dt>\n<dd>HL: ".rand(4,24).". 6 option slots</dd>\n"; }
-					else				  { $o = "<dt>Blume OverSight (Single - ".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots</dd>\n"; }
-				}
-				else {
-					$money = calc_cost($tc[2], $tc[3]);
-					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-				}
-				$out .= $o;
-				break;
-			case("Cyberaudio suite"):
-				if ($uniq == 1) {
-					if		($qual <= 33) {	$o = "<dt>Dynalar QAudio (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
-					elseif  ($qual <= 67) { $o = "<dt>Blume T-Audio (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
-					else				  { $o = "<dt>Dakai Crystal-4 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots.</dd>\n"; }
-				}
-				else {
-					$money = calc_cost($tc[2], $tc[3]);
-					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-				}
-				$out .= $o;
-				break;
-			case("Neural link"):
-				if ($uniq == 1) {
-					if		($qual <= 20) {	$o = "<dt>Zetatech Base (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots.</dd>\n"; }
-					elseif  ($qual <= 40) { $o = "<dt>Memorize MindLink&trade; (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
-					elseif  ($qual <= 60) { $o = "<dt>IEC Neural Port (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
-					elseif  ($qual <= 80) { $o = "<dt>Cyphire Gateway-NG6 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
-					else				  { $o = "<dt>Raven Microcybernetics AC-2 (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 5 option slots</dd>\n"; }
-				}
-				else {
-					$money = calc_cost($tc[2], $tc[3]);
-					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-				}
-				$out .= $o;
-				break;
-			case("Cyberarm"):
-				if ($uniq == 1) {
-					if		($qual <= 12) {	$o = "<dt>Dynalar MAS-15 (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
-					elseif	($qual <= 25) {	$o = "<dt>Dynalar MAS-15 (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 37) { $o = "<dt>Arasaka FlexxU (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 50) { $o = "<dt>Arasaka FlexxU (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 62) { $o = "<dt>IEC CyberArm (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 75) { $o = "<dt>IEC CyberArm (Pair - ".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 87) { $o = "<dt>Kang Tao DL-7 (Single - ".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 4 option slots per arm.</dd>\n"; }
-					else				  { $o = "<dt>Kang Tao DL-7 (Pair - ".calc_cost(500, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". 4 option slots per arm.</dd>\n"; }
-				}
-				else {
-					$money = calc_cost($tc[2], $tc[3]);
-					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-				}
-				$out .= $o;
-				break;
-			case("Cyberleg"):
-				if ($uniq == 1) {
-					if		($qual <= 17) {	$o = "<dt>Dynalar Cheetah (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per leg.</dd>\n"; }
-					elseif	($qual <= 33) {	$o = "<dt>Dynalar Cheetah (Pair - ".calc_cost(200, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 50) { $o = "<dt>Arasaka FlexxA (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 67) { $o = "<dt>Arasaka FlexxA (Pair - ".calc_cost(200, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
-					elseif  ($qual <= 83) { $o = "<dt>EBM Charisse (Single - ".calc_cost(100, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". 3 option slots per arm.</dd>\n"; }
-					else				  { $o = "<dt>EBM Charisse (Pair - ".calc_cost(200, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 3 option slots per arm.</dd>\n"; }
-				}
-				else {
-					$money = calc_cost($tc[2], $tc[3]);
-					$o = t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-				}
-				$out .= $o;
-				break;
-			case("External cyberware"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 33) { $o = "<dt>Hidden Holster (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).".</dd>\n"; }
-					elseif	($qual <= 67) { $o = "<dt>Skin Weave (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". 7 SP over whole body, conditions apply.</dd>\n"; }
-					else				  { $o = "<dt>Subdermal Pocket (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).".</dd>\n"; }
-				}
-				else {
-					$o = "<dt>Subdermal Armor (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". SP 11 over whole body, conditions apply.</dd>\n";
-				}
-				$out .= $o;
-				break;
-			case("Internal cyberware"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 17) { $o = "<dt>AudioVox (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 Acting, Play Instrument (Singing).</dd>\n"; }
-					elseif	($qual <= 33) { $o = "<dt>Enhanced Antibodies (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,3).". Heal 2xBODY/day.</dd>\n"; }
-					elseif	($qual <= 50) { $o = "<dt>Nasal Filters (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Prevent harm from airborne pollutants, poisons.</dd>\n"; }
-					elseif	($qual <= 67) { $o = "<dt>Toxin Binders (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". +2 Resist Torture/Drugs.</dd>\n"; }
-					elseif	($qual <= 83) { $o = "<dt>Vampyres (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(4,24).". 1d6 light melee weapon, can be used to administer poison.</dd>\n"; }
-					else				  { $o = "<dt>Midnight Lady/Mr. Studd (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". All night, every night. Be Desire. Or something.</dd>\n"; }
-				}
-				else {
-					if 		($qual <= 20) { $o = "<dt>Cybersnake (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Very heavy melee weapon (4d6) concealed in throat.</dd>\n"; }
-					elseif	($qual <= 40) { $o = "<dt>Gills (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". Allows breathing underwater.</dd>\n"; }
-					elseif	($qual <= 60) { $o = "<dt>Muscle and Bone Lace (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". +2 to Body (max 10, stackable, impacts HP and death save).</dd>\n"; }
-					elseif	($qual <= 80) { $o = "<dt>Independent Air Supply (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,3).". 30 minute air tank.</dd>\n"; }
-					else				  { $o = "<dt>Radar/Sonar Implant (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". 50m range, alerts on moving objects in non-enclosed spaces.</dd>\n"; }
-				}
-				$out .= $o;
-				break;
-			case("Cybereye option"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 20) { $o = "<dt>Anti-dazzle (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Immune to blindness from flashbangs, etc. Requires 2 cybereyes and slots.</dd>\n"; }
-					elseif	($qual <= 40) { $o = "<dt>Chyron (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Projects small subscreen onto sight for messages, video.</dd>\n"; }
-					elseif	($qual <= 60) { $o = "<dt>Colour Shift (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Cosmetic colour and pattern shifts for eyes. Can react to temperature and/or hormones.</dd>\n"; }
-					elseif	($qual <= 80) { $o = "<dt>MicroOptics (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Up to 400x magnification.</dd>\n"; }
-					else				  { $o = "<dt>Virtuality (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Projects view of cyberspace over real world Requires 2 cybereyes.</dd>\n"; }
-				}
-				else {
-					if 		($qual <= 14) { $o = "<dt>Dartgun (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,3).". Dartgun. Single shot. Uses 3 cybereye slots.</dd>\n"; }
-					elseif	($qual <= 29) { $o = "<dt>Image Enhance (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to Percept., Lip Reading and Conceal/Reveal. Requires 2 cybereyes.</dd>\n"; }
-					elseif	($qual <= 43) { $o = "<dt>Low Light/IR/UV Sight (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Sight in darkness, smoke, can see heat/cold but not through solid objects. Requires 2 cybereyes and 2 slots per eye.</dd>\n"; }
-					elseif	($qual <= 57) { $o = "<dt>MicroVideo (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Requires 2 cybereyes and 2 slots per eye.</dd>\n"; }
-					elseif	($qual <= 71) { $o = "<dt>Radiation Detector (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,6).". Sees radiation levels as blue glow to 100m.</dd>\n"; }
-					elseif	($qual <= 86) { $o = "<dt>Targeting Scope (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +1 to aimed shots</dd>\n"; }
-					else				  { $o = "<dt>TeleOptics (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Allows sight to 800m, +1 to aimed .</dd>\n"; }
-				}
-				$out .= $o;
-				break;
-			case("Cyberaudio option"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 10) { $o = "<dt>Amplified Hearing (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to hearing-based Perception checks.</dd>\n"; }
-					elseif	($qual <= 20) { $o = "<dt>Audio Recorder (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
-					elseif	($qual <= 30) { $o = "<dt>Bug Detector (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Beeps within 2m of listening device.</dd>\n"; }
-					elseif	($qual <= 40) { $o = "<dt>Homing Tracer (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Comes with free tracking button, can be traced 3.2 kilometers away.</dd>\n"; }
-					elseif	($qual <= 50) { $o = "<dt>Internal Agent (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Can be paired with Chyron for video calling.</dd>\n"; }
-					elseif	($qual <= 60) { $o = "<dt>Level Damper (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Automatic noise compensation.</dd>\n"; }
-					elseif	($qual <= 70) { $o = "<dt>Radio Commlink (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Can communicate via radio, 1.6km radius.</dd>\n"; }
-					elseif	($qual <= 80) { $o = "<dt>Music/Radio (".calc_cost(50, "Co")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
-					elseif	($qual <= 90) { $o = "<dt>Scrambler (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).".</dd>\n"; }
-					else				  { $o = "<dt>Voice Stress Analyzer (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". +2 to Human Percepton and Interrogation skills.</dd>\n"; }
-				}
-				else {
-					$o = "<dt>Radar Detector (".calc_cost(500, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Range of 100m.</dd>\n";
-				}
-				$out .= $o;
-				break;
-			case("Neuralware option"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 33) { $o = "<dt>Memory Chip (".calc_cost(10, "Ch")."eb)</dt>\n<dd>HL: 0.</dd>\n"; }
-					elseif	($qual <= 67) { $o = "<dt>Olfactory Boost (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Can use olfactory aspects of Tracking skill.</dd>\n"; }
-					else				  { $o = "<dt>Tactile Boost (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Motion detection through vibrations over 20m.</dd>\n"; }
-				}
-				else {
-					if 		($qual <= 11) { $o = "<dt>Braindance Recorder (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". <i>Requires Neural Link</i>.</dd>\n"; }
-					elseif	($qual <= 22) { $o = "<dt>Chipware Socket (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". <i>Requires Neural Link</i>.</dd>\n"; }
-					elseif	($qual <= 33) { $o = "<dt>Interface Plugs (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Link to Cyberdecks, Smartgun,etc. <i>Requires Neural Link</i>.</dd>\n"; }
-					elseif	($qual <= 44) { $o = "<dt>Kerenzikov (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(4,24).". +2 to initiative. <i>Requires Neural Link</i>.</dd>\n"; }
-					elseif	($qual <= 55) { $o = "<dt>Sandevistan (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to initiative rolls for 1 minute. <i>Requires Neural Link</i>.</dd>\n"; }
-					elseif	($qual <= 66) { $o = "<dt>Chemical Analyzer (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". <i>Requires Chipware Socket</i>.</dd>\n"; }
-					elseif	($qual <= 77) { $o = "<dt>Pain Editor (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Ignores side-effects of Seriously Wounded state. <i>Requires Chipware Socket</i></dd>\n"; }
-					elseif	($qual <= 88) { $o = "<dt>Skill Chip (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to untrained skill. <i>Requires Chipware Socket</i>.</dd>\n"; }
-					else				  { $o = "<dt>Skill Chip (for x2 cost Skills) (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(2,12).". +3 to untrained skill. <i>Requires Chipware Socket</i></dd>\n"; }
-				}
-				$out .= $o;
-				break;
-			case("Cyberlimb option"):
-				if ($tc[2] == 500) {
-					if 		($qual <= 14) { $o = "<dt>Big Knucks (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Medium melee weapon (2d6), can be installed on meat arm..</dd>\n"; }
-					elseif	($qual <= 29) { $o = "<dt>Grapple Hand (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Fires rocket propelled grappling hook with 30m range. Capacity 2x body weight..</dd>\n"; }
-					elseif	($qual <= 43) { $o = "<dt>Quick Change Mount (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(2,12).". Allows use of different cyberarms..</dd>\n"; }
-					elseif	($qual <= 57) { $o = "<dt>Scratchers (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,3).". Carbo-glass slanted artificial fingernails. Light melee weapon (1d6). Can be installed on meat arm..</dd>\n"; }
-					elseif	($qual <= 71) { $o = "<dt>Subdermal Grip (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Allows smartgun use. Can be installed on meat arm. Requires Neural Link and takes Neuralware option slot..</dd>\n"; }
-					elseif	($qual <= 86) { $o = "<dt>Tool Hand (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: ".rand(1,6).". Can be installed on meat arm..</dd>\n"; }
-					else				  { $o = "<dt>Plastic Covering (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Doesn't take a slot. Variety of colours and designs..</dd>\n"; }
-				}
-				else {
-					if 		($qual <= 5) { $o = "<dt>Cyberdeck (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Takes three option slots, give extra slot (Hard/Program).</dd>\n"; }
-					elseif	($qual <= 11) { $o = "<dt>Medscanner (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". +2 to First Aid and Paramedic. Takes 2 option slots.</dd>\n"; }
-					elseif	($qual <= 16) { $o = "<dt>Popup Grenade Launcher (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Takes 2 option slots.</dd>\n"; }
-					elseif	($qual <= 21) { $o = "<dt>Popup Melee Weapon (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Takes 2 option slots.</dd>\n"; }
-					elseif	($qual <= 26) { $o = "<dt>Popup Shield (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 3 option slots.</dd>\n"; }
-					elseif	($qual <= 31) { $o = "<dt>Popup Ranged Weapon (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 2 option slots.</dd>\n"; }
-					elseif	($qual <= 37) { $o = "<dt>Rippers (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Carbo-glass fingernails. Medium melee weapon (2d6). Can be installed on meat arm.</dd>\n"; }
-					elseif	($qual <= 42) { $o = "<dt>Shoulder Cam (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Requires 2 action slots.</dd>\n"; }
-					elseif	($qual <= 47) { $o = "<dt>Slice 'n Dice (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Monofilament whip in thumb. Medium melee weapon (2d6, 2 ROF). Can be installed on meat arm.</dd>\n"; }
-					elseif	($qual <= 53) { $o = "<dt>Techscanner (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Adds +2 to their Basic Tech, Cybertech, xTech. Requires 2 Option Slots.</dd>\n"; }
-					elseif	($qual <= 58) { $o = "<dt>Wolvers (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(2,12).". Extendable carbo-glass claws between knuckles. Heavy melee weapon (3d6, 2 ROF). Can be installed in meat arm.</dd>\n"; }
-					elseif	($qual <= 63) { $o = "<dt>Grip Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates movement penalty for climbing. Requires two cyberlegs.</dd>\n"; }
-					elseif	($qual <= 68) { $o = "<dt>Jump Booster (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates movement penalty when jumping. Requires two cyberlegs and takes 2 option slots.</dd>\n"; }
-					elseif	($qual <= 74) { $o = "<dt>Skate Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Inline skates, +6m when running. Requires two cyberlegs.</dd>\n"; }
-					elseif	($qual <= 79) { $o = "<dt>Talon Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Blade mounted in foot. Light melee weapon (1d6). Can be installed on meat leg.</dd>\n"; }
-					elseif	($qual <= 84) { $o = "<dt>Web Foot (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: ".rand(1,6).". Negates penalty when swimming. Requires two cyberlegs.</dd>\n"; }
-					elseif	($qual <= 89) { $o = "<dt>Hardened Shielding (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(1,6).". Protected from EMP, Microwaves or non-Black ICE program effects.</dd>\n"; }
-					elseif	($qual <= 95) { $o = "<dt>RealSkinn&trade; (".calc_cost(500, "Ex")."eb)</dt>\n<dd>HL: 0. Doesn't take a slot.</dd>\n"; }
-					else				  { $o = "<dt>SuperChrome&trade; (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: 0. Shiny. +2 Wardrobe and Style.</dd>\n"; }
-				}
-				$out .= $o;
-				break;
-			case("Fashionware"):
-				if 		($qual <= 14) { $o = "<dt>Biomonitor (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Contant pulse, temp, respiration, etc. on LED readout.</dd>\n"; }
-				elseif	($qual <= 29) { $o = "<dt>Chemskin (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Colour change, blemish hiding, reactive colours, give +2 Personal Grooming with TechHair.</dd>\n"; }
-				elseif	($qual <= 43) { $o = "<dt>EMP Threading (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Fashion statement shiny lines.</dd>\n"; }
-				elseif	($qual <= 57) { $o = "<dt>Light Tattoo (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Subdermal light emitting patches. 3 or more light tattoos give +2 Wardrobe and Style.</dd>\n"; }
-				elseif	($qual <= 71) { $o = "<dt>Shift Tacts (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Colour changing lenses.</dd>\n"; }
-				elseif	($qual <= 86) { $o = "<dt>SkinWatch (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Subdermal LED time readout.</dd>\n"; }
-				else				  { $o = "<dt>TechHair (".calc_cost(100, "Pr")."eb)</dt>\n<dd>HL: 0. Coloured-light emitting hair. Adds +2 Personal Grooming with Chemskin.</dd>\n"; }
-				$out .= $o;
-				break;
-			case("Borgware"):
-				if 		($qual <= 20) { $o = "<dt>Artificial Shoulder Mount (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Can mount 2 extra cyberarms.</dd>\n"; }
-				elseif	($qual <= 40) { $o = "<dt>Implanted &Sigma; Frame (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Enhanced skeleton, BODY to 12. Req. BODY > 5 and Muscle &amp; Bone Lace.</dd>\n"; }
-				elseif	($qual <= 60) { $o = "<dt>Implanted &beta; Frame (".calc_cost(5000, "Lx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Enhanced skeleton, BODY to 14. Req. BODY > 7 and Muscle &amp; Bone Lace..</dd>\n"; }
-				elseif	($qual <= 80) { $o = "<dt>MultiOptic Mount (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Can install up to 5 cybereyes (bought separately).</dd>\n"; }
-				else				  { $o = "<dt>Sensor Array (".calc_cost(1000, "Vx")."eb)</dt>\n<dd>HL: ".rand(4,24).". Antennae, allows additional 5 cyberaudio options.</dd>\n"; }
-				$out .= $o;
-				break;
-		
-		}
-		$money = calc_cost($tc[2], $tc[3]);
-		$out .= t(10)."<dt>".$tc[1]." (".$money."eb)</dt>\n";
-	}
-	return $out;
-}
-
-function night_market() {
-	$output = array();
-	$choice = array();
-
-	$categories = array("Food", "Gadgets", "Weapons", "Cyber", "Fashion", "Gear");
-
-	$num_categories = rand(1,4);
-	$num_categories == 1?$choice[0] = array_rand($categories, $num_categories):$choice = array_rand($categories, $num_categories);
-	$num_columns = 12/$num_categories;
-	$o = "";
-
-	foreach ($choice as $c) {
-		$o .= t(7)."<div class=\"col-".$num_columns."\">\n";
-		$o .= t(8)."<div class=\"card bg-nightmarket card-block\">\n";
-		$o .= t(9)."<div class=\"card-header text-center\">".$categories[$c]."</div>\n";
-		$o .= t(9)."<dl class=\"px-2\">\n";
-		switch($categories[$c]) {
-			case("Food"):
-				$o .= nm_food(); break;
-			case("Gadgets"):
-				$o .= nm_gadget(); break;
-			case("Fashion"):
-				$o .= nm_fashion(); break;
-			case("Gear"):
-				$o .= nm_gear(); break;
-			case("Weapons"):
-				$o .= nm_weapons(); break;
-			case("Cyber"):
-				$o .= nm_cyber(); break;
-		}
-		$o .= t(9)."</dl>\n";
-		$o .= t(8)."</div>\n";
-		$o .= t(7)."</div>\n";
-		array_push($output, $o);
-		$o = "";
-	}
-	
-	return $output;
-}
 ?>

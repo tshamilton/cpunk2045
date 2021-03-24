@@ -1,4 +1,5 @@
 <?php
+
 function gang() {
 	$gang = Array();
 
@@ -183,51 +184,9 @@ function gang() {
 	return $gang;
 }
 
-function law_and_order() {
-	$law_level = rand(1,10);
-	$supp_mod  = 0;
-
-	switch($law_level) {
-		case($law_level <= 6):	$law_type = "Uniformed"; break;
-		case($law_level <= 8):	$law_type = "Plainclothes"; $supp_mod + 1; break;
-		case($law_level == 9):	$law_type = "Tactical"; $supp_mod + 1; break;
-		default: 				$law_type = "Max-Tac"; $supp_mod + 2; break;
-	}
-	$law_dept = rand(1,10);
-	switch($law_dept) {
-		case($law_dept <= 4):	$law_department = "City or Corp Police"; break;
-		case($law_dept <= 6):	$law_department = "Corporate Security"; break;
-		case($law_dept <= 8):	$law_department = "Private Security Company"; break;
-		case($law_dept == 9):	$law_department = "Specialised Security Service (Bomb, Customs, Etc.)"; $supp_mod + 1; break;
-		default:				$law_department = "Major Law Enforcement (FBI/Interpol)"; $supp_mod + 1; break;
-	}
-	$law_response = rand(1,10);
-	switch($law_response) {
-		case($law_response <= 6):	$law_response = "Enough members present"; break;
-		case($law_response <= 9):	$law_response = "Getting out of hand, requesting backup"; break;
-		default:					$law_response = "Overwhelmed"; break;
-	}
-	$law_job = rand(1,10);
-	switch($law_job) {
-		case($law_job == 1):	$law_job = "Approaching, or have just arrested, suspect(s)"; break;
-		case($law_job <= 3):	$law_job = "Performing a street patrol, area or building search or conducting vehicle search"; break;
-		case($law_job == 4):	$law_job = "Conducting an operation - raid, stake out, goods seizure"; break;
-		case($law_job == 5):	$law_job = "Dealing with an apparent hostage situation or a suspect device"; break;
-		case($law_job <= 7):	$law_job = "Stopping citizens for questioning or performing stop-and-search operation"; break;
-		case($law_job <= 9):	$law_job = "In pursuit of suspect, either on foot or in vehicles"; break;
-		default:				$law_job = "Cordoning off the area (searching for suspect/securing a crime scene)"; break;
-	}
-	$law_backup = rand(1,10) +  $supp_mod;
-	switch($law_backup) {
-		case($law_backup <= 4):	$law_backup = rand(1,6)."x Support Drones - Cameras, Tasers, Flechette Weapons"; break;
-		case($law_backup <= 6):	$law_backup = rand(1,3)."x Uniformed Officers - ".rand(1,3)." Patrol Cars, Flak Jackets, SMGs/Shotguns"; break;
-		case($law_backup <= 8):	$law_backup = "SWAT Team - Heavy/Hard Armour, Combat Rifles, Augmented"; break;
-		case($law_backup == 9): $law_backup = "Heavy Support Remote - Teleoperated Walker, HMG and/or Missiles"; break;
-		default:				$law_backup = "Powered Armour Suit - Heavy Weapon, ECM, Grenade Launchers"; break;
-	}
-	$law_backup .= ". Available in ".rand(1,6)." minutes.";
-
-	return "<b>Police Presence</b>:<br/><p style='margin-left: 15px;'><b>Unit</b> - ".$law_type."<br/><b>Dept.</b> - ".$law_department."<br/><b>Control</b> - ".$law_response."<br/><b>Activity</b> - ".$law_job."<br/><b>Backup</b> - ".$law_backup."</p>";
+function nomadFam() {
+	$fams = Array("Aldecaldos", "Wraiths", "Snake Nation", "Jode Nation", "Blood Nation", "Meta", "Thelas Nation", "Folk Nation", "Raffen Shiv");
+	return $fams[array_rand($fams)];
 }
 
 function makeMission($what) {
@@ -732,7 +691,7 @@ function makeNPC($type = 'any', $title) {
 }
 
 function missionSelect() {
-	$plot = Array();
+	$plot = array();
 	$msn_a = "";
 	$msn_b = "";
 
@@ -753,7 +712,7 @@ function missionSelect() {
 		while ($msn_b == $msn_a || ($msn_b == "Double Trouble!")) {
 			$msn_b = $what[array_rand($what)];
 		}
-		$plot['B-Plot'][$msn_b] = Array();
+		$plot['B-Plot'][$msn_b] = array();
 	}
 
 	$plot['A-Plot'] = makeMission($msn_a);
@@ -764,100 +723,68 @@ function missionSelect() {
 	return $plot;
 }
 
-function nomadFam() {
-	$fams = Array("Aldecaldos", "Wraiths", "Snake Nation", "Jode Nation", "Blood Nation", "Meta", "Thelas Nation", "Folk Nation", "Raffen Shiv");
-	return $fams[array_rand($fams)];
+function law_and_order() {
+	$law_level = rand(1,10);
+	$supp_mod  = 0;
+
+	switch($law_level) {
+		case($law_level <= 6):	$law_type = "Uniformed"; break;
+		case($law_level <= 8):	$law_type = "Plainclothes"; $supp_mod + 1; break;
+		case($law_level == 9):	$law_type = "Tactical"; $supp_mod + 1; break;
+		default: 				$law_type = "Max-Tac"; $supp_mod + 2; break;
+	}
+	$law_dept = rand(1,10);
+	switch($law_dept) {
+		case($law_dept <= 4):	$law_department = "City or Corp Police"; break;
+		case($law_dept <= 6):	$law_department = "Corporate Security"; break;
+		case($law_dept <= 8):	$law_department = "Private Security Company"; break;
+		case($law_dept == 9):	$law_department = "Specialised Security Service (Bomb, Customs, Etc.)"; $supp_mod + 1; break;
+		default:				$law_department = "Major Law Enforcement (FBI/Interpol)"; $supp_mod + 1; break;
+	}
+	$law_response = rand(1,10);
+	switch($law_response) {
+		case($law_response <= 6):	$law_response = "Enough members present"; break;
+		case($law_response <= 9):	$law_response = "Getting out of hand, requesting backup"; break;
+		default:					$law_response = "Overwhelmed"; break;
+	}
+	$law_job = rand(1,10);
+	switch($law_job) {
+		case($law_job == 1):	$law_job = "Approaching, or have just arrested, suspect(s)"; break;
+		case($law_job <= 3):	$law_job = "Performing a street patrol, area or building search or conducting vehicle search"; break;
+		case($law_job == 4):	$law_job = "Conducting an operation - raid, stake out, goods seizure"; break;
+		case($law_job == 5):	$law_job = "Dealing with an apparent hostage situation or a suspect device"; break;
+		case($law_job <= 7):	$law_job = "Stopping citizens for questioning or performing stop-and-search operation"; break;
+		case($law_job <= 9):	$law_job = "In pursuit of suspect, either on foot or in vehicles"; break;
+		default:				$law_job = "Cordoning off the area (searching for suspect/securing a crime scene)"; break;
+	}
+	$law_backup = rand(1,10) +  $supp_mod;
+	switch($law_backup) {
+		case($law_backup <= 4):	$law_backup = rand(1,6)."x Support Drones - Cameras, Tasers, Flechette Weapons"; break;
+		case($law_backup <= 6):	$law_backup = rand(1,3)."x Uniformed Officers - ".rand(1,3)." Patrol Cars, Flak Jackets, SMGs/Shotguns"; break;
+		case($law_backup <= 8):	$law_backup = "SWAT Team - Heavy/Hard Armour, Combat Rifles, Augmented"; break;
+		case($law_backup == 9): $law_backup = "Heavy Support Remote - Teleoperated Walker, HMG and/or Missiles"; break;
+		default:				$law_backup = "Powered Armour Suit - Heavy Weapon, ECM, Grenade Launchers"; break;
+	}
+	$law_backup .= ". Available in ".rand(1,6)." minutes.";
+
+	return "<b>Police Presence</b>:<br/><p style='margin-left: 15px;'><b>Unit</b> - ".$law_type."<br/><b>Dept.</b> - ".$law_department."<br/><b>Control</b> - ".$law_response."<br/><b>Activity</b> - ".$law_job."<br/><b>Backup</b> - ".$law_backup."</p>";
 }
 
 function pickCorp($sector = 'any', $any_flag = 0) {
-	$industry = Array(
-		'Weaponry','Vehicles','Mercs','Construction',
-		'Heavy Industry','Retail','Cybernetics','Security','Bioengineering',
-		'Chemicals','Agriculture','Medicine','InfoTech','Mining',
-		'Power','Shipping','Finance','Legal','Comms',
-		'Espionage','Consumer','Media','Entertainment'
-	);
-	if ($sector == 'any') { $sector = $industry[array_rand($industry)]; $any_flag = 1; }
-	switch ($sector) {
-		case('Weaponry'):
-			$corps = Array('Arasaka','Aztechnology','Ellis-Itami','Kang Tao','Militech','Mitsubishi-Sugo','SegAtari','Tsunami Defense Systems','Zetatech');
-			break;
-		case('Vehicles'):
-			$corps = Array('Aztechnology','Ellis-Itami','Kang Tao','Militech','Mitsubishi-Sugo','Orbital Air','Sampao','Zetatech');
-			break;
-		case('Mercs'):
-			$corps = Array('Arasaka','Lazarus','Militech','RSVP','Trauma Team','Tsunami Defense Systems','Zetatech');
-			break;
-		case('Construction'):
-			$corps = Array('Al-Anwar','De Santo','Ellis-Itami','Fujiwara','International Electric (IEC)','Matsushira','Mitsubishi-Sugo','Orbital Air','SegAtari','SovOil','Tessier-Ashpool');
-			break;
-		case('Heavy Industry'):
-			$corps = Array('Al-Anwar','Akari Heavy Industries','Braun','De Santo','Fujiwara','International Electric (IEC)','Matsushira','Mitsubishi-Sugo','Orbital Air','Osprey','SovOil','Tessier-Ashpool');
-			break;
-		case('Retail'):
-			$corps = Array('Biotechnica','Cortex','Diktat','Diverse Media Systems','EBM','Kang Tao','Kiroshii','Meiji Sumitomo','Microtech','Modus','No-Lo-Go','Sampao','WorldSat Communications','Zetatech');
-			break;
-		case('Cybernetics'):
-			$corps = Array('Adrek Robotics','Akagi Systems Inc.','Akari Heavy Industries','Arasaka','Bakumatsu Chipmasters','Blume','Cortex','Cyphire Cyberware','Dakai Soundsystems','Diktat','Dynalar','EBM','International Electric (IEC)','Kang Tao','Kiroshii','Memorize','Raven Microcybernetics','Tsunami Defense Systems','Zetatech');
-			break;
-		case('Security'):
-			$corps = Array('Arasaka','Blume','Braun','De Santo','EBM','InfoComp','Kiroshii','Lazarus','Militech','Raven Microcybernetics','RSVP','SegAtari','Trauma Team','Tsunami Defense Systems','Zetatech');
-			break;
-		case('Bioengineering'):
-			$corps = Array('Akaromi BioCorp','Biotechnica','ConAg','Kiroshii','Maas Biolabs','Numan-Lloyd','Tessier-Ashpool','Tidis');
-			break;
-		case('Chemicals'):
-			$corps = Array('Al-Anwar','Biotechnica','ConAg','Maas Biolabs','Numan-Lloyd','Orbital Air','Petrochem','Sampao','Tidis');
-			break;
-		case('Agriculture'):
-			$corps = Array('Akaromi BioCorp','Biotechnica','ConAg','Kang Tao','Maas Biolabs','Numan-Lloyd','Petrochem');
-			break;
-		case('Medicine'):
-			$corps = Array('Akaromi BioCorp','Biotechnica','ConAg','Cortex','Cyphire Cyberware','Dynalar','Kiroshii','Maas Biolabs','Numan-Lloyd','R.E.O. Meatwagon','Tidis','Trauma Team');
-			break;
-		case('InfoTech'):
-			$corps = Array('Adrek Robotics','Akagi Systems Inc.','Akari Heavy Industries','Arasaka','Bakumatsu Chipmasters','Blume','Braun','Cortex','Dynalar','EBM','Horizon','International Electric (IEC)','Kiroshii','Maas Biolabs','Meiji Sumitomo','Memorize','Merill, Akusaga & Finch','Microtech','Modus','Raven Microcybernetics','Tessier-Ashpool','Tidis','Zetatech');
-			break;
-		case('Mining'):
-			$corps = Array('Al-Anwar','De Santo','Ellis-Itami','Kang Tao','Matsushira','Mitsubishi-Sugo','Osprey','Petrochem','SovOil');
-			break;
-		case('Power'):
-			$corps = Array('Al-Anwar','Arasaka','Aztechnology','Braun','Mitsubishi-Sugo','Osprey','Petrochem','SovOil','Tessier-Ashpool');
-			break;
-		case('Shipping'):
-			$corps = Array('ConAg','De Santo','Mitsubishi-Sugo','Orbital Air','Osprey','Petrochem','R.E.O. Meatwagon','Sampao','Tessier-Ashpool');
-			break;
-		case('Finance'):
-			$corps = Array('Adrek Robotics','Akari Heavy Industries','Arasaka','Braun','Cortex','EBM','Eurobank','Fujiwara','International Electric (IEC)','Meiji Sumitomo','Merill, Akusaga & Finch','Militech','Network 54','Tessier-Ashpool');
-			break;
-		case('Legal'):
-			$corps = Array('Adrek Robotics','Cortex','Eurobank','Lazarus','Meiji Sumitomo','Merill, Akusaga & Finch','Militech','Network 23','Network 54','Tessier-Ashpool');
-			break;
-		case('Comms'):
-			$corps = Array('Al-Anwar','Arasaka','Blume','EBM','Horizon','International Electric (IEC)','Microtech','WorldSat Communications');
-			break;
-		case('Espionage'):
-			$corps = Array('Arasaka','Aztechnology','Braun','Cortex','InfoComp','Kiroshii','Lazarus','Memorize','Merill, Akusaga & Finch','Militech','Network 23','Network 54','World News Network','Zetatech');
-			break;
-		case('Consumer'):
-			$corps = Array('Akaromi BioCorp','Arasaka','Aztechnology','Braun','ConAg','Cortex','Dakai Soundsystems','Diktat','Diverse Media Systems','Dynalar','EBM','Horizon','International Electric (IEC)','Kang Tao','Microtech','Modus','No-Lo-Go','Petrochem','Raven Microcybernetics','SegAtari','WorldSat Communications','Zetatech');
-			break;
-		case('Media'):
-			$corps = Array('Arasaka','Diktat','DMS','EBM','Horizon','International Electric','Kang Tao','Memorize','Militech','Modus','Network 23','Network 54','Nippon Network','World News Network');
-			break;
-		case('Entertainment'):
-			$corps = Array('Diktat','Diverse Media Systems','Horizon','Modus','Network 23','Network 54','Nippon Network','World News Network','WorldSat Communications');
-			break;
+	global $C;
+	
+	if ($sector == 'any') { 
+		$sector = $C['corp-industry'][array_rand($C['corp-industry'])];
+		$any_flag = 1;
 	}
+
 	if ($any_flag) {
 		$any_flag = 0;
-		$out = $sector."~".$corps[array_rand($corps)];
-		return $out;
+		return $sector."~".$C['corp-'.$sector][array_rand($C['corp-'.$sector])];
 	}
 	else {
-		return $corps[array_rand($corps)];
+		return $C['corp-'.$sector][array_rand($C['corp-'.$sector])];
 	}
 }
-
 
 ?>
