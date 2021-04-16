@@ -178,8 +178,7 @@ function gang() {
 
 	$text = "<b>Style:</b> ".$gang_style."<br/><b>Colours:</b> ".$gc."<br/><b>Age:</b> ".$gang_age."<br/><b>Size:</b> ".$gang_size."<br/><b>Turf:</b> ".$gang_turf."<br/><b>Influence:</b> ".$gang_influence.$extra;
 
-	$gang['Title'] = $gang_name;
-	$gang['Text'] = $text;
+	$E[$gang_name] = $text;
 	
 	return $gang;
 }

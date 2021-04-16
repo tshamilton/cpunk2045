@@ -179,6 +179,14 @@ $E["Market"]= night_market();
 							<p class='card-text p-2'><span style='padding-left: 0 px'><?php print $E["Environment"]["Sound"]; ?></span></p>
 							<div class='card-header text-center'>Sight</div>
 							<p class='card-text p-2'><span style='padding-left: 0 px'><?php print $E["Environment"]["Sight"]; ?></span></p>
+							<?php
+								foreach(array_keys($E["Environment"]) as $k) {
+									if ($k != "Sight" && $k != "Sound" && $k != "Smell") {
+										print t(7)."<div class='card-header text-center'>".$k."</div>\n";
+										print t(7)."<p class='card-text p-2'><span style='padding-left: 0 px'>".$E["Environment"][$k]."</span></p>\n";
+									}
+								}
+							?>
 						</div>
 					</div>
 				</div>
