@@ -1,5 +1,7 @@
 <?php
 function broken_tech() {
+	global $C;
+	
 	return $C["environment-brokenTech"][array_rand($C["environment-brokenTech"])];
 }
 

@@ -1,8 +1,10 @@
 <?php
 
-function gang() {
-	$gang = Array();
+use function PHPSTORM_META\map;
 
+function gang($who = '') {
+	$gang = Array();
+	/*pretty_var('Gang generator called.', '009900');*/
 	$gang_name_a = array(
 		'Cortical',		'Subway',		'Radical',		'Binary',		'Fragile',		'Hate',			'Electric',		'Mobile',
 		'Endgame',		'Bubblegum',	'Biological',	'Shaolin',		'Chrome',		'Polymer',		'Rudeboy',		'Terminal',
@@ -178,9 +180,19 @@ function gang() {
 
 	$text = "<b>Style:</b> ".$gang_style."<br/><b>Colours:</b> ".$gc."<br/><b>Age:</b> ".$gang_age."<br/><b>Size:</b> ".$gang_size."<br/><b>Turf:</b> ".$gang_turf."<br/><b>Influence:</b> ".$gang_influence.$extra;
 
-	$E[$gang_name] = $text;
+	if ($who == 'aux') {
+		/*pretty_var($who);*/
+		$E[$gang_name] = $text;
+		return $gang_name;
+	}
+	else {
+		/*pretty_var($who);*/
+		$g['Title'] = $gang_name;
+		$g['Text'] = $text;
+		/*pretty_var($g, '00aaff');*/
+		return $g;
+	}
 	
-	return $gang;
 }
 
 function nomadFam() {
@@ -188,41 +200,119 @@ function nomadFam() {
 	return $fams[array_rand($fams)];
 }
 
+function makeMission_Who($w ,&$plot) {
+	switch($w) {
+		case("Military Corp"):
+			$which = Array('Mercs', 'Security');
+			$w = "Military Corp (".pickCorp($which[array_rand($which)]).")";
+			break;
+		case("Biotech Corp"):
+			$which = Array("Bioengineering", "Chemicals", "Agriculture");
+			$w = "BioTech Corp (".pickCorp($which[array_rand($which)]).")";
+			break;
+		case("Booster Gang"):
+			$gang = gang('aux');
+			$w = "Gang (".$gang.")";
+			break;
+		case("Solo"):
+			list($k, $v) = makeNPC('solo', 'Involved Merc'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$solo = $match[1];
+			$w = "Merc (".$solo.")";
+			break;
+		case("Media(s)"):
+			list($k, $v) = makeNPC('media', 'Involved Journo'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$media = $match[1];
+			$w = "Media (".$media.")";
+			break;
+		case("Fixer"):
+			list($k, $v) = makeNPC('fixer', 'Involved Fixer'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$fixer = $match[1];
+			$w = "Fixer (".$fixer.")";
+			break;
+		case("Hacker"):
+			list($k, $v) = makeNPC('netrunner', 'Involved Hacker'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$nr = $match[1];
+			$w = "Hacker (".$nr.")";
+			break;
+		case("Rocker (or fans)"):
+			list($k, $v) = makeNPC('rocker', 'Involved Rocker'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$rocker = $match[1];
+			$w = "Rocker (".$rocker.")";
+			break;
+		case("Merc Outfit"):
+			if (rand(1,10) > 5) {	
+				$w = "Merc Outfit (".pickCorp('Mercs').")";
+			}
+			else {					
+				$w = "Merc Outfit (Non-Corp)";
+			}
+			break;
+		case("Nomad Family"):
+			$nmf = nomadFam();
+			$w = "The ".$nmf;
+			break;
+		case("Rogue Cops"):
+			list($k, $v) = makeNPC('cop', 'Rogue Cop'); $plot[$k] = $v;;
+			preg_match("/ - (.+)/", $k, $match);
+			$cop = $match[1];
+			$w = "Rogue Cop (".$cop.")";
+			break;
+	}
+
+	return $w;
+}
+
 function makeMission($what) {
+	global $E;
 	$plot = Array();
+	$actorA = ""; $actorB = "";
+	$locA = ""; $locB = "";
+	$thirdA = ""; $thirdB = "";
+	$sep = "&nbsp;&nbsp;&nbsp;&nbsp;<span style=\"font-weight: bold; color: #00dd00;\">&#167;</span>&nbsp;&nbsp;&nbsp;&nbsp;";
 
 	switch($what) {
 		case("A New Leaf"):
-			$involvement = array('The PCs are medias covering the story.'/*, 'The PCs work for Don Acapulco&#39;s rival.'*/);
+			$title = "A New Leaf?";
+			$involvement = array(
+				"The PCs work with a media who is covering the story.", 
+				"The PCs work for Don Emiliano&#39;s rival.", 
+				"The PCs are hired by Don Emiliano and the familia are NOT happy.",
+				"The PCs are hired by Don Emiliano, the familia seem to be washing their hands of him.",
+				"The PCs are hired by an old friend of the Don's. They're convinced he's up to something."
+			);
 			$inv = $involvement[array_rand($involvement)];
-			$text = "Big media story! Don Acapulco has declared he&#39;s going straight. Why? And if it&#39;s true, how come no-one appears to have taken his place at the head?<br/>".$inv;
-
-			$plot['Title'] = 'A New Leaf?';
-			$plot['Text'] = $text;
-
-			if ($inv == 'The PCs are medias covering the story.') { 
+			$body = "Big media story! Don Emiliano has declared he's going straight. Why? And if it's true, how come no-one appears to have taken his place at the head of the family?<br/>".$inv;
+			if ($inv == "The PCs work with a media who is covering the story.") { 
 				list($k, $v) = makeNPC('media', 'Journo is Suspicious');
 				$plot[$k] = $v;
 			}
+			$E["Ticker"]["Headlines"] = "Crime: Head of Emiliano family breaks ties, claims will 'go straight'".$sep.$E["Ticker"]["Headlines"];
 			break;
 		case("Ballroom Blitz"):
-			$plot['GangA'] = gang();
-			$plot['GangB'] = gang(); 
+			$title = "It's...It's A Ballroom Blitz";
+
+			$plot['GangA'] = gang(); /*pretty_var($plot['GangA'], 'ff3333');*/
+			$plot['GangB'] = gang(); /*pretty_var($plot['GangB'], 'ff3333');*/
+			$plot['Red Corner - '.$plot['GangA']['Title']] = $plot['GangA']['Text'];
+			$plot['Blue Corner - '.$plot['GangB']['Title']] = $plot['GangB']['Text']; 
 
 			$involvement = array(
-				'The PCs have a vested interest in one of the gangs.',
-				'The PCs have a vested interest in both of the gangs!',
-				'The PCs live in the zone where the battle takes place.'
+				"The PCs have a vested interest in one of the gangs.",
+				"The PCs have a vested interest in both of the gangs!",
+				"Someone important to the PCs lives in the zone where the fight will go down.",
+				"The PCs live in the zone where the battle takes place."
 			);
-			$text = "Two gangs (".$plot['GangA']['Title']." &amp; ".$plot['GangB']['Title'].") have decided enough is enough and are going to battle it out.<br/>".$involvement[array_rand($involvement)];
-
-			$plot['Red Corner - '.$plot['GangA']['Title']] = $plot['GangA']['Text']; unset($plot['GangA']);
-			$plot['Blue Corner - '.$plot['GangB']['Title']] = $plot['GangB']['Text']; unset($plot['GangB']);
-
-			$plot['Title'] = "Gang Fight";
-			$plot['Text'] = $text;
+			$body = "Two gangs (".$plot['GangA']['Title']." &amp; ".$plot['GangB']['Title'].") have decided enough is enough and are going to battle it out.<br/>".$involvement[array_rand($involvement)];
+			unset($plot['GangA']);unset($plot['GangB']);
 			break;
 		case("Blast From Your Past"):
+			$title = "A Blast From The Past";
+
 			$involvement = array(
 				'The Someone needs the PCs help.',
 				'The Someone wants vengeance on the PC for something (perceived or real).',
@@ -230,44 +320,54 @@ function makeMission($what) {
 				'The Someone is dead, killed by a common enemy. Is the PC next?',
 				'The PC owes it to the Someone to find out who killed them.'
 			);
-			$text = "Someone from the lifepath of one of the PCs turns up out of the blue and starts causing problems.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "A Blast From The Past";
-			$plot['Text'] = $text;
+			$body = "Someone from the lifepath of one of the PCs turns up out of the blue and starts causing problems.<br/>".$involvement[array_rand($involvement)];
 			break;
 		case("Celebrity Under Threat"):
-			$choice1 = Array('rocker', 'media');
+			$title = "The Price Of Fame";
+
+			$choice1 = Array('rocker', 'media'); /* Who is in trouble? */
 			list($k, $v) = makeNPC($choice1[array_rand($choice1)], 'The Famous'); $plot[$k] = $v;
 			preg_match("/ - (.+)/", $k, $match);
 			$name = $match[1];
 
-			$choice2 = Array('The PCs are hired as bodyguards.', 'One of the PCs knows who is behind the situation.', 'The PCs are covering the story.');
+			$choice2 = Array('The PCs are hired as bodyguards.', 'One of the PCs knows who is behind the threat.', 'The PCs are covering the story with a media.');
 			$inv = $choice2[array_rand($choice2)];
 
 			$choice3 = Array('being stalked', 'receiving death threats', 'in a contract dispute with their label/employer', 'an assassination target');
 			$what = $choice3[array_rand($choice3)];
 
+			if (preg_match("/dispute/", $what)) {
+				$E["Ticker"]["Headlines"] = "Media: Rumours persist that ".$name." will leave label at end of contract. ".$sep.$E["Ticker"]["Headlines"];
+			}
+			else {
+				$E["Ticker"]["Headlines"] = "Media: Agent denies any 'credible' threat to ".$name.". ".$sep.$E["Ticker"]["Headlines"];
+			}
+
 			if ($inv == 'The PCs are covering the story.') {
 				list($k, $v) = makeNPC('media', 'If Journo Required'); $plot[$k] = $v;
 			}
-			$text = "A major celebrity, ".$name.", is ".$what.".<br/>".$inv;
-			$plot['Title'] = 'Celebrity Under Threat';
-			$plot['Text'] = $text;
+			$body = "A major celebrity, ".$name.", is ".$what.".<br/>".$inv;
 			break;
 		case("Cleaning House"):
+			$title = "Clearing The Caseload";
+
 			$involvement = array(
-				'The PCs are the cops, or at least hired by them.', 
-				'The PCs are responsible for a list of unsolved crimes as long as your arm, funny how the cops would have such an accurate list.', 
-				'The PCs look like candidates to clear the backlog, whether they did it or not.',
-				'The new Chief of Police is from out of town, someone who doesn&#39;t understand how this city works.',
-				'The new Chief of Police is from out of town, they have an agenda that could mean a lot of trouble for everyone.'
+				"The PCs are the cops, or at least hired by them.", 
+				"The PCs are responsible for a list of unsolved crimes as long as your arm, funny how the cops would have such an accurate list.", 
+				"The PCs look like candidates to clear the backlog, whether they did it or not.",
+				"The new Chief of Police is from out of town, someone who doesn't understand how this city works.",
+				"The new Chief of Police is from out of town, they have an agenda that could mean a lot of trouble for everyone."
 			);
 			$inv = $involvement[array_rand($involvement)];
-			$text = "Bowing to public/political pressure, the Police undertake a massive effort to clean up. Long-forgotten misdemeanors are re-investigated. \"Arrangements\" suddenly cease to be effective. Favors are forgotten.<br/>".$inv;
-			$plot['Title'] = "Clearing The Caseload";
-			$plot['Text'] = $text;
+			if (preg_match("/Chief/", $inv)) {
+				$E["Ticker"]["Headlines"] = "Crime: New Police Chief promises crackdown on 'urban violence'.".$sep.$E["Ticker"]["Headlines"];
+			}
+			$body = "Bowing to public/political pressure after a public gaffe, the Police undertake a massive effort to clean up their backlog of cases for the sake of PR. Long-forgotten misdemeanors are re-investigated. \"Arrangements\" suddenly cease to be effective. Favors are forgotten.<br/>".$inv;
 			list($k, $v) = makeNPC('cop', 'Why Hello Officer'); $plot[$k] = $v;
 			break;
 		case("Extraction"):
+			$title = "Headhunter";
+
 			$roles = Array('tech', 'corp');
 			list($k, $v) = makeNPC($roles[array_rand($roles)], 'The Target'); $plot[$k] = $v;
 			preg_match("/ - (.+)/", $k, $match);
@@ -279,46 +379,60 @@ function makeMission($what) {
 			while($CorpB == $CorpA) { $CorpB = pickCorp($sector); }
 
 			$involvement = array(
-				'The PCs are the black ops team.',
+				'The PCs are hired by '.$CorpA.' as the black ops team.',
 				$name.' is a friend of one of the PCs',
 				'The PCs work for '.$CorpB,
-				$name.' is a digruntled employee and has incriminating documentation on '.$CorpB.', who is just as happy to see everyone involved dead.',
+				$name.' is a digruntled employee and has incriminating documentation on '.$CorpB.', who is happy to see everyone involved dead before the docs go public.',
 				'Imagine the PCs surprise when they discover that '.$name.' has no idea about this agreement. The rep from '.$CorpB.' might have overstated their willingness to jump ship.'
 			);
-			$text = "The team are approached by a rep from ".$CorpA.". They have decided that they want ".$name." (currently working for ".$CorpB.") to work for them instead. ".$CorpB." refuses to let them go, so ".$CorpA." is using a black ops team to kidnap, er, extract them.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Headhunter";
-			$plot['Text'] = $text;
+			$body = "The team are approached by a rep from ".$CorpA.". They have decided that they want ".$name." (currently working for ".$CorpB.") to work for them instead. ".$CorpB." refuses to let them go, so ".$CorpA." is using a black ops team to kidnap, er, extract them.<br/>".$involvement[array_rand($involvement)];
+			break;
+		case("Comedown"):
+			$title  = "Comedown";
+			$incident = Array(
+				'An AV was downed on the city outskirts, killing several people.',
+				'A helicopter was brought down in the middle of the city.',
+				'An AV was brought down in an industrial zone, slamming into a factory'
+			);
+			$involvement = Array(
+				'The PCs knew someone who died in the crash, and an acquaintance wants their death investigated.',
+				'Someone on board is not among the bodies. What happened to them, and why?',
+				'The vehicle was transporting important materials/prototype which has failed to appear in the wreckage.'
+			);
+			$body = $incident[array_rand($incident)]." The crash may be accidental, or the result of attack or sabotage. ".$involvement[array_rand($involvement)];
 			break;
 		case("Give Me Everything"):
+			$title = "Show Them, Show Them All";
+
 			$involvement = array(
 				'Madman threatens nuclear devastation.',
 				'Eco-guerrilla plans to unleash a bioplague.',
 				'Someone wants to kick off a war between two major gangs, nomad families, crime gangs or corps.'
 			);
-			$text = "Someone with too little sanity has found too much power...and only the PCs can stop him. Think James Bond.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Show Them, Show Them All";
-			$plot['Text'] = $text;
+			$body = "Someone with too little sanity has found too much power...and only the PCs can stop him. Think James Bond.<br/>".$involvement[array_rand($involvement)];
 			break;
 		case("Going Bust"):
+			$title = "Vultures Circling Overhead";
+
 			$involvement = array(
-				'It&#39;s the PCs main employer. They may need a little protection.',
-				'It&#39;s the PCs main employer. The soon-to-be-Ex CEO wants a little cover while they make a run for it with all the remaining assets.',
-				'It was the PCs actions that brought it down. A little revenge may be on their cards.',
-				'A fixer is arranging the removal of data/prototypes/assets while security is down.',
-				'A fixer is arranging an extraction before things get rough in the office.',
-				'Someone wants the company&#39;s demise investigated, a corporation-level whodunnit, if you will.'
+				"It's the PCs main employer. They may need a little protection as they might be considered expendible or worse, new assets.",
+				"It's the PCs main employer. The soon-to-be-Ex-CEO wants a little cover while they make a run for it with all the remaining assets.",
+				"It was the PCs actions that brought it down. A little revenge may be on their cards.",
+				"A fixer is arranging the removal of data/prototypes/assets while security is down.",
+				"A fixer is arranging an extraction before things get rough in the office.",
+				"Someone wants the company's demise investigated, a corporation-level whodunnit, if you will."
 			);
 			$inv = $involvement[array_rand($involvement)];
 			if ($inv == 'A fixer is arranging ') {
 				list($k, $v) = makeNPC('fixer', 'The Fixer'); $plot[$k] = $v;
 			}
+			$E["Ticker"]["Headlines"] = "Business: Asset-strippers circle around collapse of major company.".$sep.$E["Ticker"]["Headlines"];
 
-			$text = "A major Corp has gone into liquidation. Maybe this has been on the cards for a while, or perhaps it&#39;s entirely unexpected. Either way it&#39;s trouble.<br/>".$inv;
-			$plot['Title'] = "Vultures Overhead";
-			$plot['Text'] = $text;
+			$body = "A major Corp has gone into liquidation. Maybe this has been on the cards for a while, or perhaps it's entirely unexpected. Either way it's trouble.<br/>".$inv;
 			break;
 		case("Hacker Havoc"):
-			list($k, $v) = makeNPC('netrunner', 'Gremlin'); $plot[$k] = $v;
+			$title = "Hacker Havoc";
+			list($k, $v) = makeNPC('netrunner', 'The Gremlin'); $plot[$k] = $v;
 			$angle = Array(
 				"causing network strife, stealing their data, crashing their systems, etc.",
 				"messing with their automation, screwing with deliveries, disabling alarms, messing with credit accounts, etc.",
@@ -327,96 +441,101 @@ function makeMission($what) {
 			);
 			$involvement = Array(
 				"The PCs are hired by the main sufferer to find and eliminate the decker.",
-				"The PCs are hired by the main sufferer to find and eliminate the decker, however, the Netrunner is the aggreived party.",
-				"The PCs are the netrunner&#39;s target.",
-				"The PCs know the decker.",
-				"The PCs are hired to eliminate the netrunner and find out what&#39;s behind it all."
+				"The PCs are hired by a netrunner to find out who is behind it and why.",
+				"The PCs are the netrunner's target.",
+				"The PCs know the hacker.",
+				"The PCs are hired to eliminate the netrunner and find out what's behind it all."
 			);
-			$text = "A netrunner is causing disruption for someone. Specifically, they&#39;re ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Hacker Havoc";
-			$plot['Text'] = $text;
+			$body = "A netrunner is causing disruption for someone. Specifically, they're ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
 			break;
 		case("Media Circus"):
+			$title = "Media Circus";
+
 			list($k, $v) = makeNPC('media', 'Live &amp; Direct'); $plot[$k] = $v;
 			$involvement = array(
 				'The PCs are caught up in the event, but the media is the problem.',
-				'The PCs are involved in something completely irrelevant but highly sensitive, and there are too many media snooping around.',
+				'The PCs are involved in something completely irrelevant but highly sensitive, and there are too many medias snooping around.',
 				'The PCs are hired to protect the media while they investigate.',
-				'The PCs are hired by a rival company to make life hard for the media.',
+				'The PCs are hired by a rival company to make life hard for the media.'
 			);
 			$angle = array(
 				'A hip music scene emerges locally (cf. Manchester 1988 or Seattle 1991).',
 				'A personal appearance by a major celebrity.',
+				'Minor skirmishing in the city between two corps. No new Corp War, but enough to raise interest.',
 				'A new invention or major product (think new car or iPhone) has been launched.',
 				'A local civic disaster.'
 			);
-			$text = "Something is happening in the city that brings all the media buzzards in. ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Media Circus";
-			$plot['Text'] = $text;
+			$body = "Something is happening in the city that brings all the media buzzards in. ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
 			break;
 		case("Mob Handed"):
+			$title = "Mob Handed";
+
 			$mob = array('Mafia', 'Yakuza', 'Tong', 'crime');
-			$involvement = array('The PCs are cutting in on the Mob&#39;s business.', 'They insulted/killed someone the Mob holds in high regard.', 'They PCs could, of course, drop everything and assist them with a little business of theirs. That might help.');
-			$text = "A local ".$mob[array_rand($mob)]." syndicate have been slighted by the PCs, so they&#39;ve decided to make an example of them.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Mob Handed";
-			$plot['Text'] = $text;
+			$involvement = array(
+				"The PCs are cutting in on the Mob's business.", 
+				"They insulted/killed someone the Mob holds in high regard.", 
+				"They PCs could, of course, drop everything and assist them with a little business of theirs. That might help.");
+			$body = "A local ".$mob[array_rand($mob)]." syndicate have been slighted by the PCs, so they've decided to make an example of them.<br/>".$involvement[array_rand($involvement)];
 			break;
 		case("Old Flame"):
+			$title = "Old Flame Reignited";
 			$involvement = array(
-				'They&#39;re on the run from the law.',
-				'They&#39;re on the run from crime group/gang.',
-				'They&#39;re on the run from their former employer',
-				'Their new partner is a psycho. Thanks to them, they may have done something foolish.',
-				'The person they left you for, as forewarned, was a psycho. Was. Unfortunately, they had influential friends.',
-				'They want to use the PC for something (but of course won&#39;t tell them that).'
+				"They're on the run from the law.",
+				"They're on the run from crime group/gang.",
+				"They're on the run from their former employer",
+				"Their new partner is a psycho. Thanks to them, they may have done something foolish.",
+				"The person they left you for, as forewarned, was a psycho. Was. Unfortunately, they had influential friends.",
+				"They want to use the PC for something (but of course won't tell them that)."
 			);
 			$inv = $involvement[array_rand($involvement)];
-			if ($inv == 'They&#39;re on the run from their former employer') {
+			if ($inv == "They're on the run from their former employer") {
 				$co = pickCorp(); $c = explode("~", $co); $co = $c[1];
 				$inv .= ', '.$co.'.';
 			}
-			$text = "They just re-emerge, possibly while one of the PCs is in-flagrante with their new flame (never should have let them keep that keycard). That, or they come running when they&#39;re in big trouble. But hey, it&#39;s not like things can get worse, right?<br/>".$inv;
-			$plot['Title'] = "Old Flame";
-			$plot['Text'] = $text;
+			$body = "They just re-emerge, possibly while one of the PCs is in-flagrante with their new flame (never should have let them keep that keycard). That, or they come running when they're in big trouble. But hey, it's not like things can get worse, right?<br/>".$inv;
 			break;
 		case("The Outsider"):
+			$title = "The Outsider";
 			$who = array(
-				'A foreign diplomat stirring trouble, working that diplomatic immunity...',
-				'Someone from the PCs past with something to hold over their heads.',
-				'A goldenkid who wants to get in the PCs faces for LOLs and fame. Sure, you could blast them, but Daddy&#39;s got mercenaries on retainer.',
-				'A hotshot solo is stealing jobs from the PCs',
-				'New Chief of Police has made it clear that "agreements" with beat cops no longer exist.',
-				'The new gang boss doesn&#39;t recall agreeing anything with your PCs.'
+				"A foreign diplomat is stirring trouble, working that diplomatic immunity...",
+				"Someone from the PCs past with something to hold over their heads.",
+				"A goldenkid wants to tear the famous Night City up, partying shopping, being obnoxious, they hire the PCs as bodyguards.",
+				"A goldenkid who wants to get in the PCs faces for LOLs and fame. Sure, you could blast them, but Daddy's got mercenaries on retainer.",
+				"A hotshot solo is stealing jobs from the PCs",
+				"New Chief of Police has made it clear that 'agreements' with beat cops no longer exist.",
+				"The new gang boss doesn't recall agreeing anything with your PCs."
 			);
-			$text = "Someone has arrived in town who upsets the status quo.<br/>".$who[array_rand($who)];
-			$plot['Title'] = "The Outsider";
-			$plot['Text'] = $text;
+			$body = "Someone has arrived in town who upsets the status quo.<br/>".$who[array_rand($who)];
 			break;
-		case("Perfect Drug"):
+		case("The Perfect Drug"):
+			$title = "The Perfect Drug";
+
 			$sector = array('Medicine', 'Bioengineering', 'Chemicals');
 			$impact = Array(
-				'Once thought of as "safe" it has long term effects that are only just starting to be seen (think "Black Shakes" from the Johnny Mnemonic movie).',
-				'It&#39s part of a black ops public experiment by '.pickCorp($sector[array_rand($sector)]).'&#39;s pharmaceuticals division.',
-				'The comedown is causing short-term cyberpsychosis',
-				'One of the PCs is unaware they&#39;re addicted to it, having had a contact high with a user. Untreated addiction impacts are <i>BAD</i>.'
+				"Once thought of as 'safe' it has long term effects that are only just starting to be seen (think 'Black Shakes' from the Johnny Mnemonic movie).",
+				"It's part of a black ops public experiment by ".pickCorp($sector[array_rand($sector)])."'s pharmaceuticals division.",
+				"The comedown is causing short-term cyberpsychosis",
+				"One of the PCs is unaware they're addicted to it, having had a contact high with a user. Untreated addiction impacts are <i>BAD</i>."
 			);
 			$involvement = Array(
-				'The PCs are trying to curb its spread in their neighbourhood.',
-				'One of the PCs knows a fixer trying to sell (or get rid of) their stash before the heat gets turned up on its supply.',
-				'The cops need help to find the main supplier and cut them off.'
+				"The PCs are trying to curb its spread in their neighbourhood.",
+				"One of the PCs knows a fixer trying to sell (or get rid of) their stash before the heat gets turned up on its supply.",
+				"The cops need help to find the main supplier and cut them off."
 			);
 			$inv = $involvement[array_rand($involvement)];
-			if ($inv == 'One of the PCs knows a fixer trying to sell it before the heat gets turned up on its supply.') {
-				list($k, $v) = makeNPC('fixer', 'The Pusher'); $plot[$k] = $v;
+			if ($inv == "One of the PCs knows a fixer trying to sell it before the heat gets turned up on its supply.") {
+				list($k, $v) = makeNPC("fixer", "The Pusher"); $plot[$k] = $v;
 			}
-			if ($inv == 'The cops need help to find the main supplier and cut them off.') {
-				list($k, $v) = makeNPC('cop', 'Your Blue Contact'); $plot[$k] = $v;
+			if ($inv == "The cops need help to find the main supplier and cut them off.") {
+				list($k, $v) = makeNPC("cop", "Your Blue Contact"); $plot[$k] = $v;
 			}
-			$text = "A new drug has hit your neighbourhood. It has become so popular, it&#39;s supply has now become a MAJOR problem.<br/>".$impact[array_rand($impact)]."<br/>".$inv;
-			$plot['Title'] = "Perfect Drug";
-			$plot['Text'] = $text;
+			$body = "A new drug has hit your neighbourhood. It has become so popular, it's supply has now become a MAJOR problem.<br/>".$impact[array_rand($impact)]."<br/>".$inv;
+			$E["Ticker"]["Headlines"] = "Crime: NCPD look to fast track banning of new street drug.".$sep.$E["Ticker"]["Headlines"];
+
 			break;
 		case("Psycho Killer"):
+			$title = "Psycho Killer";
+
 			$involvement = array(
 				'The PCs are on the list.',
 				'The PCs are cops (or assisting cops) trying to catch him.',
@@ -430,38 +549,57 @@ function makeMission($what) {
 			if ($inv == 'The PCs are medias (or assisting a media) covering the story.') {
 				list($k, $v) = makeNPC('media', 'Journo'); $plot[$k] = $v;
 			}
-			$text = "Someone in the city is working their way through a list. The bodies are starting to pile up and it seems even the people of Night City can have fear put into them...<br/>".$inv;
-			$plot['Title'] = "Psycho Killer";
-			$plot['Text'] = $text;
+
+			$body = "Someone in the city is working their way through a list. The bodies are starting to pile up and it seems even the people of Night City can have fear put into them...<br/>".$inv;
+			$E["Ticker"]["Headlines"] = "Crime: New Night City Stalker? Bodies pile up with similar MO, NCPD silent.".$sep.$E["Ticker"]["Headlines"];
 			break;
 		case("Shut Up And Drive"):
+			$title = "Family Trouble";
+
 			$involvement = array('One of the PCs spurned (or accepted!) the amorous advances of the leader&#39;s son/daughter.', 'The PCs embarrassed a high-ranking member.', 'The PCs have initiated a project that the nomads oppose.');
-			$text = "Somehow the PCs have earned the wrath of a nomad family, the ".nomadFam().". They&#39;re coming to town to deal with you specifically.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Family Trouble";
-			$plot['Text'] = $text;
+			$body = "Somehow the PCs have earned the wrath of a nomad family, the ".nomadFam().". They&#39;re coming to town to deal with you specifically.<br/>".$involvement[array_rand($involvement)];
+
 			break;
 		case("Underbelly"):
+			$title = "Underbelly";
+
 			list($k, $v) = makeNPC('cop', 'Bad Cop'); $plot[$k] = $v;
 			$involvement = array(
 				'The PCs are one of the cops&#39; targets. They need to keep those KPIs up ya know.',
-				'The cops &#39;have an arrangement&#39; of the PCs and need a little something done off the books.',
+				'The cops &#39;have an arrangement&#39; with one of the PCs and need a little something done off the books.',
 				'The cops are going to blackmail the PCs into doing something that they don&#39;t want to be involved in.',
 				'The cops need someone to play crook for them while a ranking officer is in town to make them look good.'
 			);
-			$text = "Somewhere in the city are one or more rogue cops. They may have gone vigilante or (more likely) they&#39;re corrupt.<br/>".$involvement[array_rand($involvement)];
-			$plot['Title'] = "Underbelly";
-			$plot['Text'] = $text;
+			$body = "Somewhere in the city are one or more rogue cops. They may have gone vigilante or (more likely) they're corrupt.<br/>".$involvement[array_rand($involvement)];
+
+			break;
+		case("WhosSorryNow"):
+			$title = "Who's Sorry Now?";
+			$crim = Array(
+				'major gang leader',
+				'ranking leader in the Emiliano family',
+				'key Night City oyabun',
+				'leader of a major Tong crime gang'
+			);
+			$problem = Array(
+				'They are about to face trial. They have something on the PCs that they can trade in court.',
+				'Only, yeah, they escaped. Pulled strings, greased palms, gone. They have turned up wanting a meeting with the PCs.',
+				'Unfortunately, they were busted out while being transported from court to jail. They believe the PCs responsible for their arrest.',
+				'Somewhere between arraignment and remand, they were bumped off. Cops are investigating how, someone wants to know who ordered it.'
+			);
+			$body = "A ".$crim[array_rand($crim)]." is captured by the NCPD. ".$problem[array_rand($problem)]." Adventure Hooks: Maybe he has some dirt on the PCs, and is eager to sell them out to bargain in court.";
 			break;
 		case("Wishlist"):
+			$title = "Wishlist";
+
 			$involvement = Array('a brand new prototype ICEbreaker.','military-grade firearms','classified documents','details to a lost cache.');
 			$whoWants = Array('one or more of the PCs', 'a Fixer');
 			$who = $whoWants[array_rand($whoWants)];
-			$text = "Something valuable to ".$who." (specifically, ".$involvement[array_rand($involvement)].") becomes available, just not by legal means.";
+			$body = "Something valuable to ".$who." (specifically, ".$involvement[array_rand($involvement)].") becomes available, just not by legal means.";
 			if ($who == 'a Fixer') {
 				list($k, $v) = makeNPC('fixer', 'Mr Who'); $plot[$k] = $v;
 			}
-			$plot['Title'] = "Wishlist";
-			$plot['Text'] = $text;
+
 			break;
 	}
 
@@ -471,73 +609,21 @@ function makeMission($what) {
 		"Eco-guerrillas", "Nomad Family", "Police Force", "Rogue Cops", "Cyberpyscho",
 		"Rocker (or fans)", "Conspiracy Theorists", "Rogue Government Agents", "Double!"
 	);
+	$who = array(
+		"Solo", "Media(s)", "Fixer", "Hacker", "Rogue Cops", "Rocker (or fans)"
+	);
 	$actor = $who[array_rand($who)];
-	$actor = "Fixer";
-	while ($actor == "Double!") {
-		$actorA = $who[array_rand($who)];
-		$actorB = $who[array_rand($who)];
-		while ($actorA == "Double!") {	$actorA = $who[array_rand($who)]; }
-		while ($actorB == "Double!") {	$actorB = $who[array_rand($who)]; }
+
+	if ($actor == "Double!") {
+		while ($actorA == "Double!" || $actorA == "") {	$actorA = $who[array_rand($who)]; }
+		while ($actorB == "Double!" || $actorB == "") {	$actorB = $who[array_rand($who)]; }
+		$actorA = makeMission_Who($actorA, $plot);
+		$actorB = makeMission_Who($actorB, $plot);
 		$actor = $actorA." and ".$actorB;
 	}
-	if (preg_match("/Military Corp/", $actor)) {
-		$which = Array('Mercs', 'Security');
-		preg_replace("/Military Corp/", "Military Corp (".pickCorp($which[array_rand($which)]).")", $actor);
+	else {
+		$actor = makeMission_Who($actor, $plot);
 	}
-	if (preg_match("/Biotech Corp/", $actor)) {
-		$which = Array("Bioengineering", "Chemicals", "Agriculture");
-		preg_replace("/Biotech Corp/", "BioTech Corp (".pickCorp($which[array_rand($which)]).")", $actor);
-	}
-	if (preg_match("/Booster Gang/", $actor)) {
-		$gang = gang();
-		preg_replace("/Booster Gang/", "Gang (".$gang.")", $actor);
-	}
-	if (preg_match("/Solo/", $actor)) {
-		list($k, $v) = makeNPC('solo', 'Involved Merc'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$solo = $match[1];
-		preg_replace("/Solo/", "Merc (".$solo.")", $actor);
-	}
-	if (preg_match("/Media(s)/", $actor)) {
-		list($k, $v) = makeNPC('media', 'Involved Journo'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$media = $match[1];
-		preg_replace("/Media(s)/", "Media(s) (".$media.")", $actor);
-	}
-	if (preg_match("/Fixer/", $actor)) {
-		list($k, $v) = makeNPC('fixer', 'Involved Fixer'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$fixer = $match[1];
-		preg_replace("/Fixer/", "Fixer (".$fixer.")", $actor);
-	}
-	if (preg_match("/Hacker/", $actor)) {
-		list($k, $v) = makeNPC('netrunner', 'Involved Hacker'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$nr = $match[1];
-		preg_replace("/Hacker/", "Hacker (".$nr.")", $actor);
-	}
-	if (preg_match("/Rocker (or fans)/", $actor)) {
-		list($k, $v) = makeNPC('rocker', 'Involved Rocker'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$rocker = $match[1];
-		preg_replace("/Rocker/", "Rocker (".$rocker.")", $actor);
-	}
-	if (preg_match("/Merc Outfit/", $actor)) {
-		if (rand(1,10) > 5) {	preg_replace("/Merc Outfit/", "Merc Outfit (".pickCorp('Mercs').")", $actor); }
-		else {					preg_replace("/Merc Outfit/", "Merc Outfit (Non-Corp)", $actor); }
-	}
-	if (preg_match("/Nomad Family/", $actor)) {
-		$nmf = nomadFam();
-		preg_replace("/Nomad Family/", "The ".$nmf, $actor);
-	}
-	if (preg_match("/Rogue Cops/", $actor)) {
-		list($k, $v) = makeNPC('cop', 'Rogue Cop'); $plot[$k] = $v;;
-		preg_match("/ - (.+)/", $k, $match);
-		$cop = $match[1];
-		preg_replace("/Rogue Cops/", "Rogue Cop (".$cop.")", $actor);
-	}
-	$actor = "<b><i>Involved (Friends? Foes? A little of both?):</b></i> ".$actor;
-	$plot['Text'] .= "<br/>".$actor;
 
 	$where = array(
 		"Warehouse", "Corp Office", "Government Office", "Nightclub",
@@ -548,14 +634,10 @@ function makeMission($what) {
 	);
 	$location = $where[array_rand($where)];
 	if ($location == "Double!") {
-		$locA = $where[array_rand($where)];
-		$locB = $where[array_rand($where)];
-		while ($locA == "Double!") {	$locA = $where[array_rand($where)]; }
-		while ($locB == "Double!") {	$locB = $where[array_rand($where)]; }
+		while ($locA == "Double!" || $locA == "") {	$locA = $where[array_rand($where)]; }
+		while ($locB == "Double!" || $locB == "") {	$locB = $where[array_rand($where)]; }
 		$location = $locA." and ".$locB;
 	}
-	$location = "<b><i>Where it all comes down:</b></i> ".$location;
-	$plot['Text'] .= "<br/>".$location;
 
 	$real = array(
 		"Government cover-up", "Corp. extraction", "Corp takeover", "Bent cops",
@@ -566,14 +648,21 @@ function makeMission($what) {
 	);
 	$third = $real[array_rand($real)];
 	if ($third == "Double!") {
-		$thirdA = $real[array_rand($real)];
-		$thirdB = $real[array_rand($real)];
-		while ($thirdA == "Double!") {	$thirdA = $real[array_rand($real)];	}
-		while ($thirdB == "Double!") {	$thirdB = $real[array_rand($real)];	}
+		while ($thirdA == "Double!" || $thirdA == "") {	$thirdA = $real[array_rand($real)];	}
+		while ($thirdB == "Double!" || $thirdB == "") {	$thirdB = $real[array_rand($real)];	}
 		$third = $thirdA." and ".$thirdB;
 	}
-	$third = "<b><i>We discover it's really:</i></b> ".$third;
-	$plot['Text'] .= "<br/>".$third;
+
+	$body .= "<dl>\n";
+	$body .= "<dt class=\"fst-italic\">Involved (Friends? Foes? A little of both?):</dt>\n";
+	$body .= "<dd class=\"text-end\">".$actor."</dd>\n";
+	$body .= "<dt class=\"fst-italic\">Where it all comes down:</dt>\n";
+	$body .= "<dd class=\"text-end\">".$location."</dd>\n";
+	$body .= "<dt class=\"fst-italic\">We discover it's really:</dt>\n";
+	$body .= "<dd class=\"text-end\">".$third."</dd>\n";
+
+	$plot['Text'] = $body;
+	$plot['Title'] = $title;
 
 	return $plot;
 }
@@ -691,33 +780,48 @@ function makeNPC($type = 'any', $title) {
 
 function missionSelect() {
 	$plot = array();
-	$msn_a = "";
-	$msn_b = "";
+	$msn_a = "";	$msn_b = "";
+
+	/*pretty_var("mSelect Entry (".$msn_a."|".$msn_b.")");*/
 
 	$what = Array(
 		"A New Leaf", "Ballroom Blitz", "Blast From Your Past", "Celebrity Under Threat",
-		"Cleaning House", "Extraction", "Give Me Everything", "Going Bust", 
+		"Cleaning House", "Comedown", "Extraction", "Give Me Everything", "Going Bust", 
 		"Hacker Havoc", "Media Circus", "Mob Handed", "Old Flame", "The Outsider",
-		"Perfect Drug", "Psycho Killer", "Shut Up And Drive", "Underbelly",
+		"Perfect Drug", "Psycho Killer", "Shut Up And Drive", "Underbelly", "WhosSorryNow",
 		"Wishlist", "Double Trouble!"
 	);
-	
+
 	$msn_a = $what[array_rand($what)];
+	/*$msn_a = "Double Trouble!"; /* For testing DT mechanics, uncomment above line when done. */
+	/*$msn_a = "Ballroom Blitz"; /* For testing BB mechanics, uncomment above line when done. */
+	/*$msn_a = "A New Leaf"; /* For testing late headline adding via missions, uncomment above line when done. */
+	/*pretty_var("mSelect Set A-Plot (".$msn_a."|".$msn_b.")");*/
+
 	if ($msn_a == "Double Trouble!") {
+		/*pretty_var("mSelect It's 2x (".$msn_a."|".$msn_b.")");*/
 		while ($msn_a == "Double Trouble!") {
 			$msn_a = $what[array_rand($what)];
+			/*pretty_var("mSelect Re-roll Pl-A (".$msn_a."|".$msn_b.")");*/
 			$msn_b = $msn_a;
+			/*pretty_var("mSelect Preset Pl-B (".$msn_a."|".$msn_b.")");*/
+			while ($msn_b == $msn_a || ($msn_b == "Double Trouble!")) {
+				$msn_b = $what[array_rand($what)];
+				/*pretty_var("mSelect Roll Pl-B (".$msn_a."|".$msn_b.")");*/
+			}
 		}
-		while ($msn_b == $msn_a || ($msn_b == "Double Trouble!")) {
-			$msn_b = $what[array_rand($what)];
-		}
-		$plot['B-Plot'][$msn_b] = array();
+		/*pretty_var("mSelect Plots Set (".$msn_a."|".$msn_b.")");*/
+		$plot['B-Plot'] = Array();
+		$plot['B-Plot']['Title'] = $msn_b;
 	}
 
 	$plot['A-Plot'] = makeMission($msn_a);
+	/*pretty_var("mSelect Set Details Pl-A (".$msn_a."|".$msn_b.")");*/
 	if (key_exists('B-Plot', $plot)) {
+		/*pretty_var("mSelect Plots Set (".$msn_a."|".$msn_b.")");*/
 		$plot['B-Plot'] = makeMission($msn_b);
 		$plot['B-Plot']['Title'] = "Meanwhile, ".$plot['B-Plot']['Title'];
+		/*pretty_var("mSelect Set Details Pl-B (".$msn_a."|".$msn_b.")");*/
 	}
 	return $plot;
 }

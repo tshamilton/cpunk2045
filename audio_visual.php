@@ -49,27 +49,11 @@ function aug_reality() {
 }
 
 function big_screens($no_loop = 0) {
-	$contents = array(
-		'Time/Date/Weather/Lotto',
-		'Time/Date/Weather/Lotto brought to you by '.blipverts(1),
-		'Latest news headlines &amp; lottery results',
-		'Latest news headlines &amp; lottery results brought to you by '.blipverts(1),
-		'Video gaming event',
-		'eSports event sponsored by '.blipverts(1),
-		'Highlights from major sporting event',
-		'System error message/connection failure',
-		'Infomercial/Advertainment',
-		'Weather forecast/air quality stats',
-		'Weather forecast/air quality stats brought to you by '.blipverts(1),
-		'Pornography',
-		'Music videos or movie trailers',
-		'Traffic information',
-		'Traffic information brought to you by '.blipverts(1),
-		'Live feed of sporting event',
-		'Live feed of sporting event brought to you by '.blipverts(1),
-		'Broken',
-		'Split screens'
-	);
+	global $C;
+	$contents = $C["vidscreen-WhatsOn"][array_rand($C["vidscreen-WhatsOn"])];
+	if (preg_match("/ by/", $contents)) {
+		$contents .= blipverts();
+	}
 
 	$out = "<br/><b>On Screen</b><br/><p style='margin-left: 15px'>";
 
@@ -97,7 +81,7 @@ function big_screens($no_loop = 0) {
 	return $out;
 }
 
-function blipverts($sponsor = 0) { /* If sponsor == 1, then it only returns a randomly selected company name */
+function blipverts($sponsor = 0) { /* If sponsor == 1, then it only returns a randomly selected company name, else a full blipvert ad */
 	$blip_company = array(
 		'No-Lo-Go',
 		'Matsushira',
@@ -174,55 +158,149 @@ function blipverts($sponsor = 0) { /* If sponsor == 1, then it only returns a ra
 	}
 }
 
-function news_ticker() {
-	global $C;
-	$news = "";
-	$districts = array(
-		'New Westbrook (North)', 'Watson', 'Watson Projects', 'Little Europe',
-		'University District', 'South NC', 'The Glen', 'Old Combat Zone',
-		'Old Japan Town', 'Little China', 'Marina', 'Executive Zone',
-		'New Westbrook (South)', 'Heywood', 'Santo Domingo', 'Pacifica'
-	);
-	$body_count = array(
-		20,4,20,12,
-		6,10,10,50,
-		20,12,8,6,
-		20,20,50,20
-	);
-
-	$hls = array();
-	$hls = array_rand($C['ticker-headlines'], rand(3,6));
-	$headlines = array();
-	$sep = "&nbsp;&nbsp;&nbsp;&nbsp;<span style=\"font-weight: bold; color: #00dd00;\">&#167;</span>&nbsp;&nbsp;&nbsp;&nbsp;";
-	foreach($hls as $h) {
-		array_push($headlines, $C["ticker-headlines"][$h]);
+function newsTicker_Owner() {
+	$title = pickCorp('Media')." News";
+	if (rand(1,10) > 1) {
+		$nSponsor = pickCorp();
+		$nSponsor = pickCorp(); $nSponsor = explode("~", $nSponsor); $nSponsor = $nSponsor[1];
+		$title .= " brought to you by ".$nSponsor;
 	}
-	$news = join($headlines, $sep);
-	$news .= $sep;
+	return $title;
+}
 
-	$res = array();
+function newsTicker_BodyCountLotto() {
+	$districts = array(
+		'New Westbrook (North)~20', 'Watson~4', 'Watson Projects~20', 'Little Europe~12',
+		'University District~6', 'South NC~10', 'The Glen~10', 'Old Combat Zone~50',
+		'Old Japan Town~20', 'Little China~12', 'Marina~8', 'Executive Zone~4',
+		'New Westbrook (South)~20', 'Heywood~20', 'Santo Domingo~50', 'Pacifica~20'
+	);
+
+	$res = Array();
 	$prize = 0;
 	$c_districts = array_rand($districts, 5);
-	$sponsor = pickCorp(); $sponsor = explode("~", $sponsor); $sponsor = $sponsor[1];
-	$bc_lotto_results = "Body Count Lotto&trade; results brought to you by ".$sponsor." <span class=\"dot\"></span> ";
+	$bcSponsor = pickCorp(); $bcSponsor = explode("~", $bcSponsor); $bcSponsor = $bcSponsor[1];
+	$bc_lotto_results = "<span style=\"color: white\">Body Count Lotto&trade; results brought to you by ".$bcSponsor." <span class=\"dot\"></span></span> ";
 
 	foreach ($c_districts as $c) {
-		$bc = rand(0, $body_count[$c]);
-		$d = $districts[$c].": ".$bc;
+		list($dist, $bcm) = explode('~', $districts[$c]);
+		$bc = rand(0, $bcm);
+		$d = $dist.": ".$bc;
 		array_push($res, $d);
-		$prize += $bc * $body_count[$c];
+		$prize += $bc * $bcm;
 	}
+	$prize *= rand(1,5);
 
 	$bc_lotto_results .= join(" <span class=\"dot\"></span> ", $res);
 	$winners = rand(0,5);
-	if ($winners == 0) {		$bc_lotto_results .= "<span class=\"dot\"></span> <b>No winners</b>. Prize jackpots to ".$prize*rand(2,5)."eb."; }
-	elseif ($winners == 1) {	$bc_lotto_results .= "<span class=\"dot\"></span> <b>".$winners." winner</b>. Prize total: ".$prize."eb."; }
-	else {						$bc_lotto_results .= "<span class=\"dot\"></span> <b>".$winners." winners</b>. Prize total: ".$prize."eb."; }
-	$news .= $bc_lotto_results;
+	if 		($winners == 0) {	$bc_lotto_results .= "<span class=\"dot\"></span> <b>No winners</b>. Prize jackpots to ".$prize*rand(2,5)."eb."; }
+	elseif	($winners == 1) {	$bc_lotto_results .= "<span class=\"dot\"></span> <b>".$winners." winner</b>. Prize total: ".$prize."eb."; }
+	else 					{	$bc_lotto_results .= "<span class=\"dot\"></span> <b>".$winners." winners</b>. Prize total: ".$prize."eb."; }
 
-	return $news;
-
+	return $bc_lotto_results;
 }
 
+function newsTicker_Headlines() {
+	global $E;
+	$event = Array(
+		"RegionalNews", "GangViolence", "NomadPolitics", "NCNews", "Weather", "Media", "Sports", "OffWorld"
+	);
+
+	$headlineTopics = Array();
+	$sep = "&nbsp;&nbsp;&nbsp;&nbsp;<span style=\"font-weight: bold; color: #00dd00;\">&#167;</span>&nbsp;&nbsp;&nbsp;&nbsp;";
+	$num_headlines = rand(3,6);
+	while ($num_headlines) {
+		array_push($headlineTopics, $event[array_rand($event)]);
+		$num_headlines -= 1;
+	}
+
+	foreach ($headlineTopics as &$h) {
+		switch($h) {
+			case("RegionalNews"):
+				$w = Array(
+					"NUSA delegation threaten &quot;dire consequences&quot; after <b>reunification talks stall</b> with NC Council.",
+					"Agreement made between NC Council, SoCal Government on trade route reached.",
+					"Reclamation north of Watson hindered by &quot;Hippies and local troublemakers&quot; - Biotechnica.",
+					"<b>Body count rises to 225</b> found in pre-Crash, Baja-region shipping containers, part of &lsquo;30s trafficking racket.",
+					"<b>Cyberpsycho kills 3</b> on westbound off Hwy 81.",
+					"Texas Republic Gen. Walles warns of <b>border skirmishes</b> near Tijuana.",
+				);
+				$h = "NorthAm: ".$w[array_rand($w)];
+				break;
+			case("GangViolence"):
+				$w = Array(
+					"Night City PD <b>patrols strengthened in Santo Domingo</b> due to tensions between Valentinos and Maelstrom.",
+					"Tensions decline in Pacifica after retreat of Red Chrome Legion from area."
+				);
+				$h = "Gang News: ".$w[array_rand($w)];
+				break;
+			case("NomadPolitics"):
+				$w = Array(
+					"Aldecados deny involvement in <b>shootout on Hwy 102</b>.",
+					"'Raffen Shiv' blamed for <b>ambush on Jode Nation caravan</b>, leaving 15 civilians dead, 3 survivors.."
+				);
+				$h = "Nomad News: ".$w[array_rand($w)];
+				break;
+			case("NCNews"):
+				$w = Array(
+					"Councillor Piper says she will run on jobs, crime prevention platform in upcoming election.",
+					"Arasaka breaks ground on <b>permanent memorial and museum</b> for city center bombing.",
+					"<b>No fatalities in AV crash</b> on Pacifica outskirts. Pilot praised for quick thinking.",
+					"Mayor - <b>SMR virus &quot;not immediate threat&quot;</b> to Night City after flight closures from Europe."
+				);
+				$h = "Night City: ".$w[array_rand($w)];
+				break;
+			case("Weather"):
+				$w = Array(
+					"Meteo. Dept. warns of <b>intermittent red rain until next Monday</b>.",
+					"High winds off coast <b>preventing reconstruction efforts</b> in Pacifica.",
+					"NorCal factory run off blamed for recent acid rain incidents in North Westbrook."
+				);
+				$h = "Weather: ".$w[array_rand($w)];
+				break;
+			case("Media"):
+				$w = Array(
+					"New Variant Strain <b>album leaked to fans</b> after raid on DMS offices in Seattle.",
+					"Maria Mercurial reveals plans for <b>Pan-American tour in Fall</b> &quot;starting in Night City&quot;"
+				);
+				$h = "Media: ".$w[array_rand($w)];
+				break;
+			case("Sports"):
+				$w = Array(
+					"Night City FC full-back Djemir <b>sets transfer fee record</b> after move to Dallas.",
+					"Portland move to semi-finals after Houston disqualification.",
+					"NCBA and NCPD investigating Osaba-Braddock fight after unusual betting patterns, shooting."
+				);
+				$h = "Sport: ".$w[array_rand($w)];
+				break;
+			case("OffWorld"):
+				$w = Array(
+					"Crystal Palace <b>deny claims of interference</b> in recent Orbital Air takeover attempt.",
+					"Mars base matter of 'when', not 'if'. Aeral Avionics close to signing deal with Off World authorities."
+				);
+				$h = "Off-World: ".$w[array_rand($w)];
+				break;
+			case("Crime"):
+				$w = Array(
+					"NCPD warn of <b>toxic batch of Blue Glass</b> being sold in Heywood, surrounding areas",
+					"Sex worker violence on rise again, SW union <b>calls for increased protection</b>.",
+					"Four arrested, <b>riots suppressed in Santo Domingo</b> after Oasis stores price hike.",
+				);
+				$h = "Crime: ".$w[array_rand($w)];
+				break;
+			case("CorpNews"):
+				$w = Array(
+					"SovOil <b>stocks rise 3.2%</b> on opening of new CHOOH<sub>2</sub> processing plant near Vancouver"
+				);
+				$h = "Business: ".$w[array_rand($w)];
+				break;
+		}
+	}
+
+	$news = join($headlineTopics, $sep);
+	$news .= $sep.$E["Ticker"]["BodyCountLotto"];
+
+	return $news;
+}
 
 ?>
