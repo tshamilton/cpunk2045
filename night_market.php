@@ -2,16 +2,11 @@
 function calc_cost($base, $vari) {
 	$delta = 0;
 	switch($vari) {
-		case ("Ch"):
-			$delta = 50; break;
-		case ("Ev"):
-			$delta = 25; break;
-		case ("Co"):
-			$delta = 20; break;
-		case ("Pr"):
-			$delta = 15; break;
-		default:
-			$delta = 10; break;
+		case ("Ch"):	$delta = 50; break;
+		case ("Ev"):	$delta = 25; break;
+		case ("Co"):	$delta = 20; break;
+		case ("Pr"):	$delta = 15; break;
+		default:		$delta = 10; break;
 	}
 	return round($base + (((rand(0,$delta*2) - $delta)/100)*$base));
 }
@@ -75,60 +70,33 @@ function choose_programs($budget) {
 	}
 	foreach($on_offer as $x) {
 		switch($x) {
-			case("Eraser"):
-				$out .= t(10)."<dt>Eraser (20eb)</dt>\n".t(10)."<dd>Booster. Increases Cloak checks by 2.</dd>\n"; break;
-			case("See Ya"):
-				$out .= t(10)."<dt>See Ya (20eb)</dt>\n".t(10)."<dd>Booster. Increases Pathfinder checks by 2.</dd>\n"; break;
-			case("Speedy Gonzalvez"):
-				$out .= t(10)."<dt>Speedy Gonzalvez (100eb)</dt>\n".t(10)."<dd>Booster. Increases Speed by 2.</dd>\n"; break;
-			case("Worm"):
-				$out .= t(10)."<dt>Worm (50eb)</dt>\n".t(10)."<dd>Booster. Increases Backdoor checks by 2.</dd>\n"; break;
-			case("Armor"):
-				$out .= t(10)."<dt>Armor (50eb)</dt>\n".t(10)."<dd>Defender. Lowers physical damage by 4.</dd>\n"; break;
-			case("Flak"):
-				$out .= t(10)."<dt>Flak (50eb)</dt>\n".t(10)."<dd>Defender. Reduces all non-Black ICE ATK scores to 0.</dd>\n"; break;
-			case("Shield"):
-				$out .= t(10)."<dt>Shield (20eb)</dt>\n".t(10)."<dd>Defender. Absorbs 1st successful physical damage from non-Black ICE before derezzing.</dd>\n"; break;
-			case("Banhammer"):
-				$out .= t(10)."<dt>Banhammer (50eb)</dt>\n".t(10)."<dd>Attacker. 3d6 to non-Black ICE, 2d6 to Black ICE.</dd>\n"; break;
-			case("Sword"):
-				$out .= t(10)."<dt>Sword (50eb)</dt>\n".t(10)."<dd>Attacker. 3d6 to Black ICE, 2d6 to non-Black ICE.</dd>\n"; break;
-			case("DeckKRASH"):
-				$out .= t(10)."<dt>DeckKRASH (100eb)</dt>\n".t(10)."<dd>Attacker. Ejects target from the Net, getting hit by all extant architectural Black ICE on the way back out.</dd>\n"; break;
-			case("Hellbolt"):
-				$out .= t(10)."<dt>Hellbolt (100eb)</dt>\n".t(10)."<dd>Attacker. 2d6 physical damage to target. 2 dmg/rnd to deck.</dd>\n"; break;
-			case("Nervescrub"):
-				$out .= t(10)."<dt>Nervescrub (100eb)</dt>\n".t(10)."<dd>Attacker. Target's INT, DEX and REF lowered by 1d6 (min. 1) for an hour.</dd>\n"; break;
-			case("Poison Flatline"):
-				$out .= t(10)."<dt>Poison Flatline (100eb)</dt>\n".t(10)."<dd>Attacker. Destroys a random non-Black ICE program on the target's deck.</dd>\n"; break;
-			case("Superglue"):
-				$out .= t(10)."<dt>Superglue (100eb)</dt>\n".t(10)."<dd>Attacker. Target netrunner cannot proceed further into the architecture for 1d6 rounds. Can only perform unsafe JackOut.</dd>\n"; break;
-			case("Vrizzbolt"):
-				$out .= t(10)."<dt>Vrizzbolt (50eb)</dt>\n".t(10)."<dd>Attacker. 1d6 physical damage. Reduces NET actions for target's next turn by 1 (min. 2).</dd>\n"; break;
-			case("Asp"):
-				$out .= t(10)."<dt>Asp (100eb)</dt>\n".t(10)."<dd>Black ICE. Destroys a single random program on target deck.</dd>\n"; break;
-			case("Giant"):
-				$out .= t(10)."<dt>Giant (1000eb)</dt>\n".t(10)."<dd>Black ICE. 3d6 physical damage to target. Forcibly JackedOut, get hit by all extant architectural Black ICE on the way back out.</dd>\n"; break;
-			case("Hellhound"):
-				$out .= t(10)."<dt>Hellhound (500eb)</dt>\n".t(10)."<dd>Black ICE. 2d6 physical damage plus 2 hp burning/round until meatspace fire is put out.</dd>\n"; break;
-			case("Kraken"):
-				$out .= t(10)."<dt>Kraken (1000eb)</dt>\n".t(10)."<dd>Black ICE. 3d6 physical damage. Target netrunner cannot proceed further into the architecture for 1d6 rounds. Can only perform unsafe JackOut.</dd>\n"; break;
-			case("Liche"):
-				$out .= t(10)."<dt>Liche (500eb)</dt>\n".t(10)."<dd>Black ICE. Target's INT, DEX and REF lowered by 1d6 (min. 1) for an hour.</dd>\n"; break;
-			case("Raven"):
-				$out .= t(10)."<dt>Raven (50eb)</dt>\n".t(10)."<dd>Black ICE. Derezzes random Defender program then deals 1d6 physical damage.</dd>\n"; break;
-			case("Scorpion"):
-				$out .= t(10)."<dt>Scorpion (100eb)</dt>\n".t(10)."<dd>Black ICE. Reduces target's MOVE by 1d6 for next hour.</dd>\n"; break;
-			case("Skunk"):
-				$out .= t(10)."<dt>Skunk (500eb)</dt>\n".t(10)."<dd>Black ICE. While Rezzed, target Netrunners take -3 penalty to Slide checks.</dd>\n"; break;
-			case("Wisp"):
-				$out .= t(10)."<dt>Wisp (50eb)</dt>\n".t(10)."<dd>Black ICE. 1d6 physical damage. Reduces NET actions for target's next turn by 1 (min. 2).</dd>\n"; break;
-			case("Dragon"):
-				$out .= t(10)."<dt>Dragon (1000eb)</dt>\n".t(10)."<dd>Black ICE. 6d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
-			case("Killer"):
-				$out .= t(10)."<dt>Killer (500eb)</dt>\n".t(10)."<dd>Black ICE. 4d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
-			case("Sabretooth"):
-				$out .= t(10)."<dt>Sabretooth (1000eb)</dt>\n".t(10)."<dd>Black ICE. 6d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
+			case("Armor"):				$out .= t(10)."<dt>Armor (50eb)</dt>\n".t(10)."<dd>Defender. Lowers physical damage by 4.</dd>\n"; break;
+			case("Asp"):				$out .= t(10)."<dt>Asp (100eb)</dt>\n".t(10)."<dd>Black ICE. Destroys a single random program on target deck.</dd>\n"; break;
+			case("Banhammer"):			$out .= t(10)."<dt>Banhammer (50eb)</dt>\n".t(10)."<dd>Attacker. 3d6 to non-Black ICE, 2d6 to Black ICE.</dd>\n"; break;
+			case("DeckKRASH"):			$out .= t(10)."<dt>DeckKRASH (100eb)</dt>\n".t(10)."<dd>Attacker. Ejects target from the Net, getting hit by all extant architectural Black ICE on the way back out.</dd>\n"; break;
+			case("Dragon"):				$out .= t(10)."<dt>Dragon (1000eb)</dt>\n".t(10)."<dd>Black ICE. 6d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
+			case("Eraser"):				$out .= t(10)."<dt>Eraser (20eb)</dt>\n".t(10)."<dd>Booster. Increases Cloak checks by 2.</dd>\n"; break;
+			case("Flak"):				$out .= t(10)."<dt>Flak (50eb)</dt>\n".t(10)."<dd>Defender. Reduces all non-Black ICE ATK scores to 0.</dd>\n"; break;
+			case("Giant"):				$out .= t(10)."<dt>Giant (1000eb)</dt>\n".t(10)."<dd>Black ICE. 3d6 physical damage to target. Forcibly JackedOut, get hit by all extant architectural Black ICE on the way back out.</dd>\n"; break;
+			case("Hellbolt"):			$out .= t(10)."<dt>Hellbolt (100eb)</dt>\n".t(10)."<dd>Attacker. 2d6 physical damage to target. 2 dmg/rnd to deck.</dd>\n"; break;
+			case("Hellhound"):			$out .= t(10)."<dt>Hellhound (500eb)</dt>\n".t(10)."<dd>Black ICE. 2d6 physical damage plus 2 hp burning/round until meatspace fire is put out.</dd>\n"; break;
+			case("Killer"):				$out .= t(10)."<dt>Killer (500eb)</dt>\n".t(10)."<dd>Black ICE. 4d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
+			case("Kraken"):				$out .= t(10)."<dt>Kraken (1000eb)</dt>\n".t(10)."<dd>Black ICE. 3d6 physical damage. Target netrunner cannot proceed further into the architecture for 1d6 rounds. Can only perform unsafe JackOut.</dd>\n"; break;
+			case("Liche"):				$out .= t(10)."<dt>Liche (500eb)</dt>\n".t(10)."<dd>Black ICE. Target's INT, DEX and REF lowered by 1d6 (min. 1) for an hour.</dd>\n"; break;
+			case("Nervescrub"):			$out .= t(10)."<dt>Nervescrub (100eb)</dt>\n".t(10)."<dd>Attacker. Target's INT, DEX and REF lowered by 1d6 (min. 1) for an hour.</dd>\n"; break;
+			case("Poison Flatline"):	$out .= t(10)."<dt>Poison Flatline (100eb)</dt>\n".t(10)."<dd>Attacker. Destroys a random non-Black ICE program on the target's deck.</dd>\n"; break;
+			case("Raven"):				$out .= t(10)."<dt>Raven (50eb)</dt>\n".t(10)."<dd>Black ICE. Derezzes random Defender program then deals 1d6 physical damage.</dd>\n"; break;
+			case("Sabretooth"):			$out .= t(10)."<dt>Sabretooth (1000eb)</dt>\n".t(10)."<dd>Black ICE. 6d6 damage. If this is enough to Derezz the program, it is Destroyed.</dd>\n"; break;
+			case("Scorpion"):			$out .= t(10)."<dt>Scorpion (100eb)</dt>\n".t(10)."<dd>Black ICE. Reduces target's MOVE by 1d6 for next hour.</dd>\n"; break;
+			case("See Ya"):				$out .= t(10)."<dt>See Ya (20eb)</dt>\n".t(10)."<dd>Booster. Increases Pathfinder checks by 2.</dd>\n"; break;
+			case("Shield"):				$out .= t(10)."<dt>Shield (20eb)</dt>\n".t(10)."<dd>Defender. Absorbs 1st successful physical damage from non-Black ICE before derezzing.</dd>\n"; break;
+			case("Skunk"):				$out .= t(10)."<dt>Skunk (500eb)</dt>\n".t(10)."<dd>Black ICE. While Rezzed, target Netrunners take -3 penalty to Slide checks.</dd>\n"; break;
+			case("Speedy Gonzalvez"):	$out .= t(10)."<dt>Speedy Gonzalvez (100eb)</dt>\n".t(10)."<dd>Booster. Increases Speed by 2.</dd>\n"; break;
+			case("Superglue"):			$out .= t(10)."<dt>Superglue (100eb)</dt>\n".t(10)."<dd>Attacker. Target netrunner cannot proceed further into the architecture for 1d6 rounds. Can only perform unsafe JackOut.</dd>\n"; break;
+			case("Sword"):				$out .= t(10)."<dt>Sword (50eb)</dt>\n".t(10)."<dd>Attacker. 3d6 to Black ICE, 2d6 to non-Black ICE.</dd>\n"; break;
+			case("Vrizzbolt"):			$out .= t(10)."<dt>Vrizzbolt (50eb)</dt>\n".t(10)."<dd>Attacker. 1d6 physical damage. Reduces NET actions for target's next turn by 1 (min. 2).</dd>\n"; break;
+			case("Wisp"):				$out .= t(10)."<dt>Wisp (50eb)</dt>\n".t(10)."<dd>Black ICE. 1d6 physical damage. Reduces NET actions for target's next turn by 1 (min. 2).</dd>\n"; break;
+			case("Worm"):				$out .= t(10)."<dt>Worm (50eb)</dt>\n".t(10)."<dd>Booster. Increases Backdoor checks by 2.</dd>\n"; break;
 		}
 	}
 	return $out;
@@ -151,18 +119,12 @@ function night_market() {
 		$o .= t(9)."<div class=\"card-header text-center\">".$categories[$c]."</div>\n";
 		$o .= t(9)."<dl class=\"px-2\">\n";
 		switch($categories[$c]) {
-			case("Food"):
-				$o .= nm_food(); break;
-			case("Gadgets"):
-				$o .= nm_gadget(); break;
-			case("Fashion"):
-				$o .= nm_fashion(); break;
-			case("Gear"):
-				$o .= nm_gear(); break;
-			case("Weapons"):
-				$o .= nm_weapons(); break;
-			case("Cyber"):
-				$o .= nm_cyber(); break;
+			case("Food"):		$o .= nm_food(); break;
+			case("Gadgets"):	$o .= nm_gadget(); break;
+			case("Fashion"):	$o .= nm_fashion(); break;
+			case("Gear"):		$o .= nm_gear(); break;
+			case("Weapons"):	$o .= nm_weapons(); break;
+			case("Cyber"):		$o .= nm_cyber(); break;
 		}
 		$o .= t(9)."</dl>\n";
 		$o .= t(8)."</div>\n";
@@ -196,7 +158,7 @@ function nm_cyber() {
 		"Cyberlimb option, 1000(Vx)",
 		"Cyberlimb option, 500(Ex)",
 		"Fashionware, 100(Pr)",
-		"Borgware, 1000(Vx)",
+		"Borgware, 1000(Vx)"
 	);
 	if ($count == 1) { $this_cyber[0] = array_rand($cyber); } else { $this_cyber = array_rand($cyber, $count); }
 	foreach ($this_cyber as $c) {

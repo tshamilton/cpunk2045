@@ -144,7 +144,11 @@ function smells($count = 0) {
 	global $C;
 
 	(rand(1,100) >= 85) ? $count = 2 : $count = 1;
+	/*$strength = Array('Vague', 'Lingering', 'Faint', 'Strong', 'Overpowering');
+	$direction = Array('north', 'south', 'east', 'west', 'northwest', 'northeast', 'southeast', 'southwest', 'the below');
+	$b_text .= "<br/>".$strength[array_rand($strength)]." smell of ".smells()." coming from";
 
+	$rval = $strength[array_rand($strength)]." smell of "*/
 	if ($count == 1) {
 		return $C["environment-smells"][array_rand($C["environment-smells"])];
 	}

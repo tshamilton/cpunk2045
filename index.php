@@ -43,6 +43,7 @@ $E["Ticker"] = Array();
 
 $E["Ticker"]["Title"] = newsTicker_Owner();
 $E["Ticker"]["BodyCountLotto"] = newsTicker_BodyCountLotto();
+$E["Ticker"]["Weather"] = newsTicker_Weather();
 $E["Ticker"]["Headlines"] = newsTicker_Headlines();
 
 $E["Environment"]["Sight"] = sights();
@@ -278,6 +279,9 @@ $E["Market"]= night_market();
 						<dd><i>Augmented Reality</i> and <i>Augmented Reality PLUS</i> by Geist Hack Games.</dd>
 						<dt>Additional Video Feeds</dt>
 						<dd><i>100 Vid Feeds</i> by Fishwife Games</dd>
+						<dt>Weather Generation</dt>
+						<dd><i>30 Kinds of Weather In Cyber City</i> by d10 Dimensions</dd>
+						<dd><i>Empire Weather</i> by Dave Graffam, via the Winds of Chaos blog.</dd>
 					</dl>
 				</div>
 				<div class="modal-footer">

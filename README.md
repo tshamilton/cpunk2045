@@ -3,9 +3,4 @@ Environment and Mission generator
 
 Acknowledgements:
 The following were the basis for, sources of, or inspiration for the contents of this tool: 
-* Augmented City environment generator
-* Anthony Johnson's mission generator
-* Melissa Wong's 20 Things PDF which can be found in various places. I found them at the Cyberpunk Red subreddit.
-* Cyberpunk 2077 - The Video Game by CD Projekt Red
-* Cyberpunk Red - The Tabletop RPG, which is kinda obvious but felt it was worth including.
-* Various older Shadowrun, Cyberpunk 2020 and sci-fi texts. If a name seems familiar, it probably is.
+Some sources were used as a basis for this sight (with additions and modifications I've made based on house rules, additional ideas, etc.). For a complete list of sources, see the sources info bar at the bottom of the page.

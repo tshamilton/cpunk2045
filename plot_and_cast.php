@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\map;
-
 function gang($who = '') {
 	$gang = Array();
 	/*pretty_var('Gang generator called.', '009900');*/
@@ -365,6 +363,29 @@ function makeMission($what) {
 			$body = "Bowing to public/political pressure after a public gaffe, the Police undertake a massive effort to clean up their backlog of cases for the sake of PR. Long-forgotten misdemeanors are re-investigated. \"Arrangements\" suddenly cease to be effective. Favors are forgotten.<br/>".$inv;
 			list($k, $v) = makeNPC('cop', 'Why Hello Officer'); $plot[$k] = $v;
 			break;
+		case("Darkness Falls"):
+			$title = "Darkness Falls";
+
+			$involvement = Array(
+				"The PCs need to get out of the neighborhood before they're caught in a full blown riot.",
+				"The local power substation has been damaged, mostly thanks to another crew trying to hit a bank. It might be easy for cops to just start hunting freelancers in the neighborhood unless something is done.",
+				"An old enemy has been planning this assassination attempt for a little while now, right up to coaxing the crew into this neighborhood. It's a trap!"
+			);
+			$inv = $involvement[array_rand($involvement)];
+			$body = "The team are passing through a neighborhood they don't usually visit when the lights go out. All of them. For several city blocks. Some areas are plunged into darkness, others are lit purely by car headlights and agents. ".$inv;
+			break;
+		case("Election Day"):
+			$title = "Election Day";
+
+			$involvement = Array(
+				"The contact is a rep for a decent politician (insofaras ...yada), the target shouldn't be difficult to get the info on, it's just a matter of doing it discreetly.",
+				"The contact claims to be a rep for the decent politician (insofaras... yada), the target dirt won't be hard to find, it'll be the media ambush that follows that will be tough.",
+				"The contact claims to be a rep for the decent politician (insofaras... yada), the target dirt won't be hard to find, the following media ambush is poorly planned but this fixer knows the best hidden mistakes are buried.",
+				"The contact is clearly is corrupt as the poli they represent. Getting the dirt isn't hard, until the party are caught by the target poli's fixer. A counter offer is made."
+			);
+			$inv = $involvement[array_rand($involvement)];
+			$body = "The mayoral election campaigns are underway. The vitriol between the three main contenders is enough that most fixers have backed off from anything obviously political since no amount of money covers having an enemy in city hall. As it is, one of the PCs is contacted directly by someone claiming to represent one of the main runners. They want someone to dig up dirt on their rival. ";
+			break;
 		case("Extraction"):
 			$title = "Headhunter";
 
@@ -677,7 +698,8 @@ function makeNPC($type = 'any', $title) {
 		case('nomad'):
 			$whoList = array(
 				'Xiaolajiao - Xiaolajiao, or "Little Chili Pepper", is one of Night City&#39;s best couriers. You want to get it somewhere, she&#39;ll get it there. She&#39;s fast, reliable, and uses a combination of an ultralight folding bicycle and parkour to cut through the city&#39;s architecture. Xiaolajiao has ties to the sea Nomads out in Flotsam, having been dropped off by a people-smuggler ten years ago, as a starving child whose dead parents got dumped overboard. The staff at The Randy Dandy took pity on her and let her wipe glasses and tables for her keep, before the Skipper semi-adopted her as a surrogate sibling. She&#39;s also really good with a baseball bat.',
-				'Murphy - Murphy hangs out at Fiddler&#39;s Green when he&#39;s in Night City, which he often isn&#39;t, but the owner Kate Mulvaney will pass messages on to him for clients. He&#39;s a former US Aerospace Force pilot who now does smuggling runs in and out of Night City in his beloved AV-4, and he&#39;s good enough to evade USA and Pacifica Coast Guard watches. He&#39;s been adopted into the Aldecado Nomad family due to his impending marriage to his fianc&eacute; Diego.'
+				'Murphy - Murphy hangs out at Fiddler&#39;s Green when he&#39;s in Night City, which he often isn&#39;t, but the owner Kate Mulvaney will pass messages on to him for clients. He&#39;s a former US Aerospace Force pilot who now does smuggling runs in and out of Night City in his beloved AV-4, and he&#39;s good enough to evade USA and Pacifica Coast Guard watches. He&#39;s been adopted into the Aldecado Nomad family due to his impending marriage to his fianc&eacute; Diego.',
+				"Aldai McLennan - MetaNation courier. Well organised, good leadership material with an almost second sense for road ambushes."
 			);
 			break;
 		case('fixer'):
@@ -774,7 +796,7 @@ function makeNPC($type = 'any', $title) {
 			break;
 		case('ripperdoc'):
 			$whoList = array(
-				'Burke &amp; Hare - Burke is a brilliant cybernetic installation expert. Hare looks like he was born saying "I didn&#39;t do it.". Why do these two work together? Same moral level.',
+				'Burke &amp; Hare - Burke is a brilliant cybernetic installation expert with a penchant for not asking where the stock comes from. Hare looks like he was born saying "I didn&#39;t do it.". Why do these two work together? Same moral level.',
 				'Octavio - Laid back, as you can see by his office. Good doc though, as you might see by the military commmendations on his wall. Former combat medic.',
 				'Victor Vektor - Good reputation in the neighbourhood. Might give you a cut rate if he thinks you&#39;re worth the investment. Runs a boxing gym.',
 				'Nina Kraviz - Fresh out of college and backed by Daddy&#39;s money to set up a private clinic. Don&#39;t underestimate her abilities though. She toured Europe&#39;s best clinics as an intern. She plans on starting professional and working upwards from there.',
@@ -796,10 +818,10 @@ function missionSelect() {
 
 	$what = Array(
 		"A New Leaf", "Ballroom Blitz", "Blast From Your Past", "Celebrity Under Threat",
-		"Cleaning House", "Comedown", "Extraction", "Give Me Everything", "Going Bust", 
-		"Hacker Havoc", "Media Circus", "Mob Handed", "Old Flame", "The Outsider",
-		"Perfect Drug", "Psycho Killer", "Shut Up And Drive", "Underbelly", "WhosSorryNow",
-		"Wishlist", "Double Trouble!"
+		"Cleaning House", "Comedown", "Darkness Falls", "Extraction", "Give Me Everything",
+		"Going Bust", "Hacker Havoc", "Media Circus", "Mob Handed", "Old Flame", 
+		"The Outsider", "Perfect Drug", "Psycho Killer", "Shut Up And Drive", "Underbelly",
+		"WhosSorryNow", "Wishlist", "Double Trouble!"
 	);
 
 	$msn_a = $what[array_rand($what)];
