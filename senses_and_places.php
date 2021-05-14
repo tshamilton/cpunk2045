@@ -58,7 +58,6 @@ function building() {
 		}
 	}
 
-	
 	return Array('Title' => $b_title, 'Text' => $b_text);
 }
 

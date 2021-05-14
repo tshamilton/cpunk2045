@@ -329,7 +329,7 @@ function newsTicker_Weather() {
 			case (in_array($weather_desc, array("Hazy", "Hot", "Humid", "Sunny", "Sweltering"))):
 				$w = array(
 					"<b>Blood Skies</b> - Limit exposure. Eye and breath protection advised.",
-					"<b>Heatwave</b> - Increased ground temp. Street crime increases likely.",
+					"<b>Heatwave</b> - Increased ground temperature. Increase in street crime likely.",
 					"<b>Sunny</b> - Increased foot traffic."
 				);
 				$weather_warning = $w[array_rand($w)];

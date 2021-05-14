@@ -2,16 +2,16 @@
 
 function makeCard ($in, $type) {
 	if ($type == 'surrounds' && (strpos($in['Title'], 'Rubble') !== False)) {
-		print t(7)."<div class='card bg-rubble h-100 card-block'>\n";
-		print t(8)."<div class='card-header text-center'>".$in['Title']."</div>\n";
-		print t(8)."<p class='card-text p-2'><span style='padding-left: 0 px'>".$in['Text']."</span></p>\n";
-		print t(7)."</div>\n";
+		print "\n".t(6)."<div class='card bg-rubble h-100 card-block'>\n";
+		print t(7)."<div class='card-header text-center'>".$in['Title']."</div>\n";
+		print t(7)."<p class='card-text p-2'><span style='padding-left: 0 px'>".$in['Text']."</span></p>\n";
+		print t(6)."</div>\n";
 	}
 	else {
-		print t(7)."<div class='card bg-building h-100 card-block'>\n";
-		print t(8)."<div class='card-header text-center'>".$in['Title']."</div>\n";
-		print t(8)."<p class='card-text p-2'><span style='padding-left: 0 px'>".$in['Text']."</span></p>\n";
-		print t(7)."</div>\n";
+		print "\n".t(6)."<div class='card bg-building h-100 card-block'>\n";
+		print t(7)."<div class='card-header text-center'>".$in['Title']."</div>\n";
+		print t(7)."<p class='card-text p-2'><span style='padding-left: 0 px'>".$in['Text']."</span></p>\n";
+		print t(6)."</div>\n";
 	}
 }
 
@@ -96,24 +96,32 @@ $E["Market"]= night_market();
 			<h2 style="color: #ff0000;">Surroundings <a href="#" data-bs-toggle="modal" data-bs-target="#surroundings"><i class="material-icons">info_outline</i></a></h2>
 			<div class="col-10 offset-1" id="Surroundings">
 				<div class="row">
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["NW"], 'surrounds'); ?></div>
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["N"],  'surrounds'); ?></div>
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["NE"], 'surrounds'); ?></div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["NW"], 'surrounds'); ?>
+					</div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["N"],  'surrounds'); ?>
+					</div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["NE"], 'surrounds'); ?>
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["W"],  'surrounds'); ?></div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["W"],  'surrounds'); ?>
+					</div>
 					<div class="col-4 pb-2 align-items-stretch">
 						<div class='card bg-danger h-100 text-white card-block'>
 							<div class='card-header text-center'>Squad Here</div>
 							<p class='card-text p-2'><span style='padding-left: 0 px'>The players are standing here.<br/>All locations are relative to this position.</span></p>
 						</div>
 					</div>
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["E"],  'surrounds'); ?></div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["E"],  'surrounds'); ?>
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["SW"], 'surrounds'); ?></div>
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["S"],  'surrounds'); ?></div>
-					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["SE"], 'surrounds'); ?></div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["SW"], 'surrounds'); ?>
+					</div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["S"],  'surrounds'); ?>
+					</div>
+					<div class="col-4 pb-2"><?php makeCard($E["Surrounds"]["SE"], 'surrounds'); ?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -128,13 +136,13 @@ $E["Market"]= night_market();
 							ksort($E['Mission']);
 							/*pretty_var($E['Mission'], '666666');*/
 							foreach ($E["Mission"] as $name => $mission) {
-								print t(7)."<div class='card-header text-center'>".$mission['Title']."</div>";
-								print t(7)."<p class='card-text p-2'>".$mission["Text"]."</span></p>";
+								print "<div class='card-header text-center'>".$mission['Title']."</div>\n";
+								print t(7)."<p class='card-text p-2'>".$mission["Text"].t(7)."</p>\n";
 								/*pretty_var($mission, 'cccccc');*/
 								foreach ($mission as $k => $v) {
 									if ($k != "Title" && $k != "Text") {
-										print t(7)."<div class='card-header text-center'>".$k."</div>";
-										print t(7)."<p class='card-text p-2'>".$v."</span></p>";
+										print t(7)."<div class='card-header text-center'>".$k."</div>\n";
+										print t(7)."<p class='card-text p-2'>".$v.t(7)."</p>\n";
 									}
 								}
 							}
@@ -206,6 +214,13 @@ $E["Market"]= night_market();
 									}
 								}
 							?>
+							<div class='card-header text-center'>Weather</div>
+							<p class='card-text p-2'><span style='padding-left: 0 px'><?php
+							preg_match("/Weather: (.+) Hi: (\d+), Lo: (\d+)/", $E["Ticker"]["Weather"], $wth);
+							preg_match("/Warning: (.+)/", $E["Ticker"]["Weather"], $wrn);
+							print $wth[1]."<br/>Max: ".$wth[2]." Min: ".$wth[3];
+							if (isset($wrn[0])) { print "<br/><span style=\"color: red;\"><span class=\"material-icons\">warning_amber</span> ".$wrn[1]; }
+							?></span></p>
 						</div>
 					</div>
 				</div>
@@ -214,7 +229,7 @@ $E["Market"]= night_market();
 					<div class="col-12" id="Market"> <!-- Night Market -->
 						<h2 style="color: #00dd00;">Night Market <a href="#" data-bs-toggle="modal" data-bs-target="#environment"><i class="material-icons">info_outline</i></a></h2>
 						<div class="row">
-							<?php foreach ($E["Market"] as $n) { print $n; } ?>
+<?php foreach ($E["Market"] as $n) { print $n; } ?>
 						</div>
 					</div>
 				</div>
@@ -259,7 +274,7 @@ $E["Market"]= night_market();
 					<p>I've borrowed to varying degrees from the following sources.</p>
 					<dl>
 						<dt>Scenario Generator</dt>
-						<dd><i>Cyberpunk Random Scenario Generator</i> by Antony Johnson.</dd>
+						<dd><i>Cyberpunk Random Scenario Generator</i> by Antony Johnson</dd>
 						<dt>Random Encounters</dt>
 						<dd><i>Cyberpunk Random Encounter Generator</i> by Cyberook</dd>
 						<dt>Night Market</dt>
@@ -271,6 +286,7 @@ $E["Market"]= night_market();
 						<dt>NPCs</dt>
 						<dd><i>Chance of a Lifetime - Collected '20...' lists</i> of /u/almondbreath of /r/cyberpunkred</dd>
 						<dd><i>Cyberpunk 2077 video game</i> by CD Projekt Red, <i>Cyberpunk Red rulebook</i> by R. Talsorian, <i>Shadowrun sourcebooks</i> by FASA.</dd>
+						<dd><i>50 Cyber City Citizens vol. 1-2</i> by Fishwife Games</dd>
 						<dt>Gang Generator</dt>
 						<dd><i>Gangs in Cyberpunk 2020</i> by Gary Astleford</dd>
 						<dt>Various company names</dt>

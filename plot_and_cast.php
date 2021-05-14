@@ -284,7 +284,7 @@ function makeMission($what) {
 				"The PCs are hired by an old friend of the Don's. They're convinced he's up to something."
 			);
 			$inv = $involvement[array_rand($involvement)];
-			$body = "Big media story! Don Emiliano has declared he's going straight. Why? And if it's true, how come no-one appears to have taken his place at the head of the family?<br/>".$inv;
+			$body = "Big media story! Don Emiliano has declared he's going straight. Why? And if it's true, how come no-one appears to have taken his place at the head of the family?<br/>\n".t(8).$inv;
 			if ($inv == "The PCs work with a media who is covering the story.") { 
 				list($k, $v) = makeNPC('media', 'Journo is Suspicious');
 				$plot[$k] = $v;
@@ -305,7 +305,7 @@ function makeMission($what) {
 				"Someone important to the PCs lives in the zone where the fight will go down.",
 				"The PCs live in the zone where the battle takes place."
 			);
-			$body = "Two gangs (".$plot['GangA']['Title']." &amp; ".$plot['GangB']['Title'].") have decided enough is enough and are going to battle it out.<br/>".$involvement[array_rand($involvement)];
+			$body = "Two gangs (".$plot['GangA']['Title']." &amp; ".$plot['GangB']['Title'].") have decided enough is enough and are going to battle it out.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			unset($plot['GangA']);unset($plot['GangB']);
 			break;
 		case("Blast From Your Past"):
@@ -318,7 +318,7 @@ function makeMission($what) {
 				'The Someone is dead, killed by a common enemy. Is the PC next?',
 				'The PC owes it to the Someone to find out who killed them.'
 			);
-			$body = "Someone from the lifepath of one of the PCs turns up out of the blue and starts causing problems.<br/>".$involvement[array_rand($involvement)];
+			$body = "Someone from the lifepath of one of the PCs turns up out of the blue and starts causing problems.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Celebrity Under Threat"):
 			$title = "The Price Of Fame";
@@ -344,7 +344,7 @@ function makeMission($what) {
 			if ($inv == 'The PCs are covering the story.') {
 				list($k, $v) = makeNPC('media', 'If Journo Required'); $plot[$k] = $v;
 			}
-			$body = "A major celebrity, ".$name.", is ".$what.".<br/>".$inv;
+			$body = "A major celebrity, ".$name.", is ".$what.".<br/>\n".t(8).$inv;
 			break;
 		case("Cleaning House"):
 			$title = "Clearing The Caseload";
@@ -360,8 +360,22 @@ function makeMission($what) {
 			if (preg_match("/Chief/", $inv)) {
 				$E["Ticker"]["Headlines"] = "Crime: New Police Chief promises crackdown on 'urban violence'.".$sep.$E["Ticker"]["Headlines"];
 			}
-			$body = "Bowing to public/political pressure after a public gaffe, the Police undertake a massive effort to clean up their backlog of cases for the sake of PR. Long-forgotten misdemeanors are re-investigated. \"Arrangements\" suddenly cease to be effective. Favors are forgotten.<br/>".$inv;
+			$body = "Bowing to public/political pressure after a public gaffe, the Police undertake a massive effort to clean up their backlog of cases for the sake of PR. Long-forgotten misdemeanors are re-investigated. \"Arrangements\" suddenly cease to be effective. Favors are forgotten.<br/>\n".t(8).$inv;
 			list($k, $v) = makeNPC('cop', 'Why Hello Officer'); $plot[$k] = $v;
+			break;
+		case("Comedown"):
+			$title  = "Comedown";
+			$incident = Array(
+				'An AV was downed on the city outskirts, killing several people.',
+				'A helicopter was brought down in the middle of the city.',
+				'An AV was brought down in an industrial zone, slamming into a factory'
+			);
+			$involvement = Array(
+				'The PCs knew someone who died in the crash, and an acquaintance wants their death investigated.',
+				'Someone on board is not among the bodies. What happened to them, and why?',
+				'The vehicle was transporting important materials/prototype which has failed to appear in the wreckage.'
+			);
+			$body = $incident[array_rand($incident)]." The crash may be accidental, or the result of attack or sabotage.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Darkness Falls"):
 			$title = "Darkness Falls";
@@ -372,7 +386,7 @@ function makeMission($what) {
 				"An old enemy has been planning this assassination attempt for a little while now, right up to coaxing the crew into this neighborhood. It's a trap!"
 			);
 			$inv = $involvement[array_rand($involvement)];
-			$body = "The team are passing through a neighborhood they don't usually visit when the lights go out. All of them. For several city blocks. Some areas are plunged into darkness, others are lit purely by car headlights and agents. ".$inv;
+			$body = "The team are passing through a neighborhood they don't usually visit when the lights go out. All of them. For several city blocks. Some areas are plunged into darkness, others are lit purely by car headlights and agents.<br/>\n".t(8).$inv;
 			break;
 		case("Election Day"):
 			$title = "Election Day";
@@ -384,7 +398,7 @@ function makeMission($what) {
 				"The contact is clearly is corrupt as the poli they represent. Getting the dirt isn't hard, until the party are caught by the target poli's fixer. A counter offer is made."
 			);
 			$inv = $involvement[array_rand($involvement)];
-			$body = "The mayoral election campaigns are underway. The vitriol between the three main contenders is enough that most fixers have backed off from anything obviously political since no amount of money covers having an enemy in city hall. As it is, one of the PCs is contacted directly by someone claiming to represent one of the main runners. They want someone to dig up dirt on their rival. ";
+			$body = "The mayoral election campaigns are underway. The vitriol between the three main contenders is enough that most fixers have backed off from anything obviously political since no amount of money covers having an enemy in city hall. As it is, one of the PCs is contacted directly by someone claiming to represent one of the main runners. They want someone to dig up dirt on their rival.\n".t(8).$inv;
 			break;
 		case("Extraction"):
 			$title = "Headhunter";
@@ -406,21 +420,7 @@ function makeMission($what) {
 				$name.' is a digruntled employee and has incriminating documentation on '.$CorpB.', who is happy to see everyone involved dead before the docs go public.',
 				'Imagine the PCs surprise when they discover that '.$name.' has no idea about this agreement. The rep from '.$CorpB.' might have overstated their willingness to jump ship.'
 			);
-			$body = "The team are approached by a rep from ".$CorpA.". They have decided that they want ".$name." (currently working for ".$CorpB.") to work for them instead. ".$CorpB." refuses to let them go, so ".$CorpA." is using a black ops team to kidnap, er, extract them.<br/>".$involvement[array_rand($involvement)];
-			break;
-		case("Comedown"):
-			$title  = "Comedown";
-			$incident = Array(
-				'An AV was downed on the city outskirts, killing several people.',
-				'A helicopter was brought down in the middle of the city.',
-				'An AV was brought down in an industrial zone, slamming into a factory'
-			);
-			$involvement = Array(
-				'The PCs knew someone who died in the crash, and an acquaintance wants their death investigated.',
-				'Someone on board is not among the bodies. What happened to them, and why?',
-				'The vehicle was transporting important materials/prototype which has failed to appear in the wreckage.'
-			);
-			$body = $incident[array_rand($incident)]." The crash may be accidental, or the result of attack or sabotage. ".$involvement[array_rand($involvement)];
+			$body = "The team are approached by a rep from ".$CorpA.". They have decided that they want ".$name." (currently working for ".$CorpB.") to work for them instead. ".$CorpB." refuses to let them go, so ".$CorpA." is using a black ops team to kidnap, er, extract them.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Give Me Everything"):
 			$title = "Show Them, Show Them All";
@@ -430,7 +430,7 @@ function makeMission($what) {
 				'Eco-guerrilla plans to unleash a bioplague.',
 				'Someone wants to kick off a war between two major gangs, nomad families, crime gangs or corps.'
 			);
-			$body = "Someone with too little sanity has found too much power...and only the PCs can stop him. Think James Bond.<br/>".$involvement[array_rand($involvement)];
+			$body = "Someone with too little sanity has found too much power...and only the PCs can stop him. Think James Bond.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Going Bust"):
 			$title = "Vultures Circling Overhead";
@@ -449,7 +449,7 @@ function makeMission($what) {
 			}
 			$E["Ticker"]["Headlines"] = "Business: Asset-strippers circle around collapse of major company.".$sep.$E["Ticker"]["Headlines"];
 
-			$body = "A major Corp has gone into liquidation. Maybe this has been on the cards for a while, or perhaps it's entirely unexpected. Either way it's trouble.<br/>".$inv;
+			$body = "A major Corp has gone into liquidation. Maybe this has been on the cards for a while, or perhaps it's entirely unexpected. Either way it's trouble.<br/>\n".t(8).$inv;
 			break;
 		case("Hacker Havoc"):
 			$title = "Hacker Havoc";
@@ -467,7 +467,7 @@ function makeMission($what) {
 				"The PCs know the hacker.",
 				"The PCs are hired to eliminate the netrunner and find out what's behind it all."
 			);
-			$body = "A netrunner is causing disruption for someone. Specifically, they're ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
+			$body = "A netrunner is causing disruption for someone. Specifically, they're ".$angle[array_rand($angle)]."<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Media Circus"):
 			$title = "Media Circus";
@@ -486,7 +486,7 @@ function makeMission($what) {
 				'A new invention or major product (think new car or iPhone) has been launched.',
 				'A local civic disaster.'
 			);
-			$body = "Something is happening in the city that brings all the media buzzards in. ".$angle[array_rand($angle)]."<br/>".$involvement[array_rand($involvement)];
+			$body = "Something is happening in the city that brings all the media buzzards in. ".$angle[array_rand($angle)]."<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Mob Handed"):
 			$title = "Mob Handed";
@@ -496,7 +496,7 @@ function makeMission($what) {
 				"The PCs are cutting in on the Mob's business.", 
 				"They insulted/killed someone the Mob holds in high regard.", 
 				"They PCs could, of course, drop everything and assist them with a little business of theirs. That might help.");
-			$body = "A local ".$mob[array_rand($mob)]." syndicate have been slighted by the PCs, so they've decided to make an example of them.<br/>".$involvement[array_rand($involvement)];
+			$body = "A local ".$mob[array_rand($mob)]." syndicate have been slighted by the PCs, so they've decided to make an example of them.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("Old Flame"):
 			$title = "Old Flame Reignited";
@@ -513,7 +513,7 @@ function makeMission($what) {
 				$co = pickCorp(); $c = explode("~", $co); $co = $c[1];
 				$inv .= ', '.$co.'.';
 			}
-			$body = "They just re-emerge, possibly while one of the PCs is in-flagrante with their new flame (never should have let them keep that keycard). That, or they come running when they're in big trouble. But hey, it's not like things can get worse, right?<br/>".$inv;
+			$body = "They just re-emerge, possibly while one of the PCs is in-flagrante with their new flame (never should have let them keep that keycard). That, or they come running when they're in big trouble. But hey, it's not like things can get worse, right?<br/>\n".t(8).$inv;
 			break;
 		case("The Outsider"):
 			$title = "The Outsider";
@@ -526,9 +526,9 @@ function makeMission($what) {
 				"New Chief of Police has made it clear that 'agreements' with beat cops no longer exist.",
 				"The new gang boss doesn't recall agreeing anything with your PCs."
 			);
-			$body = "Someone has arrived in town who upsets the status quo.<br/>".$who[array_rand($who)];
+			$body = "Someone has arrived in town who upsets the status quo.<br/>\n".t(8).$who[array_rand($who)];
 			break;
-		case("The Perfect Drug"):
+		case("Perfect Drug"):
 			$title = "The Perfect Drug";
 
 			$sector = array('Medicine', 'Bioengineering', 'Chemicals');
@@ -550,7 +550,7 @@ function makeMission($what) {
 			if ($inv == "The cops need help to find the main supplier and cut them off.") {
 				list($k, $v) = makeNPC("cop", "Your Blue Contact"); $plot[$k] = $v;
 			}
-			$body = "A new drug has hit your neighbourhood. It has become so popular, it's supply has now become a MAJOR problem.<br/>".$impact[array_rand($impact)]."<br/>".$inv;
+			$body = "A new drug has hit your neighbourhood. It has become so popular, it's supply has now become a MAJOR problem.<br/>\n".t(8).$impact[array_rand($impact)]."<br/>\n".t(8).$inv;
 			$E["Ticker"]["Headlines"] = "Crime: NCPD look to fast track banning of new street drug.".$sep.$E["Ticker"]["Headlines"];
 
 			break;
@@ -571,14 +571,14 @@ function makeMission($what) {
 				list($k, $v) = makeNPC('media', 'Journo'); $plot[$k] = $v;
 			}
 
-			$body = "Someone in the city is working their way through a list. The bodies are starting to pile up and it seems even the people of Night City can have fear put into them...<br/>".$inv;
+			$body = "Someone in the city is working their way through a list. The bodies are starting to pile up and it seems even the people of Night City can have fear put into them...<br/>\n".t(8).$inv;
 			$E["Ticker"]["Headlines"] = "Crime: New Night City Stalker? Bodies pile up with similar MO, NCPD silent.".$sep.$E["Ticker"]["Headlines"];
 			break;
 		case("Shut Up And Drive"):
 			$title = "Family Trouble";
 
 			$involvement = array('One of the PCs spurned (or accepted!) the amorous advances of the leader&#39;s son/daughter.', 'The PCs embarrassed a high-ranking member.', 'The PCs have initiated a project that the nomads oppose.');
-			$body = "Somehow the PCs have earned the wrath of a nomad family, the ".nomadFam().". They&#39;re coming to town to deal with you specifically.<br/>".$involvement[array_rand($involvement)];
+			$body = "Somehow the PCs have earned the wrath of a nomad family, the ".nomadFam().". They&#39;re coming to town to deal with you specifically.<br/>\n".t(8).$involvement[array_rand($involvement)];
 
 			break;
 		case("Underbelly"):
@@ -591,8 +591,7 @@ function makeMission($what) {
 				'The cops are going to blackmail the PCs into doing something that they don&#39;t want to be involved in.',
 				'The cops need someone to play crook for them while a ranking officer is in town to make them look good.'
 			);
-			$body = "Somewhere in the city are one or more rogue cops. They may have gone vigilante or (more likely) they're corrupt.<br/>".$involvement[array_rand($involvement)];
-
+			$body = "Somewhere in the city are one or more rogue cops. They may have gone vigilante or (more likely) they're corrupt.<br/>\n".t(8).$involvement[array_rand($involvement)];
 			break;
 		case("WhosSorryNow"):
 			$title = "Who's Sorry Now?";
@@ -608,7 +607,7 @@ function makeMission($what) {
 				'Unfortunately, they were busted out while being transported from court to jail. They believe the PCs responsible for their arrest.',
 				'Somewhere between arraignment and remand, they were bumped off. Cops are investigating how, someone wants to know who ordered it.'
 			);
-			$body = "A ".$crim[array_rand($crim)]." is captured by the NCPD. ".$problem[array_rand($problem)]." Adventure Hooks: Maybe he has some dirt on the PCs, and is eager to sell them out to bargain in court.";
+			$body = "A ".$crim[array_rand($crim)]." is captured by the NCPD. ".$problem[array_rand($problem)]." Maybe he has some dirt on the PCs, and is eager to sell them out to bargain in court.\n";
 			break;
 		case("Wishlist"):
 			$title = "Wishlist";
@@ -674,13 +673,14 @@ function makeMission($what) {
 		$third = $thirdA." and ".$thirdB;
 	}
 
-	$body .= "<dl>\n";
-	$body .= "<dt class=\"fst-italic\">Involved (Friends? Foes? A little of both?):</dt>\n";
-	$body .= "<dd class=\"text-end\">".$actor."</dd>\n";
-	$body .= "<dt class=\"fst-italic\">Where it all comes down:</dt>\n";
-	$body .= "<dd class=\"text-end\">".$location."</dd>\n";
-	$body .= "<dt class=\"fst-italic\">We discover it's really:</dt>\n";
-	$body .= "<dd class=\"text-end\">".$third."</dd>\n";
+	$body .= "\n".t(8)."<dl>\n";
+	$body .= t(8)."<dt class=\"fst-italic\">Involved (Friends? Foes? A little of both?):</dt>\n";
+	$body .= t(8)."<dd class=\"text-end\">".$actor."</dd>\n";
+	$body .= t(8)."<dt class=\"fst-italic\">Where it all comes down:</dt>\n";
+	$body .= t(8)."<dd class=\"text-end\">".$location."</dd>\n";
+	$body .= t(8)."<dt class=\"fst-italic\">We discover it's really:</dt>\n";
+	$body .= t(8)."<dd class=\"text-end\">".$third."</dd>\n";
+	$body .= t(8)."</dl>\n";
 
 	$plot['Text'] = $body;
 	$plot['Title'] = $title;
@@ -689,142 +689,69 @@ function makeMission($what) {
 }
 
 function makeNPC($type = 'any', $title) {
+	global $C;
 	$roles = array('fixer', 'tech', 'netrunner', 'solo', 'media', 'bystander', 'corp', 'cop', 'ripperdoc');
 	if ($type == 'any') {
 		$type = $roles[array_rand($roles)];
 	}
 
 	switch($type) {
-		case('nomad'):
-			$whoList = array(
-				'Xiaolajiao - Xiaolajiao, or "Little Chili Pepper", is one of Night City&#39;s best couriers. You want to get it somewhere, she&#39;ll get it there. She&#39;s fast, reliable, and uses a combination of an ultralight folding bicycle and parkour to cut through the city&#39;s architecture. Xiaolajiao has ties to the sea Nomads out in Flotsam, having been dropped off by a people-smuggler ten years ago, as a starving child whose dead parents got dumped overboard. The staff at The Randy Dandy took pity on her and let her wipe glasses and tables for her keep, before the Skipper semi-adopted her as a surrogate sibling. She&#39;s also really good with a baseball bat.',
-				'Murphy - Murphy hangs out at Fiddler&#39;s Green when he&#39;s in Night City, which he often isn&#39;t, but the owner Kate Mulvaney will pass messages on to him for clients. He&#39;s a former US Aerospace Force pilot who now does smuggling runs in and out of Night City in his beloved AV-4, and he&#39;s good enough to evade USA and Pacifica Coast Guard watches. He&#39;s been adopted into the Aldecado Nomad family due to his impending marriage to his fianc&eacute; Diego.',
-				"Aldai McLennan - MetaNation courier. Well organised, good leadership material with an almost second sense for road ambushes."
-			);
-			break;
-		case('fixer'):
-			$whoList = array (
-				"Anna Nelson - Anna grew up with the Jode Nation, but a dispute between her parents and a more senior nomad lead to an incident where her parent's witness protection identites were exposed. Anna was the only survivor of the incident that followed, lucky to escape with only a few small scars.<br/>Finding herself between groups but never truly part of one, she found herself a position as mediator between families with a quickly growing set of contacts. Leaving the Jodes behind, Anna found her mediation skills translated well from families to Night City gangs. These days she's got a local rep as a judge, middle-agent and archtypical someone-who-knows-someone.",
-				"Dino Martell - Dino was once an itinerant muso, a guitarist for bands that opened for ShatteredGirlz, Karl Remiel, even Kerry Eurodyne, but never really successful, no-one noteworthy ever opened for a band he was in.<br/>Real success never came for him though, not before he realised that a) the drug-fuelled existence was getting to him and b) he was getting a lot more eddies from procuring goods and people for fellow band-members. So it was that Dino turned from axe-grinding to a career as a fixer. Trust that you'll find him propping up a bar wherever up-and-coming bands are found and that you will never know as much about the music scene as he does.",
-				"Aunt Kevin - Aunt Kevin is a middle-aged drag queen who tends bar at Chatelaine's, and therefore Aunt Kevin knows everything there is to know about Night City's gay scene. And most food and service outsiders don't know this, but bartenders do a lot more than pour drinks. They wheedle the liquor suppliers into letting them have more of the good stuff and less of the cheap stuff. They know the preferences of rich and powerful and favorite customers. They soothe feelings, break up fights, and sometimes, start them. Aunt Kevin is not as notorious a Fixer as 80/20, but her influence goes somewhat further and is much subtler. She has been in poorer health in recent years, and her death would leave a void in Night City's gay community.",
-				"80/20 - 80/20 is one mean fucker. He's a Fixer that specializes in loansharking and fencing. He runs his business out of the back of his uncle Norman's bar, in a now-defunct walk-in freezer that he's had fitted with ventilation. He's rumored to have at least shoved one or two loan defaulters through the old meat grinder in the back of the bar, too. But if you want to know what's going on on the less-legal end of street acquisitions, 80/20's your man. Just don't eat any meat products he tries to serve you, if you're squeamish about who it might have been.",
-				"'Nova' Akhmatova - A goldenkid with a taste for slumming it in the worst edgerunner bars, Nova dresses and acts OTT even for the most glamourous goldenkid nightspots. You see only what she wants you to see though. When the fa&ccedil;ade drops in private, the real biz starts. The contents of her little black book would terrify all but the hardest of NC fixers, particularly for someone (allegedly) so young.",
-				"St. John - Softly spoken string puller, obviously wealthy gives off the vibe that whatever involvement you have with them is just a tiny piece of a far greater plan."
-			);
-			break;
-		case('tech'):
-			$whoList = array(
-				"Ptolemy Biraz - Slow moving, heavy set, biotech genius. Ptolemy suffers from a rare immune disorder that means his body rejects even the simplest, least invasive cyberwear. As a result, he tends to avoid the city when he can, unable to handle toxicity levels that most folk with nasal filters aren't aware of. An almost psychic level of problem solving, he has been known to solve problems for people before they have been able to finish asking for help.",
-				"Alita Alvarez - College graduate existing on a thin mixture of charity scholarships and family expectations. Eager to the point of intimidation and the attention-span/focussed ability that comes with top talent, Alita has an almost instinctual understanding of A.I. She was enticed to Night City University because of its research facilites, but is finding it frustrating that she seems to be two steps ahead of even the faculty.",
-				"Finn O'Callaghan - Grumpy, paranoid, old agoraphobic who has jerry rigged more stable tech than some companies can produce on a factory line.",
-				"Dr. Michael Peterhoff - Annoyingly nostaligic hippy with well-known biotech skills. Finds his corporate contracts grate against his desire for open information exchange. Though at the same time, people tend to be open-mouth horrified at what research topics he would happily share with anyone with anyone regardless of their moral posture since he reasons it is not his issue once the information is free.",
-				"Dr. Carol Owens - Brilliant, if somewhat myopic, biotech expert. Liable to engineer a brilliant doomsday device without actually realising the consequences.",
-				"John Doe - John is a slender man of indeterminate age, with long mouse-blond hair and light brown eyes. He's also a Tech who specializes in surveillance and drone applications. He almost always wears a nice, boring suit except on ops, where he switches to a tacvest and surplus fatigues. John Doe is notable for two things: He has never ever lost his temper or his cool in public, and nobody knows where the hell he came from. His past is a black box. He's professional, though, and that's what counts, right?",
-				"Jack Sawyer - Jacqueline 'Jack' Sawyer is a Tech, one of Night City's best independent gunsmiths. Her dad used to work at Salander's but got fired for inflating costs and then pocketing the difference. He wasn't very good at being a dad or a businessman, even if he did know what he was doing with the mill and the CNC machine. Jack's not as stupid as him, though, since he turned up floating face-down in the Night City harbor about seven years ago. No, Jack's vice is that she can't ever resist a pretty face. Also, she's proud and prickly to a fault, and has gotten in fights that way. She hangs out at Greta's, poolsharking to impress the femmes.",
-				"Barry Carmichael - Laid back and laconic, 'Baz' is almost utterly immune to surprise. He was a mechanic in the Australian Army and worked on practically everything that had an engine. Made his rep in NC by restoring bullet-riddled cars to near pristine condition for people who didn't want their involvement in gun battles easily identified. Has a tendancy to scare the rushed and impatient by his easy-going, 'she'll be right' attitiude.",
-				"Anwar Saidi - A refugee from the civil war cluster in north Africa, Anwar is a tall, muscular man of spartan style and behaviour. Surprisingly calm.",
-				"Matilda 'Wasp' De Vries - A refugee from a dispersed nomad family in Australia, Tilly is trying to find a place in a new country, mostly by getting on her bike and seeing who she meets along the way."
-			);
-			break;
-		case('netrunner'):
-			$whoList = array(
-				"Sean 'Hooligan' Graine - Sport enthusiast with a talent for cryptography and hacking company systems.",
-				"Michiko 'Ember' Tanaka - Demure fan of romance novels by day, data thief by night.",
-				"Bobby Tables - Bobby Tables (not his real name) really wanted to go to CalTech, but his parents didn't have the money to send him there. So he went to a corporate technical school instead, and learned to program there. That state of events came to a screeching halt when he won a corporate scholarship and got sent to a private hot-house program for the bright future programmers of the world. Unfortunately, that was where nice little Bobby Tables learned to be an asshole, from all the richer, meaner kids who poked fun at his cheap MegaMart shirts and secondhand textbooks. Now he's gone freelance, setting his smarts against the system because he's bored working for it. Bobby likes to hang out at Redline watching fights when he's not working. If he can swing it, he'll even pay for a private room. And he's always up for anti-corporate jobs, because he's sick of how all those silver-spoon Execs treat people.",
-				"Sunshine - Sunshine is a cute little thing working as an empty-headed little hostess at Anjelika's, and she's had the biosculpting required to keep the job, with gold-plated skin and eyes like blue topazes. Those eyes contain a Virtuality rig and she's got a cyberdeck built into her right arm. She is also far from empty-headed. Approaching her with a job requires a client to book an hour with her at Anjelika's, where the comfortable booths and loud music help with privacy. She normally takes jobs from Media types trying to ferret out dirt, and is therefore verycomfortable with corpo databases.",
-				"Vertigo - Quiet, or at least, reluctant to share personal details, Vertigo is a consumate professional hacker. Great to take on missions but never seems interested in the Big Score like other freelancers."
-			);
-			break;
-		case('solo'):
-			$whoList = array(
-				'Claude Pierce - Cheap, overmuscled thug with just enough brains to shout orders at other people.',
-				'Daniel Sinclair - Cheap, overmuscled thug with enough brains to follow orders but not quite enough to give them. A rank and file grunt.',
-				"Eduardo Eman - Newly made corporate man, leaning towards being a corporate 'troubleshooter'. Raised on the streets and lucky to land such a career-starter, subtlety isn't his a strong suit, yet.",
-				'Jacob Barre - Sharklike, specialist in locating and returning "absent employees", an extraction ops&#39; worst nightmare.',
-				'Johnny Clean - Well respected merc in his home town. Clean shaved, upright and at attention until told otherwise, you would believe he never really left the military. The epitome of "Speak softly and carry a big fragging gun."',
-				'Peaches - Peaches is a Solo who hails from Georgia, hence her nickname, and her speech bears the distinctive accent of the urban South. She wears her pink and purple Techhair in elaborate box braids, and the chrome of her cyberarm contrasts with the caramel brown of her skintone. She dresses in athleisure outfits — mesh tops and sweat pants, and can be found hanging out at Bear&#39;s microbrewery when she&#39;s not on the job. Peaches is a good hand on the job, but she won&#39;t back down, ever, and has to be ordered to abandon an objective.',
-				'Merlin - Merlin is your stereotypical glasses-wearing nerd-looking guy, except if you look closely, those glasses have no prescription. Other tells include the fact that his Madras check shirt is kevlar, and that he never sits with his back to a door. Merlin is a Solo for hire, specializing inquiet assassination jobs where he enters the building as a completely unremarkable janitor, and then gets close to the target and plugs them with a suppressed pistol, before he makes a quick escape. Merlin doesn&#39;t seem to hang out anywhere, but you&#39;ll come into possession of his calling card if you have any business calling him in the first place.',
-				"Anwar Saidi - A soldier who looks like he's never had a lot so everything he has is well-maintained. Has the intense stare of a man who actually does have anti-freeze in his veins."
-			);
-			break;
-		case('media'):
-			$whoList = array(
-				'Edison Carter - Straight-shooting, truth hound. Seems to take a little too much pleasure in watching the powerful squirm.',
-				'Gomez DeVries - Brilliantly presented anchorman, prone to slightly too much hubris.',
-				'Edelweiss Lee - Edelweiss Lee is a small-time actor, once with a major supporting role in a popular prime-time drama, but her career evaporated because she refused to sleep with a director. Now she&#39;s back in her hometown, Night City, using a braindance rig to document the horrifying corruption and squalor she grew up with and had thought fled. Edelweiss would have gotten killed several times over on her investigations, except that a mysterious Solo has been murdering whoever&#39;s been sent after her and then escaping right after. She has no idea who her guardian angel is, and she would very much like to find out.',
-				'Darla &#39;Red Ribbon&#39; Wu - By daytime Red Ribbon is Darla Wu, food critic for Night City Today, writing puff pieces about the latest flavor of kibble Continental Brands has put out. By night she publishes an anonymous blog about NCPD corruption and the widespread abuse of refugees. Nobody really expects the food critic to hold any kind of opinion or moral stance, which makes Red Ribbon&#39;s job a little easier. She gets access to places using her food critic articles as cover, and saves the dirt for her blog. You can find Darla in places like Sakura&#39;s and Red Oktober, reviewing food.',
-				"Sara Parker - Driven documentary maker with a background in medicine, pulling back the covers on unethical science research."
-			);
-			break;
 		case('bystander'):
-			$whoList = array(
-				'Samuel Silver - Frustrated biologist pushing a terminal at the local bank.',
-				'Martin Honnicker - Local politician, so far right he&#39;s a danger to pedestrians when he&#39;s driving.',
-				'Wendell Holmes - Just another salaryman, convinced the corporation is everything to him and vice versa.'
-			);
-			break;
-		case('rocker'):
-			$whoList = array(
-				'Forty - Dreamy voice, synth-guitar, hypnotic on stage. Very driven and self reliant behind the scenes.',
-				'Khoo - Rail-thin man of indeterminate age with a penchant for well-fitted suits of varying quality. He swings between vagued out and hyper intense on and off stage. Rap artist extraordinare. Can freestyle in multiple languages. An ex-homeless junky who&#39;s very driven to speak out against enforced poverty and by drug issues in his old neighbourhoods, which doesn&#39;t please the local dealers.',
-				'Velvet Lux - How to describe her? She&#39;s one of Night City&#39;s most imitated Rockergirls, assome of her fans have had themselves bodysculpted to look exactly like her. None of them have that certain <i>je ne sais quoi</i> that the real Velvet Lux has, though, that comes from a lifetrained in dance and comportment. In truth, Velvet was raised to be a trophy bride. It was her foster mother&#39;s idea. And get married she did, to an Exec 40 years older than her (with a hefty bride price that went to her foster mom.) Her new husband was a sadist in several ways, andin desperation she fled their conapt and was rescued by the Princess of Justice posergang, who took her to their safehouse in Princessland. Now she hides in plain sight, among fan dopplegangers, and donates 10% of all her profits back to Princessland.',
-				'Kirin - Kirin is a Rockergirl of Korean-American descent. She hangs out at Chatelaine&#39;s because she loves the 1930s theme, and also because her brand of heart-rending torch song is exactly the kind of thing they like there. She sings smoky cabaret ballads while clad in an antique tux, and has finished sets to a rain of thrown panties. She&#39;s especially popular among rebellious young Beaverville ladies who love to demonstrate that they are now adults and their parents can&#39;t do anything about it by bringing a hotass lesbian back home for dinner. As a result, Kirin has gotten very good at defending herself when fired upon by upset parents.',
-				"St. John - If you meet St. John it is because they have willed it so. Just ask the 'Representative' who brought you into their divine presence."
-			);
+			$npc = explode(" - ", $C["npc-bystander"][array_rand($C["npc-bystander"])]);
 			break;
 		case('corp'):
-			$whoList = array(
-				'Elaine Murray - Spoilt, pushy type-A sort who looks at any sort of street-level danger as <i>"slummy thrills"</i>.',
-				'John Cattrall - A decent sort, assuredly a lion in the meeting room but quite timid when it comes to anything physical.',
-				'Jorge Sanchez - A world class efficiency expert. He pays you a call in your office, you get efficient.',
-				'Evelyn Franklin - Conventionally pretty, non obtrusive, the kind of secretary who&#39;s secretly running the place.',
-				'Meredith Sloan - Total hard case, management love her because she gets things done. As long as they don&#39;t look too close at the how...',
-				'Freya - Freya is a former Exec who hasn&#39;t spoken in six years. She used to work at Sleepwalker&#39;s as a custom editor of braindance experiences, something that she was phenomenally good at, up until a very important client landed in her lap. What he wanted horrified her, and at first she tried to delay his requests by citing a lack of data to work with. Her bosses, unfazed, started supplying her the relevant braindance files and told her to get on with it. When she hesitated further, her employers realized that she was likely to break her non-disclosure agreement, and arranged an accident. Unfortunately for them, the Solo they hired was a Smash-head and didn&#39;t quite finish the job. Freya now works at Smash/Cut as one of their silent staff, and is looking for someone she can trust with the deadliest secret of her life: her client&#39;s identity.',
-				'Finster - Finster&#39;s been fired by his corp. It&#39;s NOT his fault. He wants to make things right, and he&#39;s willing to pay out of his savings to see things through. Finster is a nice, nervous looking young Exec with a cardboard box in front of him. The box contains the contents of his desk. He&#39;s hanging out at whatever the PCs&#39; usual bar is, and took the train to get there. Oh. So that&#39;s where you saw him before. On the train there.',
-				"Aldai McLennan - Grizzled ex-biker who now manages entire fleets of nomads for MetaCorp."
-			);
+			$npc = explode(" - ", $C["npc-corp"][array_rand($C["npc-corp"])]);
+			break;
+		case('fixer'):
+			$npc = explode(" - ", $C["npc-fixer"][array_rand($C["npc-fixer"])]);
+			break;
+		case('netrunner'):
+			$npc = explode(" - ", $C["npc-netrunner"][array_rand($C["npc-netrunner"])]);
+			break;
+		case('media'):
+			$npc = explode(" - ", $C["npc-media"][array_rand($C["npc-media"])]);
+			break;
+		case('nomad'):
+			$npc = explode(" - ", $C["npc-nomad"][array_rand($C["npc-nomad"])]);
+			break;
+		case('rocker'):
+			$npc = explode(" - ", $C["npc-rocker"][array_rand($C["npc-rocker"])]);
+			break;
+		case('solo'):
+			$npc = explode(" - ", $C["npc-solo"][array_rand($C["npc-solo"])]);
+			break;
+		case('tech'):
+			$npc = explode(" - ", $C["npc-tech"][array_rand($C["npc-tech"])]);
 			break;
 		case('cop'):
-			$whoList = array(
-				'H.C. Strum - Sees the city as a warzone, and hes a general here to clean it up. Amoral, no problem with bribery if it moves his agenda along.',
-				'Carl Hollis - Explosion loving, bribe taking, downward-punching asshat with a face like a fist sized target.',
-				'Majak Caddow - Weary, good hearted beatcop constantly two steps away from going private if it wasnt for his need to eat.',
-				'Maxime Raunch&eacute; - Maxime Raunche is a 6ft tall drag queen with 8 inch heels built into her cyberlegs. A veteran, she lost her organic legs to a landmine, and then had her VA-issue prosthetics replaced with her current fabulous sparkly pair when she came out of the closet. She&#39;s also the current head of the Street Queens, a gang protecting queer homeless youth. While their organization is generally loose and anarchic, they look to her for leadership whenever something important comes up, and in such situations, her word is law. As a result, she can call upon the StreetQueens for backup when protecting their collective flock of runaways and rejected children, and counts as a Lawman. Raunche&#39;s reign will be up this summer, as the vote for a new Monarch will take place at Night City Pride, and it remains to see if the incumbent will keep her Throne.',
-				'Candlemaker - Candlemaker is a former corporate insurance fraud investigator, before they shitcanned him for his drinking problem. One new liver later, Candlemaker is a reformed Lawman who likes to hang out at Kasim&#39;s and play backgammon with Kasymbek, because there is no alcohol there to tempt him with. He&#39;s also taken to taking private investigation jobs. Most of them tend to be minor things, like catching Execs cheating on each other, but there was once a kidnapping case that made him almost start drinking again. He wears a trench coat and monologues on occasion, hence his nickname. (Candlemaker = Chandler)',
-				"Detective Kerry Verlaine - Unusually quiet cop working the undercover squad. Currently acting as a freelance netrunner to supply the local PD with gossip about big jobs."
-			);
+			$npc = explode(" - ", $C["npc-cop"][array_rand($C["npc-cop"])]);
 			break;
 		case('ripperdoc'):
-			$whoList = array(
-				'Burke &amp; Hare - Burke is a brilliant cybernetic installation expert with a penchant for not asking where the stock comes from. Hare looks like he was born saying "I didn&#39;t do it.". Why do these two work together? Same moral level.',
-				'Octavio - Laid back, as you can see by his office. Good doc though, as you might see by the military commmendations on his wall. Former combat medic.',
-				'Victor Vektor - Good reputation in the neighbourhood. Might give you a cut rate if he thinks you&#39;re worth the investment. Runs a boxing gym.',
-				'Nina Kraviz - Fresh out of college and backed by Daddy&#39;s money to set up a private clinic. Don&#39;t underestimate her abilities though. She toured Europe&#39;s best clinics as an intern. She plans on starting professional and working upwards from there.',
-				'Lupita "Little Wolf" Garza - Little Wolf is a Medtech, and her biggest public claim to fame is that she&#39;s the niece of the lady who ran Maria&#39;s. She used to work for Trauma Team, but quit recently to go freelance — something about ungrateful clients not being worth her time. She has extensive Nomad ties via her large family, and tends to run Nomad ops, but you can still hire her for the occasional independent job. While she wears the usual jeans and punk shirt in public, on jobs you&#39;ll find her wearing armored scrubs and nitrile gloves. She can patch up anyone who isn&#39;t dead yet.',
-				'Keloid - Keloid is a street Medtech who runs a tattoo shop near the harbor, and as a result his joint is frequented frequently by sea Nomads and salvagers. He&#39;s also a former Army medic who performs meatball surgery in the back of his shop. Keloid&#39;s not as current on cyberware installation as he&#39;d like to be, but he&#39;s really good at getting people back on their feet with insufficient supplies. He&#39;s also privately a fucked-up wreck of a human being, possibly due to what he saw while enlisted. He can sometimes be found drinking his woes away at Rusty&#39;s Dive Shack.',
-				"Dr. Sara Parker - Troubled university research professor, wondering what to do about things she's seen around her faculty."
-			);
+			$npc = explode(" - ", $C["npc-medic"][array_rand($C["npc-medic"])]);
+			break;
 	}
-	$npc = explode(" - ", $whoList[array_rand($whoList)]);
 
 	return Array($title.' - '.$npc[0], $npc[1]);
 }
 
 function missionSelect() {
+	$debug = "missionSelect~";
 	$plot = array();
 	$msn_a = "";	$msn_b = "";
 
 	/*pretty_var("mSelect Entry (".$msn_a."|".$msn_b.")");*/
 
 	$what = Array(
-		"A New Leaf", "Ballroom Blitz", "Blast From Your Past", "Celebrity Under Threat",
-		"Cleaning House", "Comedown", "Darkness Falls", "Extraction", "Give Me Everything",
+		"A New Leaf", "Ballroom Blitz", "Blast From Your Past", "Celebrity Under Threat", "Cleaning House",
+		"Comedown", "Darkness Falls", "Election Day", "Extraction", "Give Me Everything",
 		"Going Bust", "Hacker Havoc", "Media Circus", "Mob Handed", "Old Flame", 
 		"The Outsider", "Perfect Drug", "Psycho Killer", "Shut Up And Drive", "Underbelly",
 		"WhosSorryNow", "Wishlist", "Double Trouble!"
 	);
 
 	$msn_a = $what[array_rand($what)];
+	if ($msn_a == "Double Trouble!") { $debug .= "~2x"; }
+	else { $debug .= "mA:".$msn_a; }
 	/*$msn_a = "Double Trouble!"; /* For testing DT mechanics, uncomment above line when done. */
 	/*$msn_a = "Ballroom Blitz"; /* For testing BB mechanics, uncomment above line when done. */
 	/*$msn_a = "A New Leaf"; /* For testing late headline adding via missions, uncomment above line when done. */
@@ -845,6 +772,7 @@ function missionSelect() {
 		/*pretty_var("mSelect Plots Set (".$msn_a."|".$msn_b.")");*/
 		$plot['B-Plot'] = Array();
 		$plot['B-Plot']['Title'] = $msn_b;
+		$debug .= "mA:".$msn_a."~mB:".$msn_b."~";
 	}
 
 	$plot['A-Plot'] = makeMission($msn_a);
@@ -855,6 +783,7 @@ function missionSelect() {
 		$plot['B-Plot']['Title'] = "Meanwhile, ".$plot['B-Plot']['Title'];
 		/*pretty_var("mSelect Set Details Pl-B (".$msn_a."|".$msn_b.")");*/
 	}
+	print "<!-- ".$debug." -->\n";
 	return $plot;
 }
 
